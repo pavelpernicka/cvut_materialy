@@ -1,0 +1,62 @@
+====== Cvičení 10: Grafy ======
+
+
+
+==== Reprezentace grafu ====
+   * Graf lze reprezentovat maticí sousednosti, seznamem hran nebo seznamem odchozích hran
+   * Budeme používat seznam odchozích hran.
+
+{{courses:b3b33alp:cviceni:graph5forbfs0000.png?200|}} 
+
+   * Pro graf na obrázku bude reprezentace vypadat takto:
+   * G je proměnná typu dictionary, indexujeme ji jménem (číslem) uzlu, hodnota je pole, které obsahuje seznam uzlů, které jsou dosažitelné
+
+<code python>
+G = {}
+G [0] = [1 ,2 ,5]
+G [1] = [0 ,2]
+G [2] = [0 ,1 ,3]
+G [3] = [2]
+</code>
+
+==== Načtení grafu ze souboru ====
+
+Mějme orientovaný graf, který má uzly očíslované od 1 do N. Hrany v tomto grafu jsou zadány v souboru, který na jedné řádce obsahuje definici jedné hrany, tedy dvě čísla:
+  * první číslo je číslo uzlu ze kterého vede hrana
+  * druhé číslo je číslo uzlu do kterého vede tato hrana
+
+Napište program ''path.py'', který z příkazové řádky načte jméno souboru s definicí hran a číslo startovního uzlu a číslo koncového uzlu. Program vytiskne jednu z nejkratších cest ze startovního uzlu do cílového uzlu.
+
+Program otestujte na tomto souboru:
+<code>
+1 2
+1 9
+2 3
+2 6
+3 4
+3 8
+4 6
+4 1
+5 4
+5 8
+6 8
+6 9
+7 4
+7 5
+8 7
+8 3
+9 5
+9 1
+</code>
+
+Výsledek pro cestu z uzlu 2 do uzlu 5 je:
+<code>
+2 6 9 5
+</code>
+
+===== Domácí úkol =====
+
+{{ :courses:b3b33alp:cviceni:l_zadani_09.pdf | Lehká úloha }} {{ :courses:b3b33alp:cviceni:data_lehka_09.tgz | Lehká testovací data}}
+
+{{ :courses:b3b33alp:cviceni:h_zadani_09.pdf | Těžká úloha }} {{ :courses:b3b33alp:cviceni:data_tezka_09.tgz | Těžká testovací data}}
+

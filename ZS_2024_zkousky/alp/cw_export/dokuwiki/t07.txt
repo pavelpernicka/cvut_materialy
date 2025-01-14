@@ -1,0 +1,152 @@
+====== Cvičení 7: Rekurze, třídění ======
+
+
+==== Rekurze ====
+
+Při rekurzivním volání volá funkce samu sebe. Aby nedošlo k nekonečné smyčce, musí toho volání obsahovat ukončovací podmínku. Obecně lze rekurzi zapsat
+
+<code python>
+def funkce(promenna):
+   if not (ukoncovaci podminka):
+      funkce(zmenena_promenna)         
+</code>
+
+Pomocí rekurze můžeme například implementovat **for** cyklus:
+
+<code python>
+def recursivePrint(index, array):
+    if (index < len(array) ):
+        print(array[index], end=' ' );
+        recursivePrint(index+1, array)
+        print(array[index], end=' ' );
+
+a = []
+for i in range(10):
+    a.append(i*i)
+    
+print("List je",a)
+recursivePrint(0, a);
+</code>
+
+
+==== Binomický koeficient ====
+
+  * Napište funkci ''binomial(k,n)'', která počítá hodnotu $ n \choose k $
+  * Můžete využít vztah $ \binom{n}{k} = \binom{n-1}{k} + \binom{n-1}{k-1} $
+  * Počáteční podmínky $\binom{n}{0}=\binom{n}{n}=1$ a $\binom{n}{1}=\binom{n}{n-1}=n$
+
+
+==== Výpočet Fibonacciho posloupnosti ====
+
+Napište rekurzivní výpočet Fibonacciho posloupnosti. Pro tuto posloupnost platí:
+  * $F_n = F_{n-1} + F_{n-2}$
+  * První členy posloupnosti jsou $F_0 = 0$ a $F_1 = 1$.
+
+
+==== Rychlejší výpočet Fibonacciho posloupnosti  ====
+
+Předchozí řešení je pomalé pro výpočet větších $n$. Důvodem je, že při rekurzivním volání dochází často k opakovanému výpočtu stejných členů posloupnosti.
+
+{{courses:b3b33alp:cviceni:fibonaccistack.png?300|}}
+
+Řešením je zapamatovat si již vypočítané hodnoty a ty použít:
+  * Funkce ''fib(n)'' si nejprve zjistí, jestli už je znám výsledek pro $n$
+  * Pokud ano, vrátí ho
+  * Pokud ne, vypočítá hodnotu posloupnosti pro $n$ a uloží ho do seznamu známých hodnot
+  * Známé hodnoty lze ukládat např. v globálním poli ''hint[]''
+
+Napište funkci ''fibFast(n)'' pro zrychlený výpočet Fibonacciho posloupnosti
+  * Porovnejte časy výpočtu fib(100) a fibFast(100)
+  * Jak byste lépe alokovali pole ''hint''?
+
+==== Narovnání ====
+
+  * Uvažujme pole, které může obsahovat jako prvky další pole, např.:
+<code>
+a=[1, 2, [3, [4, 5], 6, [7]], [8, 9], 10]
+</code>
+  * Napište funkci flatten, která vytvoří jedno pole, které bude obsahovat všechny prvky z pole a vložené do tohoto pole.
+  * Výsledkem funkce $flatten(a)$:
+<code>
+[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+</code>
+  * K testu prvku, zda je pole (list), použijte funkci type:
+<code python>
+if type(x) is list:
+</code>
+ 
+
+
+==== Hanojské věže ====
+
+Máme tři věže (označme je $A$,$B$ a $C$), na kterých je rozmístěno $n$ disků o různých velikostech. Vždy platí, že menší disk smí být položen na větší disk, ne naopak. Na začátku je všech n disků na věži $A$, přičemž jsou seřazeny podle velikosti (největší leží dole, nejmenší nahoře).
+Cílem je přemístit disky tak, aby všechny ležely na věži $C$.
+
+Podrobné vysvětlení řešení je ve videu   [[https://www.youtube.com/watch?v=7M-FMkA4G4o|Hanojské věže]]
+
+
+
+==== Řazení karet ====
+
+Uvažujme [[ https://en.wikipedia.org/wiki/Playing_card#/media/File:Svg-cards-2.0.svg |  hrací karty ]].
+
+  * Máme karty čtyř barev, každá barva má dále karty 2,3,4,5,6,7,8,9,10,J,Q,K,A
+  * Kartu budeme reprezentovat 1D polem, kde:
+     *  první prvek je barva karty (0,1,2,3). Tento prvek bude ''int''
+     *  druhý prvek je typu ''string'' a je to hodnota karty, tedy např. "Q" nebo "1"
+     * Příklad karty: ''[1,"1"], [2,"A"], [0,"K"]''
+  * Pořadí karet v dané barvě je toto: 2,3,4,5,6,7,8,9,10,J,Q,K,A, kde
+     * 2 má nejmenší hodnotu
+     * A má největší hodnotu
+     * platí že $2<3$, $3<4$, ... Q $<$ K, J $>$ 10, atd.
+    
+Napište funkci, který **vzestupně** třídí karty podle jejich barvy a podle jejich hodnoty.
+   * na vstupu je seznam (pole) karet
+   * funkce vrátí setříděné pole tak, že na začátku budou karty barvy 0, pak karty barvy 1,atd., přičemž v každé skupině budou karty setříděny podle jejich hodnot.
+   * Příklad: 
+  
+<code python>  
+cards = [  [3,"A"],  [3,"Q"],  [0,"2"],  [1,"10"]  ]
+</code>
+
+výsledek pro setřídění:
+
+<code python>
+[  [0, "2"],  [1, "10"],  [3, "Q"],  [3, "A"]  ]
+</code>
+
+Seřaďte toto pole:
+
+<code python>
+cards = [[0, 'Q'], [2, '10'], [1, 'K'], 
+         [1, '8'], [2, '10'], [2, '4'], 
+         [3, '4'], [0, '4'], [1, '3'], 
+         [2, '5'], [0, 'K'], [3, '4'], 
+         [1, 'J'], [0, '3'], [0, '9']]
+</code>
+===== Témata k procvičení =====
+
+
+
+==== Expanze polynomu ====
+
+Napište funkci, která vypíše expanzi polynomu $(x+y)^n$.
+  * Nápověda: $(x+y)^n = \sum_0^n {n \choose k} x^{n-k}y^k$
+  * Tip: místo výpisu může funkce vrátit pole reprezentující polynom  
+
+==== Determinant matice ====
+
+   * rekurzivní výpočet determinantu pomocí kofaktorové metody můžeme rozvinout determinant podle řádku či podle sloupce, což je pro relativně malé matice celkem efektivní metoda. Například podle řádku i
+$ \det \mathbf {A} =\sum _{j=1}^{n}\ {a}_{ij}{C}_{ij}$ 
+kde $ {C}_{ij}$ jsou kofaktory, tedy $ {C}_{ij}$ je $ (-1)^{i+j}$ krát determinant matice, která vznikne z A odstraněním i-tého řádku a j-tého sloupce. 
+
+
+===== Domácí úkol =====
+
+{{ :courses:b3b33alp:cviceni:l_zadani_07.pdf | Lehká úloha}}
+
+{{ :courses:b3b33alp:cviceni:h_zadani_07.pdf | Těžká úloha}}
+
+
+
+

@@ -1,0 +1,125 @@
+====== Cvičení 8: Fronta, zásobník, objekty ======
+
+
+
+==== Dekódování zprávy ====
+  * Dekódujde zprávu ze standardního vstupu pomocí zásobníku:
+    * Písmeno znamená push znaku na zásobník
+    * Hvězdička znamená pop znaku ze zásobníku na výstup
+    * Mezery se ignorují
+  * Dekódujte následující vstup
+<code>
+TE*A*QYS***SEU****NI*O**
+</code>
+
+==== Flood fill ====
+  * Napište program, který v zadané matici nahradí souvislou oblast 0 ze zadaného bodu hodnotou 2.
+  * Matici vezměte jako vnitřní proměnnou:
+<code=python>
+m=[
+[0,0,1,0,0,1,0,0,0,0],
+[0,0,1,0,0,1,0,0,0,0],
+[0,0,1,1,0,1,0,0,0,1],
+[0,0,1,0,0,0,1,0,1,0],
+[0,0,1,0,0,0,0,1,0,0],
+[0,0,1,1,0,1,0,0,0,0],
+[0,0,1,0,1,1,1,1,0,0],
+[0,0,1,0,0,1,0,1,1,1],
+[0,0,1,0,0,1,0,0,0,0],
+[0,0,1,0,0,1,0,0,0,0] ]
+</code>
+  * Program si načte počáteční bod ze standardního vstupu
+  * Do zásobníku vloží vstupní bod
+  * Opakuje, dokud není zásobník prázdný:
+    * uloží si hodnotu (x, y) prvního prvku v zásobníku
+    * odstraní první prvek ze zásobníku
+    * pokud je hodnota matice v bodě (x, y) rovna 0, vloží do zásobníku:
+      * souřadnice (x-1,y),(x+1,y),(x,y-1),(x,y+1), pokud jsou v mezích rozměrů matice
+  * Vytiskněte výslednou matici
+  * Program otestujte pro vstupy: 4,4 a 9,9
+  * Co by se stalo, pokud byste na zásobník vložili i body (x-1,y-1),(x+1,y+1),(x+1,y-1),(x-1,y+1)?
+  * Jaká je složitost tohoto algoritmu? Uměli byste tento algoritmus zefektivnit, aby nevkládal jedno pole matice do zásobníku vícekrát?
+==== Fronta ====
+
+  * Přeměňte řešení úlohy //Flood fill// změňte zásobník na frontu.
+  * Postupnou animací zjistěte jak se změnilo vyplňování prostoru
+  * Zjistěte, zda potřebuje více paměti zásobník, nebo fronta. Otestujte i na větším prostoru.
+
+
+
+==== Objekt komlexní číslo ====
+
+Třídy pro komplexní čísla:
+   * Třída obsahuje dvě proměnné ''real'' a ''imag''
+   * Konstruktor (metoda ''_ _init_ _()'') nastavuje tyto proměnné defaultně na 0
+   * Pro přímý výpis funkcí print je vhodné definovat metodu ''_ _repr_ _'', která vrací string
+   *  **Pozor: init a repr má v názvu dvě podtržítka!!! **
+
+
+<code python>
+class Complex:
+    def __init__(self, real=0, imag=0):
+        self.real = real
+        self.imag = imag
+
+    def amplitude(self):
+        return (self.real*self.real + self.imag*self.imag)**(1/2)
+    
+    def add(self, rhs):
+        self.real += rhs.real
+        self.imag += rhs.imag
+
+    def sub(self, rhs):
+        self.real -= rhs.real
+        self.imag -= rhs.imag
+
+    def __repr__(self):
+        sign = "+";
+        if (self.imag < 0):
+            sign = "-";
+        return str(self.real) + sign + str(abs(self.imag)) + "i"
+
+    def mul(self, rhs):
+        r = self.real*rhs.real - self.imag*rhs.imag;
+        i = self.real*rhs.imag + self.imag*rhs.real;
+        self.real = r
+        self.imag = i 
+
+a = Complex()
+print("a=",a)
+
+b = Complex(1,-1)
+print("b=",b)
+
+a.add(b)
+print("a=",a)
+
+a.mul(b)
+print("a=",a)
+
+print("|a|=",a.amplitude())
+print("|b|=",b.amplitude())
+
+</code>
+
+
+
+
+
+
+===== Témata k procvičení =====
+
+
+==== Inverzní permutace ====
+  * Pokud pole o délce $N$, obsahuje všechna čísla od $0$ do $N-1$ právě jednou, pak toto pole kóduje permutaci tak, že první prvek se zobrazí na místo, kde se v poli nachází $0$, druhý prvek na místo, kde se v poli nachází $1$, atd.
+  * Pole ''[0, 1, 2, 3]'' kóduje identickou, tzv. jednotkovou, permutaci o čtyřech prvcích, 
+  * Pole ''[3, 2, 1, 0]'' kóduje otočení prvků v poli.
+  * Napište program, který načte z jednoho řádku standardního vstupu vektor reprezentující permutaci a najde a vytiskne inverzní permutaci, tj. permutaci, která převede zadanou permutaci na jednotkovou.
+  * Inverzní permutace k permutaci ''[2, 0, 1]'', je permutace ''[1, 2, 0]'', neboť první permutace zobrazí 0->2 a druhá permutace 2->0, obdobně 1->0, druhá permutace 0->1; první 2->1 a druhá 1->2.
+
+
+===== Domácí úkol =====
+
+  * Domácí úkoly HW08 (lehká a těžká varianta) vychází ze stejného problému, proto je zadání v jednom dokumentu: {{ :courses:b3b33alp:cviceni:l_t-HW08-zadani.pdf | Lehká+těžká úloha}}
+  * Vyhodnocení na Brute trvá několik minut! 
+  * Pro testování doma doporučujeme použít vybraná {{ :courses:b3b33alp:cviceni:examplesHW08.zip | Testovací data}}

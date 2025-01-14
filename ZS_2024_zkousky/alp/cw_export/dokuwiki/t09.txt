@@ -1,0 +1,19 @@
+
+====== Cvičení 9 Semestralní práce ======
+
+
+
+
+==== Semestrální práce 2024 hra ŠTREKY ====
+
+  * {{courses:b3b33alp:cviceni:streky.pdf| Zadání semestrální práce }}
+  * {{courses:b3b33alp:cviceni:streky2024_v2.zip|Balíček pro semestrální práci}}
+  * Nainstalujte si [[https://pypi.org/project/pillow/ | knihovnu PIL]], která slouží ke generování PNG obrázků (bez ní nelze doma testovat hráče)
+
+==== Turnaj ====
+   * [[  http://pilgrim.felk.cvut.cz/index | Stránka s výsledky ]]
+   * Turnaj se budeme znažit spouštět alespoň jednou denně, omluvte případné výpadky během vánoc a silvestra :-)
+   * Do Turnaje jdou všechny odevzdané programy (bez ohledu na Brutovo hodnocení), výpočet turnaje bude trvat několik (při hodně hráčích), podle proměnné ''self.playerName'' poznáte, kterou verzi vašeho programu turnaj použil
+
+==== FAQ a updates ====
+   * Zavedena nová proměnná ''self.timeout'', která udává čas (v sekundách), který může maximálně trvat konstruktor a metoda play(), pro turnaj nejspíše povolíme větší timeout než 1s.

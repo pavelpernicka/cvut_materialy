@@ -1,0 +1,386 @@
+====== Cvičení 11: Stavový prostor, objekty, halda, asociativní pole ======
+
+
+
+
+
+==== Přelévání nádob ====
+
+Mějme tři nádoby o objemu 2, 5, 9. S nádobami můžeme provádět následující akce:
+  * **Nx**: napusť plnou nádobu X, kde X je v rozsahu 0,1,2
+  * **Vx**: vylij celou nádobu X, kde X je v rozsahu 0,1,2
+  * **xPy**: přelij nádobu X do nádoby Y, kde X a Y jsou různá čísla z rozsahu 0,1,2:
+    * pokud se celý objem z X nevejde do Y, odlije se voda z X tak, aby se Y naplnila
+Napište program, který najde nejmenší počet kroků takový, že v poslední nádobě bude objem 6.
+
+==== Pohyb koně na šachovnici ====
+
+Naplánujte nejkratší cestu pro šachového koně z políčka 2 na políčko 4. Sudá čísla znamenají volné políčko, lichá čísla obsazené.
+
+<code>
+m=[[0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,4,0], 
+   [0,0,0,0,1,0,0,0], 
+   [1,1,1,0,1,1,0,0], 
+   [0,0,0,1,0,1,0,0], 
+   [0,2,0,0,0,1,0,0], 
+   [0,0,0,0,0,1,0,0], 
+   [0,0,0,0,0,1,0,0]]
+</code> 
+==== Genealogie (Objekty dokončení) ====
+
+  * Využijte následující třídu pro reprezentaci rodinných vztahů
+<code python>
+class Person:
+    def __init__(self, name, sex):
+        self.name = name
+        self.sex = sex   
+        self.children = []  
+        self.parents = []   # parents of this node
+        self.partner = None   # partner (=husband/wife of this node)
+
+    def addChild(self, node):
+        self.children.append(node)
+
+    def addParent(self, node):
+        self.parents.append(node)
+        
+    def setPartner(self, node):
+        self.partner = node
+
+    def __repr__(self):
+        s = "Female" if self.sex == 'F' else "Male" 
+        return self.name + " " + s
+
+</code>
+    * Každá osoba může mít více potomků a max. jednoho partnera (manžela/manželku)
+    * Třída by měla obsahovat:
+      * Seznam potomků, odkaz na rodiče, a partnera
+      * Metody pro manipulaci s těmito prvky (např. addChild, setPartner ..)
+  
+  * Vytvořte objekt Tree - genealogický strom, který bude obsahovat seznam všech lidí a bude umět přidávat lidi i vztahy mezi nimi.
+  * Objekt Tree otestujte přidáním 4 objektů: dva partnery a dvě děti. 
+  * Otestujte, zda byly vytvořeny správné vazby, tj. aby objekty děti ukazovaly na rodiče a naopak.
+
+  * Napište funkce pro:
+    * nalezení všech vnuků dané osoby
+    * nalezení všech vnuček dané osoby
+    * nalezení všech babiček dané osoby
+
+
+  * Rozšiřte předchozí kód o načítání ze souboru:
+    * na každém řádku je jeden záznam
+    * záznam pro rodiče-děti: ''P name1 name2 sex1 sex2'' značí že osoba ''name1'' je rodičem osoby ''name2''. ''sex1'' a ''sex2'' označují pohlaví těchto osob (buď F nebo M)
+    * záznam pro partnery: ''M name1 name2 sex1 sex2'' značí že osoby ''name1'' a ''name2'' jsou partneři, ''sex1'' a ''sex2'' jsou opět F nebo M 
+    
+
+Vstupní soubor family.txt:
+<code>
+M Jana Jan F M
+P Jana Martin F M
+P Jana Robert F M
+P Robert Gabriel M M
+P Robert Oleg M M
+P Robert Ondrej M M
+P Martin Jiri M M
+P Martin Rudolf M M
+P Jan Petra M F
+P Jan Uxana M F
+P Uxana Klara  F F
+P Uxana Jakub F M
+P Uxana Adam F M
+P Petra Alex F M
+P A C M M
+P A D M F
+P D K F F
+P C J M M 
+P C I M F
+P C H M M
+P B E F F
+P B F F M 
+P B G F F
+</code>
+
+Schéma rodiny ve family.txt:
+
+   * Červeně: females
+   * Modrá hrana: partneři
+   
+{{courses:b3b33alp:cviceni:family.png?800|}} 
+
+===== Prémie navíc: zobrazení přes dot format =====
+
+Uložení načtených dat do '[[ https://en.wikipedia.org/wiki/DOT_(graph_description_language) | Dot ]]' souboru, který lze pak vykreslit do png nástrojem **dot** z balíku nástrojů [[http://www.graphviz.org/|Graphviz]]:
+<code>
+dot -Tpng family.dot  > family.png
+</code>
+
+
+Příklad family.dot:
+<code>
+digraph G {
+Jana[ color=red];
+Jana->Martin [label="child"];
+Jana->Robert [label="child"];
+Jana->Jan[color=blue; penwidth=4];
+Jan[ color=green];
+Jan->Petra [label="child"];
+Jan->Uxana [label="child"];
+Jan->Jana[color=blue; penwidth=4];
+Martin[ color=green];
+Martin->Jiri [label="child"];
+Martin->Rudolf [label="child"];
+Martin->Jana [style=dashed];
+...
+}
+</code>
+
+
+
+
+
+
+
+
+==== Binární halda ====
+
+[[https://en.wikipedia.org/wiki/Binary_heap |  Binární halda ]] je binární stromová datová struktura. Je tvořena uzly, které mají max. dva potomky (levý a pravý potomek) (odtud přídavné jméno binární), pričemž potomek je opět uzel. Její důležitou vlastností je, že:
+   * hodnota každého uzlu je **rovna nebo menší** než hodnoty jejich potomků.  
+   * Pokud je tato vlastnost splněna tak platí, že prvek v tzv. kořenu stromu obsahuje **nejmenší** prvek mezi všemi prvky.
+   * <fc #ff0000>**V tomto cvičení budeme předpokládat tuto variantu.**</fc>
+   * Takové haldě se někdy říká min-halda.
+
+
+Binární haldu lze samozřejmě realizovat i s opačnou vlastností:
+   * hodnota každého uzlu je **rovna nebo větší** než hodnoty jejich potomků.  
+   * Pokud je tato vlastnost splněna tak platí, že prvek v tzv. kořenu stromu obsahuje **největší** prvek mezi všemi prvky.
+   * Takové haldě se říká max-halda.
+
+Použití binární haldy:
+   * Pro realizaci prioritní fronty, v důsledku toho např. pro hledání cest v grafech, mapách, plánování pohybu robotů
+
+
+
+{{courses:b3b33alp:cviceni:heap.png?400|}}
+
+
+=== Binární halda: vyjmutí nejmenšího prvku ===
+
+Předpokládejme, že máme existující binární haldu. Při vyjmutí prvky stačí vzít prvek v kořeni stromu, neboť ten již z definice obsahuje nejmenší hodnotu mezi všemi uzly.
+Po odebrání prvku je ale nutné zbylé prvky přeskupit a určit nový kořen haldy. Postup je:
+
+  * Vyjmout prvek z kořene haldy ( prvek s nejmenší hodnotou )
+  * Vzít poslední prvek v poslední úrovni a přesunout na pozici kořene.
+  * Nyní je třeba nahrat prvky v haldě tak, aby byla splněna vlastnost min-haldy. Jelikož budeme začínat od kořene a procházet strom směrem dolu, říká se tomuto postupu tzv. bubble-down.
+  
+  
+==Bubble-down:==
+  * Předpokládejme, že jsme v uzlu $U$.
+  * Porovnáme hodnotu $U$, $U$.left a $U$.right. Pokud je splěna vlastnost min-haldy (tj. hodnota $U$ je menší nebo rovna hodnotám jejích potomků), končíme.
+  * Pokud ne, vybereme toho potomka, který je menší než $U$. Vyměníme hodnotu $U$ s tímto potomek. 
+  * Pokračujeme bubble-down z tohoto potomka.
+  * Algoritmus končí, pokud už jsme narazili na uzel bez potomka.
+
+
+=== Binární halda: vložení prvku ===
+
+Předpokládejme, že máme existující binární haldu. Vložení prvku se provede takto:
+
+===Bubble-up===
+  * Vložíme prvek na poslední nejpravější místo v poslední úrovni.
+  * Porovnáme hodnotu tohoto prvku s jeho rodičem. Pokud je splněna vlastnost haldy (tj. u min-haldy: hodnota prvku je větší nebo rovna hodnotě jeho rodiče), pak končíme.
+  * Pokud ne, vyměníme hodnotu prvku za hodnotu rodiče a opakujeme tento postup od změněného rodiče.
+ 
+Tento algoritmus se nazývá bubble-up, jelikož při něm procházíme haldu ze spodní úrovně nahoru.
+
+
+==== Realizace binární haldy na poli ====
+
+Nejjednodušší realizací binární haldy je implementaci na poli. Použijeme jednoduchý trik:
+
+  * Nechť uzel má v poli index $i$.
+  * Jeho levý potomek má v poli index $2i+1$.
+  * Jeho pravý potomek má v poli index $2i+2$.
+
+{{courses:b3b33alp:cviceni:heap1.png?200|}}
+
+  * Jaký je index rodiče, pokud má potomek index v poli $i$?
+
+
+=== Implementace haldy z přednášky ===
+
+<code python>
+# Implementace haldy
+#
+# http://interactivepython.org/runestone/static/pythonds/Trees/BinaryHeapImplementation.html
+# Jan Kybic, 2016
+
+class MinHeap:
+  """ binarni halda __init__ konstruktor """
+  def __init__(self):
+     self.heap = [] # indexujeme od nuly
+
+  def bubble_up(self,i):
+    """ probubla prvek i nahoru, zajisti splneni podminek haldy """
+    while i>0:
+      j=(i-1)//2 # index rodice
+      if self.heap[i] >= self.heap[j]:
+        break
+      self.heap[j],self.heap[i]=self.heap[i],self.heap[j]
+      i = j
+  
+  def insert(self,k):
+    """ vloz prvek do haldy """    
+    self.heap+=[k]
+    self.bubble_up(len(self.heap)-1)
+
+  def peek(self):
+    """ vrati nejmensi prvek """
+    return self.heap[0]
+
+  def size(self):
+    """ vrati pocet prvku v halde """
+    return len(self.heap)
+
+  def is_empty(self):
+    """ je halda prazdna? """
+    return self.size()==0 
+  
+  def bubble_down(self,i):
+     """ probublej prvek dolu """
+     n=self.size()
+     while 2*i+1 < n:
+        j=2*i+1 # zjisti index leveho potomka
+        if j+1 < n and self.heap[j] > self.heap[j+1]:
+          j+=1
+        if self.heap[i]>self.heap[j]:
+          self.heap[i],self.heap[j]=self.heap[j],self.heap[i]
+        i=j
+                  
+  def pop(self):
+    """ odebere nejmensi prvek a uprav haldu """
+    element=self.heap[0]
+    self.heap[0]=self.heap[-1]
+    self.heap.pop() # smaz posledni prvek
+    self.bubble_down(0)
+    return element
+</code>
+
+==== Implementace funkce delete ===
+
+Implementujte metody pro odebrání prvku na pozici i z binární haldy:
+
+  * Metodu pojmenujte ''delete(i)''
+  * metoda dále smaže tento prvek z haldy
+  * ošetřete tuto metodu tak, aby ji bylo možné volat i na prázdnou haldu, případně pokud je i větší než velikost haldy
+
+Pomocí této funkce smažte z haldy vytvořené z pole všechna sudá čísla (Nejdříve haldu vytvořte se všemi čísly a pak smažte všechna sudá čísla z haldy):
+<code>
+pole=[10,21,7,11,31,6,1,-11,31,42,-12,80,25,-7,-12,9,14]
+</code>
+
+==== Karty v haldě ====
+  * Upravte implementaci haldy tak, aby byla realizována min-halda s kartami ve formátu cvičení 7 příklad 6.
+  * Vytvořte haldu z následujících karet:
+<code>
+cards = [[0, 'Q'], [2, '6'], [1, 'K'], 
+         [1, '8'], [2, '10'], [2, '4'], 
+         [3, '4'], [0, '4'], [1, '3'], 
+         [2, '5'], [0, 'K'], [3, 'A'], 
+         [1, 'J'], [0, '3'], [0, '9']]
+</code>  
+  * V cvičení 8 jsme pro porovnání karet využívali funkci index a dvojího porovnání (nejdříve barvu a pak hodnotu). Nyní definujte pořadí pomocí asociativního pole a operací sčítání a násobení.
+==== Asociativní pole a římská čísla ====
+  * Využijte následující asociativní pole k převodu římského čísla na dekadické číslo:
+<code>
+conv={'I':1,'V':5,'X':10,'L':50,'C':100,'D':500,'M':1000}
+</code>
+  * Převeďte na číslo např. MCMXCIX
+
+==== Přelévání nádob - řešení ====
+<code python>
+
+VOL = [5,3,2]  #max volume of each bucket
+
+class State:
+    def __init__(self, water):
+        self.water = water[:]  #array of three ints
+        self.action = ""
+
+    def expand(self):
+        result = []
+        #Nx
+        for x in range(3):
+            if self.water[x] != VOL[x]:
+                s = State(self.water)
+                s.water[x] = VOL[x]
+                s.action = "N" + str(x)
+                result.append( s )
+        #Vx
+        for x in range(3):
+            if self.water[x] > 0:
+                s = State(self.water)
+                s.water[x] = 0
+                s.action = "V" + str(x)
+                result.append( s )
+                
+        for y in range(3):
+            for x in range(3):
+                if x != y:
+                    s = State(self.water)
+                    if VOL[y] > s.water[y] and s.water[x] != 0:
+                        deficit = VOL[y] - s.water[y]
+                        if s.water[x] >= deficit:
+                            s.water[y] = VOL[y]
+                            s.water[x] = s.water[x] - deficit
+                        if s.water[x] < deficit:
+                            s.water[y] = s.water[y] + s.water[x]
+                            s.water[x] = 0
+                            
+                        s.action = str(x) + "P" + str(y)
+                        result.append(s)
+        
+        return result
+
+s = State([3,0,2])
+newStates = s.expand()
+for i in newStates:
+    print("State: ", i.water)
+
+    
+
+def bfs(start, end):
+    queue = [ start ]
+    isKnown = {}
+    isKnown[ str(start.water) ] = None
+    while len(queue) > 0:
+        actual = queue.pop(0)
+        if actual.water == end.water:
+            print("GOAL")
+            path = []
+            while actual != None:
+                path.append(actual.action)
+                actual = isKnown[ str(actual.water) ]
+            return path
+        newStates = actual.expand() #list of states
+        for state in newStates:
+            if not str(state.water) in isKnown:
+                isKnown[ str(state.water) ] = actual
+                queue.append( state )
+            
+start = State([5,1,0])
+end = State([0,0,1])
+print(bfs(start, end))
+
+</code>
+
+
+
+===== Domácí úkol =====
+
+{{ :courses:b3b33alp:cviceni:l_zadani_10.pdf |Lehká úloha}}   {{ :courses:b3b33alp:cviceni:rotace.tgz | Testovací data lehká úloha}}
+
+{{ :courses:b3b33alp:cviceni:t_zadani_10.pdf |Těžká úloha}}   {{ :courses:b3b33alp:cviceni:zkumavky.tgz | Testovací data těžká úloha}}
+
+
+

@@ -1,0 +1,311 @@
+====== Cvičení 1: Úvod do cvičení ======
+
+  * instalace Python
+  * náplň cvičení
+  * individuální řešení,  [[help:common:plagiaty_opisovani|plagiáty]]
+  * odevzdávací systém
+
+==== Odevzdávací systém ====
+
+  * Všechny domácí práce se odevzdávají přes [[ http://cw.felk.cvut.cz/upload/ | odevzdávací systém]]. 
+  * Pro přihlášení do odevzdávacího systému musíte znát vaše hlavní přístupové heslo.
+  * Domácí úlohy jsou dvojího typu lehká/těžká, typ úlohy určuje jméno souboru, který odevzdáváte. Sledujte pokyny u zadání každé domácí úlohy
+  * Další pokyny pro odevzdávání úkolů najdete na stránce [[courses:b3b33alp:cviceni:start#obecne_pokyny_pro_odevzdavani_domacich_ukolu|Cvičení]]
+
+==== Dotazník ====
+* Prosím věnujte pár minut vyplnění [[ https://docs.google.com/forms/d/e/1FAIpQLSeyoaWYuPh1L1FtLeNP-JBBZ5Sz-Z1MUAqcwxG4a7B2unbDjw/viewform?usp=sf_link  | dotazníku ]]
+
+==== Organizace cvičení ====
+   * Ti, kteří již programují a znají algoritmy, si je procvičí
+   * Ti, kteří zatím jen programovali, se naučí nejdříve analyzovat problém a vybrat vhodný algoritmus.
+   * Ti, kteří zatím neprogramovali, se naučí základy jazyka Python a algoritmickému přístupu k programování
+
+
+==== Počítačová laboratoř ====
+      * [[https://cyber.felk.cvut.cz/cs/study/computer-labs/|Vybavení laboratoře]].
+      * <fc #ff0000>Linuxové počítače se nesmí vypínat tlačítkem a je také zakázáno z nich odpojovat jakékoliv kabely, a to včetně síťového (ethernet) kabelu!</fc>
+      * Pro připojení vlastního počítače využijte buď WiFi připojení nebo připravené kabely vyvedené na stoly v laboratoři.
+      * Připojení na počítač:
+          * Heslo pro přihlášení v učebnách si nastavíte na adrese: https://cw.felk.cvut.cz/password.
+          * Pro nastavení hesla v učebnách je možné se přihlásit pomocí username: **guest** s heslem: **xxx**. 
+          * Po příhlášení použijte ikonu **Set password** na ploše.
+          * Pro práci na počítači si spusťte terminál (Applications $\rightarrow$ Terminal)
+       
+==== Spuštění Pythonu ====
+  * Na počítačích v laboratoři je již instalován Python3.
+  * Pro instalaci na Windows si stáhněte z adresy https://www.python.org/downloads/ balíček Python 3.7.X
+  * Pro instalaci na Linux Ubuntu napište <code>sudo apt install python3</code>
+  * Pro instalaci na telefonech nebo tabletech doporučujeme použít webovou verzi Python3 z odkazu [[https://www.programiz.com/python-programming/online-compiler/]], nebo aplikaci //Learn Python: Programiz// pro Android i Apple.
+  * Pro sdílení kódu, tedy interaktivní spolupráci s učitelem si nainstalujte //Visual Code Studio// ze stránky [[https://code.visualstudio.com/]]
+  * Spuštění Python z terminálu, napište příkaz: python3
+  * Objeví se popis spuštěné verze a znaky ''%%>>>%%''
+  * Nyní můžete zadávat příkazy jazyka Python např:
+
+<code lang=python>   
+    2 + 3
+    10 / 3
+    a = 10
+    a
+</code>    
+   * Program Python ukončíte zadáním funkce quit(), nebo stiskem Ctrl+D - konec vstupu.
+
+==== Výrazy ====
+  * Operace:
+        * ''+,-''    sčítání, odčítání - nejmenší priorita
+        * ''%%*,/, //%%, %''   násobení, dělení, dělení se zaokrouhlením dolů - celočíselné dělení, zbytek po dělení - vyšší priorita než sčítání
+        *  ''+,-''    unární operace, neboli ''+,-'' před číslem - vyšší priorita než předchozí řádek
+        * ''%%**%%''  mocnění - nejvyšší priorita 
+  * Operace se vyhodnocují v pořadí jejich priorit. V případě shodných priorit zleva doprava. Tedy:
+        * ''2 + 3 * 4 - 1 = 2 + (3 * 4) - 1''
+        * ''2 - 3 + 1 = (2 - 3) + 1''
+        * ''3. / 2. * 10. = (3. / 2.) * 10.''
+        * ''%%3. * 2. ** 5 + 1 = (3. * (2. ** 5)) + 1%%''
+        * <fc #ff0000>POZOR vyjímka</fc> ''%%2 ** 2 ** 3 = 2 ** (2 ** 3)%%''
+
+==== Python jako kalkulačka ====
+  * Python rozlišuje celá čísla a reálná čísla. Pokud je jeden operand ve výrazu reálné číslo, je celý výraz reálné číslo. Pokud je ve výrazu $/$, pak je výsledek vždy reálné číslo. Reálná čísla lze převést na celá zahozením desetinného rozvoje příkazem ''int(reálné číslo)''. Opačně celé číslo na reálné převedete příkazem ''float(celé číslo)''.
+  * Zjistěte kolik je:
+     * ''14 % 6''
+     * ''14 % -6''
+     * ''14 % 2.5''
+     * ''%%14 // 6%%''
+     * ''14 / 6''
+     * ''int(14 / 6)''
+     * ''%%14.0 // 6.0%%''
+     * ''%%14 // -6%%''
+     * ''int(14 / -6)''
+     * ''%%float(14 // -6)%%''
+     * ''%%2 ** 2 ** 2 ** 2%%''
+  * Přidejte závorky, aby platilo (řešení ověřte v Pythonu):
+     * ''10 - 3 + 7'' je 0
+     * ''12 + 3 * 2'' je 30
+     * ''%%10 - 3 % 3 ** 10%%'' je 1
+     * ''%%2 ** 2 ** 2 ** 2%%'' je 256 - najděte alespoň dvě řešení
+
+
+==== Proměnné ====
+
+  *  Proměnná slouží k uchování hodnoty výrazu
+  * Název proměnné musí:
+     * začínat písmenem, nebo znakem _
+     * obsahuje pouze písmena, číslice, a znak _
+     * nesmí být shodný s klíčovým slovem jazyka Python3 - ''False, None, True, and, as, assert, break, class, continue, def, del, elif, else, except, finally, for, from, global, if, import, in, is, lambda, nonlocal, not, or, pass, raise, return, try, while, with, yield''
+     * Možné názvy proměnných ''a, a2016, a_ted_to_sem_ulozim, rozdil_dvou_cisel, as5''
+  * Špatné názvy proměnných ''1a, as, 1_a, is, a b''  
+  * U proměnných závisí na velikosti písmen (python je //case-sensitive//). Proměnná ''cislo'' je tedy jiná než proměnná ''Cislo''.
+  * Přiřazení hodnoty proměnné se děje operátorem '='.
+
+
+==== Výstup ====
+
+   * Pokud Váš program něco spočítá, je důležité tuto hodnotu nějak zobrazit.
+   * Standardní výstup programu je na obrazovku pomocí funkce ''print'':
+<code python>
+print(1, 2, 3)
+print("1 + 2 je", 1 + 2)
+print("Hodnota promenne a je", a)
+</code>
+
+   * Funkce ''print'' má mnoho variant, pro začátek nám bude stačit tato základní funkčnost.
+
+==== Program v jazyce Python ==== 
+  * Program v Pythonu je zapsaný v textovém souboru.
+  * Interpret Pythonu (např. program ''python3'') vykonává zadané příkazy postupně tak jsou uvedeny v souboru.
+  * Program lze vytvořit v libovolném textovém editoru, který vytváří **prostý text**. Pozor: nelze použít např. textové editory typu Word, protože ukládají formátovaný dokument, který interpret Pythonu neumí zpracovat.
+  * Pro jednodušší tvorbu programů slouží integrovaná prostředí:
+   * [[https://docs.python.org/2/library/idle.html|IDLE]] - velmi jednoduché na ovládání, automatické doplňování textu, nápověda, ladění, součást prostředí Python. Spouští se příkazem ''idle3'' nebo ̈́''idle'' (záleží na distribuci pythonu).
+   * [[http://www.pyzo.org/|Pyzo]] - velmi jednoduché a příjemné ovládání  
+   * [[https://www.jetbrains.com/pycharm/|PyCharm]] - uživatelsky příjemnější, složitější na učení
+   * [[http://www.pydev.org/|Eclipse - PyDev]], komplexní prostředí pro vývoj programů v jazycích Java, %%C/C++%% i Python, složitější pro začátečníky.
+   * Visual studio code, vhodné zejména při distanční výuce. [[ https://cw.fel.cvut.cz/b201/courses/b3b33alp/cviceni/visualstudiocode |  Návod na instalaci ]].
+==== Vstup programu ====
+  * Váš program často potřebuje zadat nějakou vstupní hodnotu.
+  * Standardní vstup programu je z terminálu funkce ''input'':
+   * ''a = int(input())''
+   * ''b = float(input("Zadejte realne cislo:"))''
+   * ''c = input("Zadej cokoliv")''
+  * První dva příklady přetypují zadaný vstup na číslo celé, nebo reálné. To není vždy možné, třeba pokud zadáte chybně číslo ''1a2''. Jak tuto situaci ošetřit se dozvíte později.
+  * Zatím předpokládejte korektně zadané vstupy.
+  * Další možností je předat data jako argumenty příkazové řádky:
+
+<code python>
+import sys         # načtení modulu pro použití funkcí a proměnných modulu sys
+a = int(sys.argv[1])
+print("Zadana hodnota:")
+print(a)
+</code>
+
+
+  * Příklad použití: ''python3 jmenoPythonProgramu.py 45''
+  * Program vypíše argument: 45
+
+
+
+
+====  Výpočty v Pythonu ====
+  * Vytvořte program pocitani.py, který načte dvě čísla z příkazové řádky a vytiskne jejich součet, rozdíl, součin, podíl
+  * Pro načtení čísel použijte konstrukci
+<code python>
+import sys
+a = float(sys.argv[1])
+b = float(sys.argv[2])
+print(a+b)
+print(a-b)
+print(a*b)
+print(a/b)
+</code>
+  * Zadejte vstupy (10, 20), (100.0, 120.0) a (55.5, 0). Jaké jsou výstupy?
+
+==== Cykly ====
+  
+Základní druhy cyklů
+  * for cyklus - procházení seznamu hodnot
+  * while cyklus - opakuj cyklus dokud platí podmínka - příští týden
+
+For cyklus
+  * for cyklus standardně prochází zadaný seznam hodnot
+  * for cyklus je založen na proměnné, která prochází seznam hodnot a pro každou hodnotu ze seznamu provede blok instrukcí
+  
+<code python>
+for proměnná in seznam:
+  blok instrukcí
+</code>
+
+<code python>
+for k in range(1, 20, 1):
+    print(k)
+</code>
+
+<code python>
+for i in "abcd":
+  print(i)
+</code>
+
+<code python>
+for i in (1, 10, 2, 8):
+  print(i)
+</code>
+
+  * Pro standardní procházení nějakého rozmezí je kontrukce range(start, cíl, krok), případně jednodušší verze range(cíl), kdy start je automaticky 0 a krok je nastaven na 1, nebo range(start, cíl), kdy krok je roven 1.
+  * Lze vytvořit i for cyklus, který má dynamicky měnící se seznam hodnot, případně vrací nekonečně krát stejné/rozdílné hodnoty. V tomto případě se pak jedná spíše o while cyklus a vám doporučujeme vzhledem k přehlednosti implementovat takový program jako while cyklus.
+  * POZOR: pokud měníte proměnnou cyklu v těle cyklu, nemá to vliv na její hodnotu v dalším cyklu, tedy:
+<code python>
+for i in range(10):
+  print(i)
+  i = i -1
+</code>
+změna i v tomto případě, nemá vliv na provádění cyklu.
+
+Výsledkem tohoto cyklu jsou mocniny dvojky:
+<code python>
+for i in range(10):
+  i = 2**i
+  print(i)
+</code>
+
+
+==== Součet třetích mocnin, test odevzdávacího systému ====
+  * Stáhněte si k sobě program {{:courses:b3b33alp:cviceni:soucet.py|soucet.py}}
+  * Program načte ze standardního vstupu jedno celé číslo $n$
+  * Přejmenujte program na **cubic_sum.py** a upravte jej tak, aby počítal součet třetích mocnin $$\sum^{n}_{k=0}k^3$$
+  * Dále upravte program tak, aby zkontroloval, zda se součet třetích mocnin rovná $$\sum^{n}_{k=0}k^3 = \left(\frac{n(n+1)}{2}\right)^2$$
+  * Program vytiskne na jednu řádku součet třetích mocnin, na další řádku vytiskne výsledek podle vzorečku
+  * Vytištěné výsledky musí být **celá** čísla.
+
+  * **Program odevzdejte [[ http://cw.felk.cvut.cz/upload/ | odevzdávacím systémem ]] (úloha HW00).**
+
+  * **Příklady**
+Vstup:
+<code>
+4
+</code>
+Výstup:
+<code>
+100
+100</code>
+Vstup:<code>
+12
+</code>
+Výstup:
+<code>
+6084
+6084</code>
+Vstup:
+<code>
+5
+</code>
+Výstup:
+<code>
+225
+225</code>
+
+    
+==== Větvení programu ====
+
+Pokud potřebujeme vykonat část programu jen při splnění určitých podmínek, použijeme příkaz **if**. 
+Jeho nejdednodušší tvar je:
+
+<code python>
+if podmínka:
+   kód
+</code>
+
+V tomto případě se nejdříve vyhodnotí podmínka a je-li splněna, je vykonán příslušný kód. Pokud podmínka splněna není, kód se nevykoná. 
+
+Příklad: vytiskni "sudé číslo" pokud proměnná $a$ obsahuje sudé číslo.
+
+<code python>
+if (a % 2) == 0:
+   print("sude cislo")
+</code>
+
+Obecnější tvar větvení je
+
+<code python>
+if podmínka1:
+   kód1
+elif podmínka2:
+   kód1
+else:
+   kód2   
+</code>
+
+V tomto případě lze použít vícero bloků //elif//.
+
+Příklad: pokud je v proměnné $a$ záporné číslo, vytiskni "zaporne", jinak vypis jestli je číslo v proměnné $a$ liché nebo sudé.
+
+<code python>
+a = 4
+if a < 0:
+    print("zaporne")
+elif (a % 2) == 0:
+    print("sude")
+else:
+    print("liche")
+
+</code>
+
+Bez ''elif'' bychom museli odsazovat tímto způsobem:
+<code python>
+a = 4
+if a < 0:
+    print("zaporne")
+else:
+    if (a % 2) == 0:
+        print("sude")
+    else:
+        print("liche")
+</code>
+
+
+===== Domácí práce =====
+
+  * Nainstalujte si [[ https://www.python.org/downloads/ | Python ]] a vyzkoušejte vývojové prostředí ( [[ https://www.jetbrains.com/pycharm/|Pycharm]], [[ https://eclipse.org/ | Eclipse ]] + [[ http://www.pydev.org/ | PyDev ]], ...).
+  * Projděte si úvod do jazyka Python buď v českém jazyce [[ http://howto.py.cz/index.htm | Učíme se programovat v jazyce Python 3 ]], [[ http://diveintopython3.py.cz/index.html| Ponořme se do Pythonu ]] , nebo v anglickém jazyce [[http://openbookproject.net/thinkcs/python/english3e/way_of_the_program.html|kapitolu 1]] a [[http://openbookproject.net/thinkcs/python/english3e/variables_expressions_statements.html|kapitolu 2]] knihy {[a4b99rph:Wentworth2012]}, nebo [[https://docs.python.org/3/tutorial/index.html|The Python Tutorial]].
+  * Projděte si odkazy v sekci [[courses:b3b33alp:literatura]].
+  * Kdo se ještě v učebně nepřihlásil, zjistěte si své heslo do KOSu a [[ https://cw.felk.cvut.cz/password/ | zařiďte si heslo do sítě FELK]].
+===== Domácí úkol =====
+
+{{ :courses:b3b33alp:cviceni:l_zadni_01.pdf |Lehká úloha}}
+
+{{ :courses:b3b33alp:cviceni:h_zadani_01.pdf | Těžká úloha}}

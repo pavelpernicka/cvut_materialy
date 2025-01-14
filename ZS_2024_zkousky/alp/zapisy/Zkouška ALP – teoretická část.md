@@ -1,0 +1,182 @@
+# Zkouška ALP -- teoretická část
+## Datové typy a struktury
+- pure function - výstup závisí pouze na argumentech (ne na glob. funkcích)
+- array - mutable
+- int, float, string, None, bool, tupple - immutable (v proměnné hodnota)
+- mutable - v proměnné reference
+- datový typ - int, char, ...
+- abstraktní datový typ - fronta, zásobník, ...
+- pole (v pythonu implementován list): 
+    - slicování: t[i:j] - <i,j)
+- asociativní pole
+    - možno implementovat pomocí:
+        - hash table (takto to je v pythonu):
+            - čtení/mazání: $O(1)$ -- $O(n)$
+            - vložení: $O(1)$ -- $O(n)$
+        - balanced binary tree
+            - čtení/mazání: $O(log(n))$
+            - vložení: $O(log(n))$
+        - unbalanced binary tree
+            - čtení/mazání: $O(log(n))$ -- $O(n)$
+            - vložení: $O(log(n))$ -- $O(n)$
+- dictionary ({}) (konkrétní způsob implementace asociativního pole)
+    - klíč immutable, hodnota libovolný dat. typ
+    - nelze potovnávat velikosti
+    - jak to funguje:
+        - dáno pole $a$ o m položkách
+        - klíč projde hashovací funkcí -> $mod(m)$ -> index v poli $a$ -> hodnota
+        - může nastat kolize - hashe se rovnají, ale klíče ne
+        - load factor: $\lambda = \frac{n}{m}$ ($n$ klíčů, $m$ přihrádek)
+            - vysoký: nevyužitá paměť
+            - nízký: hodně kolizí
+            - realokace: když je $\lambda$ vysoká, tak se počet $m$ zvětší 2x. Naopak to funguje taky - zmenší se 2x
+        - hashovací funkce:
+            - int: $x \% m$
+            - char: $ord(x)\%m$
+            - pole/řetězec/set: $(\sum_{i=0}^{n-1}x_i \cdot p^i)\%m$ ($n$ = počet prvků, $p$ = prvočíslo nesoudělné s $m$)
+        - řešení kolizí:
+            - chaining:
+                - seznam: indexy=hashe, values=nic nebo seznam klíčů. Pokud jsou hashe stejné, přidají se do seznamu na indexu hashe
+                - mazání: smaže se položka seznamu: složitost $O(n)$
+            - open adressing:
+                - pokud na pozici $poz$ hashe prvku $x$ v seznamu je prvek, použije se nějký další:
+                    - linear probing: $poz+i$
+                    - quadratic probing: $poz + ai^2+bi$
+                    - double hashing: $poz + i\cdot hash2(x)$
+            - položka na pozici hashe se označí jako smazaná, dál se nepoužívá: složitost $O(1)$
+- record: abstraktní datová struktura obsahující více položek, ty jsou pojmenované a mohou mít různé typy (python nemá record, ale object)
+- class: složená datová struktura obsahující data a metody
+    - object = instance třídy
+    - ```c1=SomeClass(args)```: c1 je reference na objekt
+- queue (fronta):
+    - FIFO
+    - list.pop() - smaže poslední a vypíše
+    - list.append(prvek) - přidá na konec
+    - list.insert(n, prvek) - přidá prvek na $n$-tou pozici
+- stack (zásobník):
+    - LIFO
+    - převod z rekurzivního do nerekurzivního řešení
+- priority queue (prioritní fronta):
+    - abstraktní datová struktura
+    - prvky vnitřně organizovány podle velikosti
+    - implementace:
+        - pole: 
+            - insert: $O(1)$
+            - pop: $O(n)$
+            - remove: $O(n)$
+        - binary tree:
+            - vše: $O(log(n))$
+        - binary heap: 
+            - insert: $O(log(n))$
+            - pop: $O(1)$
+            - remove: $O(log(n))$
+- binary heap (binární halda):
+    - binární strom z prvků
+    - min/max halda: uzel je větší/menší než jeho potomci
+    - implementace pomocí pole: 
+        - první prvek kořen
+        - na indexu $2P+1$ levý prvek
+        - na indexu $2P+2$ pravý prvek
+        - bubble up: kontrola vlastností haldy od posledního prvku, pokud nesplněny, potomek je prohozen s rodičem
+        - bubble down: při mazání. Pokud se smaže kořen, prohodí se s menším potomkem a tak dále
+        - tvorba pomocí přidávání prvků: $O(n\cdot log(n))$
+        - tvorba pomocí heapify (opakované volání bubble down): $O(n)$
+- binary tree (binární strom):
+    - pro vyhledávání
+    - sestavení ze seznamu: setřídíme, prostřední prvek jako uzel, levá část vlevo, pravá vpravo, rekurzivně pro každou stranu
+    - vyhledávání: prohledáme uzel, potom každý podstrom rekurzivně, vrátíme referenci
+    - vyvážený strom: $O(log(n))$
+    - degenerovaný strom: $O(log(n))$
+- linked list (spojový seznam):
+    - složený datový typ
+    - data a ukazatel na další položku
+    - procházení jen v jednom směru
+    - neumožňuje random access
+    - add: $O(1)$
+    - search: $O(n)$
+    - přístup na prvek: $O(n)$ (resp $O(i)$, $i$=počet prvků)
+- double linked list (obousměrný spojový seznam):
+    - linked list s ukazately next a prev
+    - add: $O(1)$
+    - search: $O(n)$
+    - přístup na prvek: $O(n)$ (resp $O(i)$, $i$=počet prvků ze strany hledání)
+
+## Ostatní
+- způsoby notace výrazů:
+    - (řešíme typicky pomocí zásobníku)
+    - infix: operátor mezi operandy, pořadí určeno závorkami
+    - postfix: operátor je po operandech, nejsou třeba závorky
+    - prefix: operátor je před operandy, nejsou třeba závorky
+- filozofie práce s chybami:
+    - EAFP (it’s easier to ask for forgiveness than permission): chytání vyjímek
+    - LBYL (Look before you leap) - hodně podmínek
+- list vs pole vs dynamické pole:
+    - pole: pevný počet prvků, rychlý přístup na $n$-tý prvek
+    - dynamické pole: měnící se počet prvků, realokace, rychlý přístup na $n$-tý prvek (tomuto se v pythonu říká list)
+    - list: není základní součástí pythonu, pomalý přístup na $n$-tý prvek, rychlé vkládání a mazání
+## Časová složitost
+- empirické měření - zkoumá vlastnosti programu, ne algoritmu
+- zkoumáme počet vybraných úkonů
+- pro počet vstupu do algoritmu $n$ zkoumáme $n\to\infty$
+- hledáme nejbližší funkci pro horní odhad počtu úkonů v závislosti na počtu vstupů
+- hledáme nejbližší funkcy - např. u polynomu je to nejvyšší mocnina
+- průměrná složitost - složitost pro typická data
+- u řadících algoritmů je nejmenší množství porovnání $n\cdot log(n)$ 
+- seřazení složitostí od nejrychlejší: $0(1)$, $O(log(n)$, $O(n)$, $O(n\cdot log(n))$, $O(n^2)$, $O(n^3)$, $O(n^k)$, $O(b^n)$, $O(n!)$
+## Grafové algoritmy
+- reprezentace grafu:
+    - matice sousednosti: nevhodná pro řídké grafy
+    - seznam hran: vhodné pro řídké grafy, nevhodné pro zjištění nálevek/výlevek
+    - seznam sousedů: složitější odebrání uzlu a hrany
+- prohledávání grafu:
+    - BFS (prohledávání do šířky): 
+        - fronta
+        - $O(|V|+|E|)$, $O(|E|)$ je mezi $O(1)$ a $O(|V|^2)$
+    - DFS (prohledávání do hloubky):
+        - zásobník
+        - $O(|V|+|E|)$
+- stavové prostory:
+    - prohledávání stavového prostoru:
+        - informované: známe ohodnocení stav. prostorů, používáme prioritní frontu
+        - neinformované: neznáme ohodnocení stav. prostorů
+        - způsoby:
+            - BFS: 
+                - velká časová náročnost $O(b^d)$ až $O(n)$, $b$ = větvení, $d$ = hloubka, $n$ = počet stavů
+                - vždy najde nejkratší řešení
+            - DFS:
+                - časová náročnost $O(b^d)$ až $O(n)$, $b$ = větvení, $d$ = hloubka, $n$ = počet stavů
+                - negarantuje vejkratší řešení
+        - definice cílového stavu:
+            - explicitně: např. výčtem prvků
+            - implicitně: cílová množina zadána funkcí
+        - minimax:
+            - použitelné při hře dvou hráč, kdy jeden má zisk na úkor druhého
+            - hráči MIN a MAX se střídají, začíná MAX
+            - sestaví se strom hry až po koncové stavy, uzly MIN mají hodnotu minima jejich potomků, uzly MAX naopak
+            - hráč MAX vybere akci maxima jeho potomků
+        - $\alpha$-$\beta$ minimax
+            - pamatujeme si doposud nejvýhodnější hodnotu $\alpha$ pro hráče MAX a $\beta$ pro hráče MIN
+            - Nevykonáme expanzi uzlu, pokud máme lépe ohodnocené řešení
+        - heuristická funkce
+            - číselné ohodnocení, jak moc je stav výhodný pro hráče
+## Algoritmy
+- bubblesort
+    - složitost $O(n^2)$
+    - projdu pole po prvcích, pokud je sousední prvek menší, prohodím jej s aktuálním. Nejvýše $n$-krát projdu celé pole a proces zopakuji.
+- insertionsort
+    - složitost $O(n^2)$
+    - první prvek je považovaný jako setřízený
+    - vezmu další, vležím jej mezi prvky, kdy ten vpravo je větší a ten vlevo je menší
+- selectionsort
+    - složitost $O(n^2)$
+    - iteruji polem, aktuální prvek je $i$
+    - projdu prvky od $i$ do konce pole, naleznu nejmenší z nich. Ten prohodím s prvkem $i$
+- quicksort
+    - složitost $O(n^2)$, typicky jen $O(n\cdot log(n))$
+    - vezmu první prvek jako pivot
+    - udělám seznam prvků větších než pivot a seznam menších než pivot
+    - rekurzivně provedu sorting, pravé a levé části, pozici pivota zachovám
+- heapsort
+    - $O(n\cdot log(n))$
+    - in-place sorting algoritmus
+    - max heap, dokud není prázdná, odebírá se kořenový prvek
