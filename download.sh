@@ -14,7 +14,7 @@ process_directory() {
 
         while IFS= read -r line; do
             name="$(echo "$line" | cut -d':' -f1)"
-            url="$(echo "$line" | cut -d':' -f2- | xargs)"
+            url="$(echo "$line" | cut -d':' -f2- | xargs)/download"
 
             if [[ -n "$name" && -n "$url" ]]; then
                 echo "Downloading $url as $name.md"
