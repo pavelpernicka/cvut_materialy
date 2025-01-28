@@ -12,6 +12,8 @@
 ## Zdroje
 - přednášky z covidu: https://www.youtube.com/playlist?list=PLQL6z4JeTTQkjV5JYF0gB599ekq4zFfPK
 - Matěj Dostál: https://www.youtube.com/playlist?list=PLQL6z4JeTTQlC5EzzuBCCkKE-XY9NOrk1
+- jak zrychlit Gollovou: ```document.getElementsByTagName("video")[0].playbackRate = 2.5```
+- minulé písemky přelouskané z obrázku do latexu: https://poznamky.pernicka.cz/E5H5zF-3Tki_Ytg19uJ3RA
 
 ## Grafové algoritmy
 - [x] - hledání eulerovského tahu
@@ -33,15 +35,18 @@
 - [x] - algoritmus sekvenčního barvení
 
 ## Postupy
-- přirozená dedukce
-- rezoluční metoda ve výrokové logice
-- rezoluční metoda v predikátové logice
+- [x] - přirozená dedukce
+- [x] - úpravy formulí ve výrokové logice
+- [x] - rezoluční metoda ve výrokové logice
+- [x] - úpravy formulí v predikátové logice
+- [x] - rezoluční metoda v predikátové logice
 
 ## TODO fronta
 - prezentace 12 - Kosarajův-Sharirův algoritmus
 
 ## Definice
 ### Výroková logika
+- **Úplný systém logických spojek**: Množina logických spojek $\Delta$ tvoří úplný systém logických spojek, pokud pro každou formuli $\varphi$ existuje formule $\varphi_\Delta$, která používá pouze spojky z množiny $\Delta$ a platí $\varphi_\Delta$ |=| $\varphi$
 - **rozšířený systém spojek**: $\implies$ (implikace), $\iff$ (ekvivalence), $\lor$ (OR), $land$ (AND), $\neg$ (NOT), ⊕ (XOR), | (NAND - Shefferova čárka), ↓ (NOR - Piersova šipka), $tt$ (TRUE), $ff$ (FALSE)
 - **Formule výrokové logiky**: Definujeme rekurzivně: 
     1) každá logická proměnná je atomická formule (taktéž tt, ff)
