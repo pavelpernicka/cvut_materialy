@@ -1,0 +1,17 @@
+Question,Answer
+Co je Eulerovský tah?,"Tah v grafu G, který obsahuje všechny vrcholy a všechny hrany, přičemž hrany se neopakují, ale vrcholy mohou."
+Kdy je graf eulerovský?,"Graf je eulerovský, pokud v něm existuje uzavřený Eulerovský tah. G je eulerovský, právě když je souvislý a všechny vrcholy mají sudý stupeň."
+Kdy má graf otevřený eulerovský tah?,"Graf má otevřený Eulerovský tah, pokud právě dva vrcholy mají lichý stupeň."
+Co je obarvení grafu?,"Zobrazení b: V → B, kde B je množina barev, takové, že pro všechny sousední vrcholy u, v platí b(u) ≠ b(v)."
+Co je barevnost grafu?,Barevnost grafu (chromatické číslo) je nejmenší počet barev potřebných k obarvení grafu.
+"Co znamená, že graf je k-barevný?","Graf je k-barevný, pokud k barev stačí k jeho obarvení."
+Co je klika v grafu?,"Množina vrcholů, která indukuje maximální úplný podgraf."
+Co je klikovitost grafu?,Počet vrcholů v nejpočetnější klice grafu.
+Co je maximální nezávislá množina?,"Množina vrcholů, která indukuje maximální možný diskrétní podgraf."
+Co je nezávislost grafu?,Počet vrcholů v nejpočetnější maximální nezávislé množině.
+Co je rovinné nakreslení grafu?,"Přiřazení vrcholům body v rovině a hranám spojité prosté křivky spojující tyto body, tak aby se křivky navzájem neprotínaly."
+Kdy je graf rovinný?,"Graf je rovinný, pokud má rovinné nakreslení."
+Co je sférické nakreslení grafu?,"Nakreslení grafu na kouli, kde se hrany nekříží."
+Co je stupeň stěny?,"Počet hran, které ohraničují danou stěnu. Hrana uvnitř stěny (most) se počítá dvakrát."
+Co říká Eulerův vzorec?,"Pro souvislý rovinný graf s n vrcholy, m hranami a s stěnami platí: n + s = m + 2."
+Jaká je maximální možná hodnota m v rovinném grafu s n vrcholy?,"Pokud n ≥ 3, pak m ≤ 3n - 6. Pokud graf nemá trojúhelníky, pak m ≤ 2n - 4."

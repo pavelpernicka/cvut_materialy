@@ -1,0 +1,25 @@
+Question,Answer
+Co je term v predikátové logice?,"1) Každá proměnná a každá konstanta je term. 2) Pokud je f funkční symbol arity n a t1,...,tn termy, pak f(t1,...,tn) je term. 3) Každý term vznikl konečným počtem kroků 1 a 2."
+Jak vypadá syntaktický strom termu?,Pro proměnnou nebo konstantu má jeden prvek. Pro funkci arity n má vrchol f s n syny.
+Jak definujeme formuli predikátové logiky?,"1) P(t1,...,tn) je atomická formule, pokud je P predikátový symbol arity n a t1,...,tn termy. 2) Kombinace formulí s logickými spojkami a kvantifikátory jsou také formule."
+Co je vázaný výskyt proměnné?,"Výskyt proměnné x v podformuli ∀x ɑ nebo ∃x ɑ, kde ve stromu cestou od x ke kořeni narazíme na kvantifikátor s x."
+Co je volný výskyt proměnné?,"Výskyt proměnné x, který není vázaný kvantifikátorem."
+Kdy je proměnná volná nebo vázaná ve formuli?,"Proměnná x je volná ve φ, pokud má v ní volný výskyt, a vázaná, pokud má v ní vázaný výskyt."
+Co je sentence?,"Formule, která nemá volné proměnné."
+Co je otevřená formule?,"Formule, která nemá vázané proměnné."
+Co je interpretace jazyka predikátové logiky (PL)?,"Dvojice (U, ⟦-⟧), kde U≠∅ je universum a ⟦-⟧ určuje význam symbolů. P predikátový symbol arity n má ⟦P⟧⊆U^n, f funkční symbol má ⟦f⟧: U^n → U, a konstanta ⟦a⟧∈U."
+Co je kontext proměnných?,"Libovolné zobrazení ρ: Var → U, kde ρ' je updatem ρ v proměnné x, pokud se liší jen v hodnotě x."
+Jak se interpretuje term t při kontextu ρ?,"1) Pokud t = a∈Kons, pak ⟦t⟧ρ = ⟦a⟧. 2) Pokud t = x∈Var, pak ⟦t⟧ρ = ρ(x). 3) Pokud t = f(t1,...,tn) a ar(f)=n, pak ⟦t⟧ρ = ⟦f⟧(⟦t1⟧ρ,...,⟦tn⟧ρ)."
+Jak se určuje pravdivost atomické formule?,"Formule P(t1,...,tn) je pravdivá v interpretaci (U, ⟦-⟧) při kontextu ρ, pokud ⟦t1⟧ρ,...,⟦tn⟧ρ ∈ ⟦P⟧."
+Jak se určuje pravdivost složených formulí?,Pravdivost složených formulí se určuje podle pravdivosti atomických formulí a sémantiky logických spojek.
+Kdy je formule ∀x ɑ pravdivá?,"Formule ∀x ɑ je pravdivá v interpretaci (U, ⟦-⟧) při kontextu ρ, pokud ɑ je pravdivá při všech updatech ρ' kontextu ρ v proměnné x."
+Kdy je formule ∃x ɑ pravdivá?,"Formule ∃x ɑ je pravdivá v interpretaci (U, ⟦-⟧) při kontextu ρ, pokud ɑ je pravdivá při alespoň jednom updatu ρ' kontextu ρ v proměnné x."
+Kdy je sentence pravdivá v interpretaci?,"Sentence je pravdivá v interpretaci, pokud je pravdivá při libovolném kontextu ρ. Taková interpretace je model."
+Kdy je sentence splnitelná?,"Sentence φ je splnitelná, pokud existuje interpretace, ve které je pravdivá (existuje model)."
+Kdy je sentence tautologie?,"Sentence φ je tautologie, pokud je pravdivá v každé interpretaci (všechny interpretace jsou modelem)."
+Kdy je sentence kontradikce?,"Sentence φ je kontradikce, pokud není pravdivá v žádné interpretaci (neexistuje model)."
+Kdy je množina sentencí splnitelná?,"Množina sentencí S je splnitelná, pokud existuje interpretace, ve které je pravdivá každá sentence z S."
+Kdy má množina sentencí sémantický důsledek?,"Množina sentencí S má sémantický důsledek φ, pokud v každé interpretaci, ve které je pravdivá S, je pravdivá také φ."
+Kdy jsou dvě sentence tautologicky ekvivalentní?,"Dvě sentence φ, ψ jsou tautologicky ekvivalentní, pokud mají stejné modely."
+"Co znamená, že formule je v prenexním tvaru?","Formule φ je v prenexním tvaru, pokud má kvantifikátory vepředu a poté následuje ψ, kde ψ je otevřená formule."
+"Co je res(ɑ, ꞵ), když obsahují komplementární literály?",Disjunkce zbylých formulí s kvantifikátorem pro všechny proměnné.

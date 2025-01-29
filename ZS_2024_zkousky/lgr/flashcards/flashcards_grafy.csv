@@ -1,0 +1,25 @@
+Question,Answer
+Co je graf (dvojice)?,"Graf je dvojice (V, E), kde V je konečná neprázdná množina (vrcholy) a E je množina některých dvouprvkových podmnožin V. Můžeme povolit i smyčky."
+Co je graf (trojice)?,"Graf je trojice (V, E, ε), kde V je konečná neprázdná množina vrcholů, E je množina názvů hran a ε je zobrazení incidence."
+Co je úplný graf?,"Úplný graf na n vrcholech Kn = (V, E), |V| = n, má n(n-1)/2 hran."
+Co je bipartitní graf?,"Graf G=(V, E), kde V=V1∪V2, V1∩V2=∅ a každá hrana spojuje vrchol z V1 s vrcholem z V2."
+Co je úplný bipartitní graf?,"Úplný bipartitní graf Kmn má |V1| = m, |V2| = n a m*n hran."
+Co je podgraf grafu?,"Podgraf G'=(V', E', ε') grafu G=(V, E, ε) je takový, že V'⊆V a E'⊆E, přičemž všechny koncové vrcholy hran z E' patří do V'."
+Co je stupeň vrcholu v grafu?,Počet hran incidentních s vrcholem (smyčka se počítá 2x). Značí se deg(v) nebo d(v).
+Co říká hand-shaking lemma?,Součet všech stupňů vrcholů je dvojnásobek počtu hran.
+Co je r-regulární graf?,"Graf, kde všechny vrcholy mají stejný stupeň r."
+Co je skóre grafu?,Posloupnost stupňů všech vrcholů seřazená sestupně.
+Kdy jsou grafy izomorfní?,"Grafy G=(V, E, ε) a G'=(V', E', ε') jsou izomorfní, pokud existují bijekce f: V→V' a g: E→E', které zachovávají incidenci."
+Co je sled v grafu?,"Sled v grafu G je posloupnost v0 e1 v1 e2...en vn, kde každá hrana ei={vi-1, vi}."
+Co je uzavřený sled?,"Uzavřený sled je sled, kde v0=vn a n≥1."
+Co je tah?,"Tah je sled, kde se neopakují hrany."
+Co je cesta?,"Cesta je tah, kde se neopakují vrcholy (kromě případného v0=vn)."
+Co je kružnice?,"Kružnice je uzavřený sled, kde se neopakují hrany ani vrcholy."
+Kdy je graf souvislý?,"Graf je souvislý, pokud mezi každými dvěma vrcholy existuje cesta."
+Co je komponenta souvislosti grafu?,Maximální souvislý podgraf grafu.
+Co je most v grafu?,"Hrana, jejímž odstraněním vznikne o komponentu souvislosti více."
+Co je strom?,Souvislý graf bez kružnic.
+Co je les?,Graf bez kružnic (jeho komponenty souvislosti jsou stromy).
+Co je kostra grafu?,"Faktor grafu, který je stromem."
+Co je minimální kostra grafu?,Kostra s nejmenší možnou cenou ze všech koster grafu.
+Jak se určuje cena kostry v ohodnoceném grafu?,"Cena kostry K=(V, L, ε_L) se určí jako součet cen hran: c(K) = Σ c(e) pro e∈L."

@@ -1,0 +1,23 @@
+Question,Answer
+Co je úplný systém logických spojek?,"Množina logických spojek Δ tvoří úplný systém logických spojek, pokud pro každou formuli φ existuje formule φΔ, která používá pouze spojky z Δ a platí φΔ |=| φ."
+Co je rozšířený systém spojek?,"Obsahuje: → (implikace), ↔ (ekvivalence), ∨ (OR), ∧ (AND), ¬ (NOT), ⊕ (XOR), | (NAND - Shefferova čárka), ↓ (NOR - Piersova šipka), ⊤ (TRUE), ⊥ (FALSE)."
+Jak definujeme formuli výrokové logiky?,"1) Každá logická proměnná je atomická formule (včetně ⊤, ⊥). 2) Pokud jsou α, β formule, pak i ¬α, α→β atd. jsou formule. 3) Každá formule vznikla konečným počtem kroků 1 a 2."
+Co je pravdivostní ohodnocení?,"Zobrazení u z množiny všech formulí nad At do {0,1}, které respektuje sémantiku logických spojek."
+Kdy je formule pravdivá?,"Formule je pravdivá v ohodnocení u, když u(φ) = 1."
+Kdy je formule splnitelná?,"Formule je splnitelná, pokud existuje ohodnocení, v němž je pravdivá (u(φ) = 1)."
+Kdy je formule tautologie?,"Formule je tautologie, pokud je pravdivá ve všech ohodnoceních."
+Kdy je formule kontradikce?,"Formule je kontradikce, pokud není pravdivá v žádném ohodnocení."
+Kdy jsou dvě formule tautologicky ekvivalentní?,"Formule φ, ψ jsou tautologicky ekvivalentní, pokud pro každé ohodnocení u platí: u(φ) = u(ψ)."
+Co je Boolovská funkce?,"Boolovská funkce n proměnných je libovolná funkce f: {0,1}^n → {0,1}. Např.: logický součet max(x, y), logický součin min(x, y), logický doplněk 1-x."
+Co je literál?,Literál je logická proměnná nebo její negace.
+Co je minterm?,Minterm je konjunkce literálů nebo jeden literál nebo žádný literál (⊤).
+Co je maxterm?,Maxterm (klauzule) je disjunkce literálů nebo jeden literál nebo žádný literál (⊥).
+Kdy je formule v CNF?,"Formule je v konjunktivní normální formě (CNF), když je konjunkcí maxtermů nebo maxterm (nebo žádný - ⊤)."
+Kdy je formule v DNF?,"Formule je v disjunktivní normální formě (DNF), když je disjunkcí mintermů nebo minterm (nebo žádný - ⊥)."
+Kdy je množina formulí splnitelná?,"Množina formulí S je splnitelná, pokud existuje ohodnocení u, ve kterém jsou pravdivé všechny formule z S."
+Kdy je množina formulí pravdivá v ohodnocení?,"Množina formulí je pravdivá v ohodnocení u, pokud jsou v něm pravdivé všechny formule z množiny S."
+Co je sémantický důsledek množiny formulí?,"Formule φ je sémantický důsledek množiny S, pokud v každém ohodnocení u, kde jsou pravdivé všechny formule z S, je pravdivá také φ."
+Co říká věta o sémantickém důkazu sporem?,"S⊨φ, právě když množina S’ = S ∪ {￢φ} je nesplnitelná."
+Co je resolventa klauzulí?,"Resolventa z klauzulí α a β přes x je disjunkce všech ostatních literálů z α, β kromě x a ¬x."
+Co je odvození (důkaz) formule?,"Odvození formule φ z množiny S je posloupnost formulí φ1,...,φn, kde každá φi je buď z S, tautologický předpoklad, nebo odvozena pravidlem z předchozích formulí."
+Kdy je formule logickým důsledkem množiny formulí?,"Formule φ je logický důsledek množiny formulí S, pokud existuje odvození φ z formulí v S."

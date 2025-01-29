@@ -1,0 +1,18 @@
+Question,Answer
+Co je to úplný systém logických spojek?,"Množina logických spojek Δ tvoří úplný systém logických spojek, pokud pro každou formuli φ existuje formule φΔ, která používá pouze spojky z Δ a platí φΔ |=| φ."
+Co je rozšířený systém spojek?,"Obsahuje: → (implikace), ↔ (ekvivalence), ∨ (OR), ∧ (AND), ¬ (NOT), ⊕ (XOR), | (NAND), ↓ (NOR), ⊤ (TRUE), ⊥ (FALSE)."
+Jak definujeme formuli výrokové logiky?,"1) Každá logická proměnná je atomická formule (včetně ⊤, ⊥). 2) Pokud jsou α, β formule, pak i ¬α, α→β atd. jsou formule. 3) Každá formule vznikla konečným počtem kroků 1 a 2."
+Co je pravdivostní ohodnocení?,"Zobrazení u: Formule(At) → {0,1}, které respektuje sémantiku logických spojek."
+"Co znamená, že formule je pravdivá?","Formule φ je pravdivá v ohodnocení u, když u(φ) = 1."
+"Co znamená, že formule je splnitelná?","Formule je splnitelná, pokud existuje ohodnocení, ve kterém je pravdivá (u(φ) = 1)."
+"Co znamená, že formule je tautologie?","Formule je tautologie, pokud je pravdivá ve všech ohodnoceních."
+"Co znamená, že formule je kontradikce?","Formule je kontradikce, pokud není pravdivá v žádném ohodnocení."
+Kdy jsou dvě formule tautologicky ekvivalentní?,"Dvě formule φ a ψ jsou tautologicky ekvivalentní, pokud pro každé ohodnocení u platí: u(φ) = u(ψ)."
+Co je Boolovská funkce?,"Boolovská funkce n proměnných je libovolná funkce f: {0,1}^n → {0,1}, např. logický součet max(x,y), logický součin min(x,y)."
+Co je literál?,Literál je logická proměnná nebo její negace.
+Co je minterm?,Minterm je konjunkce literálů nebo jeden literál nebo žádný literál (⊤).
+Co je maxterm?,Maxterm (klauzule) je disjunkce literálů nebo jeden literál nebo žádný literál (⊥).
+"Co znamená, že formule je v CNF?","Formule je v konjunktivní normální formě (CNF), pokud je konjunkcí maxtermů nebo maxterm (nebo žádný - ⊤)."
+"Co znamená, že formule je v DNF?","Formule je v disjunktivní normální formě (DNF), pokud je disjunkcí mintermů nebo minterm (nebo žádný - ⊥)."
+Kdy je množina formulí splnitelná?,"Množina formulí S je splnitelná, pokud existuje ohodnocení, v němž jsou pravdivé všechny formule z S."
+Kdy je formule sémantickým důsledkem množiny S?,"Formule φ je sémantický důsledek množiny S, pokud v každém ohodnocení, kde jsou pravdivé všechny formule z S, je pravdivá i φ."
