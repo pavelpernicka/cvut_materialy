@@ -11,7 +11,7 @@ zip:
 
 test: $(HW)
 	@chmod +x $(TEST_SCRIPT)
-	@./$(TEST_SCRIPT) $(HW) man
+	@./$(TEST_SCRIPT) $(HW)
 	
 clean:
 	$(RM) *.o

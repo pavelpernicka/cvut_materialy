@@ -7,11 +7,11 @@ CYAN='\033[1;36m'
 NC='\033[0m' # No color
 
 PROGRAM=./$1
-TEST_DIR="./data/$2"
+TEST_DIR="./data"
 IN_SUFFIX=".in"
 OUT_SUFFIX=".out"
 ERR_SUFFIX=".err"
-TMP_OUT="tmp_output.txt":w
+TMP_OUT="tmp_output.txt"
 
 TMP_ERR="tmp_stderr.txt"
 TIME_STATS="time_stats.txt"

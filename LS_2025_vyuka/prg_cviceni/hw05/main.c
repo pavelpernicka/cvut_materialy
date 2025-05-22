@@ -1,165 +1,266 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
+#include <ctype.h>
+
+#define MAX_MATRICES 26
 
 typedef struct {
-    // 1D array, indexes will be calculated
     int rows, cols;
     int *data;
 } Matrix;
 
 enum exitcode {
-	ALLOCATION_ERROR = 1,
-	INPUT_ERROR = 100
+    ALLOCATION_ERROR = 1,
+    INPUT_ERROR = 100
 };
 
-Matrix read_matrix();
-void print_matrix(const Matrix *m);
+Matrix parse_matrix_definition(const char *line);
 Matrix add(const Matrix *a, const Matrix *b, int sign);
 Matrix multiply(const Matrix *a, const Matrix *b);
 void free_matrix(Matrix *m);
+void print_matrix(const Matrix *m);
+
+char *read_line(void) {
+    int capacity = 128;
+    int length = 0;
+    char *buffer = malloc(capacity);
+    if (!buffer) exit(ALLOCATION_ERROR);
+
+    int c;
+    while ((c = getchar()) != EOF && c != '\n') {
+        if (length + 1 >= capacity) {
+            capacity *= 2;
+            char *new_buffer = realloc(buffer, capacity);
+            if (!new_buffer) {
+                free(buffer);
+                exit(ALLOCATION_ERROR);
+            }
+            buffer = new_buffer;
+        }
+        buffer[length++] = c;
+    }
+
+    if (c == EOF && length == 0) {
+        free(buffer);
+        return NULL;
+    }
+
+    buffer[length] = '\0';
+    return buffer;
+}
 
 int main() {
-    int matrix_capacity = 4;
-    int matrix_count = 0;
-    int operator_capacity = 4;
-    int operator_count = 0;
+    Matrix matrices[MAX_MATRICES] = {0};
+    bool defined[MAX_MATRICES] = {0};
 
-    Matrix *mats = malloc(sizeof(Matrix) * matrix_capacity);
-    char *ops = malloc(sizeof(char) * operator_capacity);
-    if (!mats || !ops) return ALLOCATION_ERROR;
-
-    while (1) {
-        // mats reallocation
-        if (matrix_count >= matrix_capacity) {
-            matrix_capacity *= 2;
-            mats = realloc(mats, sizeof(Matrix) * matrix_capacity);
-            if (!mats) exit(ALLOCATION_ERROR);
+    char *line;
+    while ((line = read_line()) != NULL) {
+        if (line[0] == '\0') {
+            free(line);
+            break;
         }
 
-        mats[matrix_count++] = read_matrix();
-
-        // read operator
-        int c;
-        do {
-            c = getchar();
-        } while (c == '\n' || c == ' ');
-
-        if (c == EOF) break;
-
-        if (c != '+' && c != '-' && c != '*') {
+        if (!strchr(line, '=')) {
             fprintf(stderr, "Error: Chybny vstup!\n");
-            for (int i = 0; i < matrix_count; i++) free_matrix(&mats[i]);
-            free(mats);
-            free(ops);
+            free(line);
             return INPUT_ERROR;
         }
 
-        // rellocate ops
-        if (operator_count >= operator_capacity) {
-            operator_capacity *= 2;
-            ops = realloc(ops, sizeof(char) * operator_capacity);
-            if (!ops) exit(ALLOCATION_ERROR);
+        char name = line[0];
+        if (!isupper(name)) {
+            fprintf(stderr, "Error: Chybny vstup!\n");
+            free(line);
+            return INPUT_ERROR;
         }
 
-        ops[operator_count++] = (char)c;
+        if (defined[name - 'A']) {
+            free_matrix(&matrices[name - 'A']);
+        }
+
+        matrices[name - 'A'] = parse_matrix_definition(line);
+        defined[name - 'A'] = true;
+        free(line);
     }
 
-    // do multiplication first, then the others
-    int i = 0;
-    while (operator_count > 0) {
-        // look for '*'
-        bool found_mul = false;
-        for (int j = 0; j < operator_count; j++) {
-            if (ops[j] == '*') {
-                i = j;
-                found_mul = true;
-                break;
+    line = read_line();
+    if (!line) {
+        fprintf(stderr, "Error: Chybny vstup!\n");
+        return INPUT_ERROR;
+    }
+
+    Matrix *stack[MAX_MATRICES];
+    int stack_top = -1;
+    char op_stack[MAX_MATRICES];
+    int op_top = -1;
+
+    for (char *p = line; *p;) {
+        if (isspace(*p)) {
+            p++;
+            continue;
+        }
+
+        if (isupper(*p)) {
+            if (!defined[*p - 'A']) {
+                fprintf(stderr, "Error: Chybny vstup!\n");
+                free(line);
+                return INPUT_ERROR;
             }
-        }
+            Matrix *m = malloc(sizeof(Matrix));
+            if (!m) exit(ALLOCATION_ERROR);
+            *m = matrices[*p - 'A'];
+            m->data = malloc(sizeof(int) * m->rows * m->cols);
+            if (!m->data) exit(ALLOCATION_ERROR);
+            memcpy(m->data, matrices[*p - 'A'].data, sizeof(int) * m->rows * m->cols);
+            stack[++stack_top] = m;
+            p++;
+        } else if (*p == '+' || *p == '-' || *p == '*') {
+            char op = *p;
+            int op_pri = (op == '*') ? 2 : 1;
 
-        if (!found_mul) i = 0; // no mul, do +- first
+            while (op_top >= 0) {
+                char prev_op = op_stack[op_top];
+                int prev_pri = (prev_op == '*') ? 2 : 1;
 
-        Matrix result;
-        if (ops[i] == '*') {
-            result = multiply(&mats[i], &mats[i + 1]);
+                if (prev_pri >= op_pri) {
+                    Matrix *b = stack[stack_top--];
+                    Matrix *a = stack[stack_top--];
+                    char op2 = op_stack[op_top--];
+
+                    Matrix res = (op2 == '*') ? multiply(a, b) : add(a, b, op2 == '+' ? 1 : -1);
+
+                    free_matrix(a);
+                    free_matrix(b);
+                    free(a);
+                    free(b);
+
+                    Matrix *res_ptr = malloc(sizeof(Matrix));
+                    if (!res_ptr) exit(ALLOCATION_ERROR);
+                    *res_ptr = res;
+                    stack[++stack_top] = res_ptr;
+                } else {
+                    break;
+                }
+            }
+
+            op_stack[++op_top] = op;
+            p++;
         } else {
-            int sign = (ops[i] == '+') ? 1 : -1;
-            result = add(&mats[i], &mats[i + 1], sign);
+            fprintf(stderr, "Error: Chybny vstup!\n");
+            free(line);
+            return INPUT_ERROR;
         }
-
-        free_matrix(&mats[i]);
-        free_matrix(&mats[i + 1]);
-        mats[i] = result;
-
-        // move left
-        for (int j = i + 1; j < matrix_count - 1; j++)
-            mats[j] = mats[j + 1];
-        for (int j = i; j < operator_count - 1; j++)
-            ops[j] = ops[j + 1];
-
-        matrix_count--;
-        operator_count--;
     }
 
-    print_matrix(&mats[0]);
-    free_matrix(&mats[0]);
-    free(mats);
-    free(ops);
+    while (op_top >= 0) {
+        Matrix *b = stack[stack_top--];
+        Matrix *a = stack[stack_top--];
+        char op = op_stack[op_top--];
+
+        Matrix res = (op == '*') ? multiply(a, b) : add(a, b, op == '+' ? 1 : -1);
+
+        free_matrix(a);
+        free_matrix(b);
+        free(a);
+        free(b);
+
+        Matrix *res_ptr = malloc(sizeof(Matrix));
+        if (!res_ptr) exit(ALLOCATION_ERROR);
+        *res_ptr = res;
+        stack[++stack_top] = res_ptr;
+    }
+
+    print_matrix(stack[0]);
+    free_matrix(stack[0]);
+    free(stack[0]);
+    free(line);
     return 0;
 }
 
-Matrix read_matrix() {
-	/*
-	Create new matrix from stdin
-	*/
-	
-    Matrix m;
-    if (scanf("%d %d", &m.rows, &m.cols) != 2 || m.rows <= 0 || m.cols <= 0) {
+Matrix parse_matrix_definition(const char *line) {
+    const char *p = strchr(line, '[');
+    if (!p) {
         fprintf(stderr, "Error: Chybny vstup!\n");
         exit(INPUT_ERROR);
     }
+    p++;
 
-    m.data = malloc(m.rows * m.cols * sizeof(int));
-    if (!m.data) exit(ALLOCATION_ERROR);
+    int rows = 1, cols = 0, tmp_cols = 0, capacity = 16;
+    int *data = malloc(sizeof(int) * capacity);
+    if (!data) exit(ALLOCATION_ERROR);
 
-    for (int i = 0; i < m.rows * m.cols; i++) {
-        if (scanf("%d", &m.data[i]) != 1) {
-            free(m.data);
+    while (*p && *p != ']') {
+        if (*p == ';') {
+            if (cols == 0)
+                cols = tmp_cols;
+            else if (tmp_cols != cols) {
+                fprintf(stderr, "Error: Chybny vstup!\n");
+                free(data);
+                exit(INPUT_ERROR);
+            }
+            tmp_cols = 0;
+            rows++;
+            p++;
+            continue;
+        }
+
+        if (isspace(*p)) {
+            p++;
+            continue;
+        }
+
+        char *end;
+        int val = strtol(p, &end, 10);
+        if (p == end) {
             fprintf(stderr, "Error: Chybny vstup!\n");
+            free(data);
             exit(INPUT_ERROR);
         }
+
+        if ((rows - 1) * cols + tmp_cols >= capacity) {
+            capacity *= 2;
+            int *new_data = realloc(data, sizeof(int) * capacity);
+            if (!new_data) {
+                free(data);
+                exit(ALLOCATION_ERROR);
+            }
+            data = new_data;
+        }
+
+        data[(rows - 1) * cols + tmp_cols++] = val;
+        p = end;
     }
+
+    if (cols == 0)
+        cols = tmp_cols;
+    else if (tmp_cols != cols) {
+        fprintf(stderr, "Error: Chybny vstup!\n");
+        free(data);
+        exit(INPUT_ERROR);
+    }
+
+    Matrix m;
+    m.rows = rows;
+    m.cols = cols;
+    m.data = malloc(sizeof(int) * rows * cols);
+    if (!m.data) {
+        free(data);
+        exit(ALLOCATION_ERROR);
+    }
+
+    for (int i = 0; i < rows * cols; i++)
+        m.data[i] = data[i];
+    free(data);
 
     return m;
 }
 
-void print_matrix(const Matrix *m) {
-	/*
-	Print matrix to stdout
-	*/
-	
-    printf("%d %d\n", m->rows, m->cols);
-    for (int i = 0; i < m->rows; i++) {
-        for (int j = 0; j < m->cols; j++) {
-            if (j > 0) putchar(' ');
-            printf("%d", m->data[i * m->cols + j]);
-        }
-        putchar('\n');
-    }
-}
-
 Matrix add(const Matrix *a, const Matrix *b, int sign) {
-	/*
-	Add or subtract two matrices (specified by sign)
-	*/
-	
-	// must have same shape
     if (a->rows != b->rows || a->cols != b->cols) {
         fprintf(stderr, "Error: Chybny vstup!\n");
         exit(INPUT_ERROR);
     }
-
     Matrix r;
     r.rows = a->rows;
     r.cols = a->cols;
@@ -168,21 +269,15 @@ Matrix add(const Matrix *a, const Matrix *b, int sign) {
 
     for (int i = 0; i < r.rows * r.cols; i++)
         r.data[i] = a->data[i] + sign * b->data[i];
-    
+
     return r;
 }
 
 Matrix multiply(const Matrix *a, const Matrix *b) {
-	/*
-	Multiply two matrices
-	*/
-	
-    // rows must equal columns
     if (a->cols != b->rows) {
         fprintf(stderr, "Error: Chybny vstup!\n");
         exit(INPUT_ERROR);
     }
-
     Matrix r;
     r.rows = a->rows;
     r.cols = b->cols;
@@ -199,12 +294,19 @@ Matrix multiply(const Matrix *a, const Matrix *b) {
     return r;
 }
 
+void print_matrix(const Matrix *m) {
+    putchar('[');
+    for (int i = 0; i < m->rows; i++) {
+        if (i > 0) printf("; ");
+        for (int j = 0; j < m->cols; j++) {
+            if (j > 0) putchar(' ');
+            printf("%d", m->data[i * m->cols + j]);
+        }
+    }
+    puts("]");
+}
+
 void free_matrix(Matrix *m) {
-	/*
-	Free matrix content
-	*/
-	
     free(m->data);
     m->data = NULL;
 }
-

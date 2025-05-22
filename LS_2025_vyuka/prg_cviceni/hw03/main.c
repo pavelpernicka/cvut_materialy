@@ -1,125 +1,70 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 
-bool is_lowercase(char);
-bool is_uppercase(char);
-bool is_letter(char);
-int stringlen(const char *);
+#define RETURN_ERR_INPUT 100
+#define RETURN_ERR_LENGTH 101
+#define INITIAL_BUFFER_SIZE 15
+#define ALPHABET_SIZE 52
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+
 char rotate(char, int);
 void shift(const char *, char *, int);
-int compare(const char *, const char *);
 char *read_line();
 char *best_shift_match(const char *, const char *, int);
+int levenshtein_distance(const char *a, const char *b);
 
 int main() {
-  char *encoded = read_line();         // cypher string
-  char *partial_decoded = read_line(); // heard message string
+    char *encoded = read_line();
+    char *partial_decoded = read_line();
 
-  // alphabet or allocation problems
-  if (!encoded || !partial_decoded) {
-    fprintf(stderr, "Error: Chybny vstup!\n");
+    if (!encoded || !partial_decoded) {
+        fprintf(stderr, "Error: Chybny vstup!\n");
+        free(encoded); encoded = NULL;
+        free(partial_decoded); partial_decoded = NULL;
+        return RETURN_ERR_INPUT;
+    }
+
+    int enc_len = strlen(encoded);
+
+    char *result = best_shift_match(encoded, partial_decoded, enc_len);
+    printf("%s\n", result);
+
     free(encoded);
     free(partial_decoded);
-    return 100;
-  }
-
-  // lengths are not equal
-  int enc_len = stringlen(encoded);
-  if (enc_len != stringlen(partial_decoded)) {
-    fprintf(stderr, "Error: Chybna delka vstupu!\n");
-    free(encoded);
-    free(partial_decoded);
-    return 101;
-  }
-
-  char *result = best_shift_match(encoded, partial_decoded, enc_len);
-
-  printf("%s\n", result);
-
-  free(encoded);
-  free(partial_decoded);
-  free(result);
-  return 0;
-}
-
-bool is_lowercase(char c) { return c >= 'a' && c <= 'z'; }
-
-bool is_uppercase(char c) { return c >= 'A' && c <= 'Z'; }
-
-bool is_letter(char c) { return is_lowercase(c) || is_uppercase(c); }
-
-int stringlen(const char *str) {
-  int len = 0;
-  while (*str != '\0') {
-    len++;
-    str++;
-  }
-  return len;
+    free(result);
+    return 0;
 }
 
 char rotate(char original, int offset) {
-  /*
-      Shift "original" character by "offset"
-      Note: z+2 = B (not b) - alphabet is handled as whole [a-zA-Z]
-  */
+    int pos;
 
-  int pos;
+    if (islower(original)) {
+        pos = (offset + (original - 'a')) % ALPHABET_SIZE;
+    } else if (isupper(original)) {
+        pos = (offset + (original - 'A') + 26) % ALPHABET_SIZE;
+    } else {
+        return original;
+    }
 
-  // get relative position of shifted char
-  if (is_lowercase(original)) {
-    pos = (offset + (original - 'a')) % 52;
-  } else if (is_uppercase(original)) {
-    pos = (offset + (original - 'A') + 26) % 52;
-  } else { // other char => keep
-    return original;
-  }
-
-  // get char from relative position
-  if (pos < 26) {
-    return 'a' + pos;
-  } else {
-    return 'A' + (pos - 26);
-  }
+    if (pos < 26) return 'a' + pos;
+    else return 'A' + (pos - 26);
 }
 
 void shift(const char *src, char *dst, int offset) {
-  /*
-      Shift all letters in string "src" by offset, store into "dst"
-  */
-
-  int i = 0;
-  while (src[i] != '\0') { // up to end of string
-    dst[i] = rotate(src[i], offset);
-    i++;
-  }
-
-  dst[i] = '\0'; // end new string
-}
-
-int compare(const char *str1, const char *str2) {
-  /*
-      Count number of letters that are same in two strings
-  */
-  int i = 0;
-  int score = 0;
-
-  while (str1[i] != '\0' && str2[i] != '\0') {
-    if (str1[i] == str2[i]) {
-      score++;
+    int i = 0;
+    while (src[i] != '\0') {
+        dst[i] = rotate(src[i], offset);
+        i++;
     }
-    i++;
-  }
-  return score;
+    dst[i] = '\0';
 }
 
 char *read_line() {
-  /*
-      Read line from stdin as string
-  */
-
   // at begining allocate space for 15 chars
-  int size = sizeof(char) * 15;
+  int size = sizeof(char) * INITIAL_BUFFER_SIZE;
   char *new_string = malloc(size);
   if (!new_string) {
     return NULL;
@@ -131,7 +76,7 @@ char *read_line() {
   // read input until it newline
   while ((curr_char = getchar()) != '\n') {
     // out of alphabet range
-    if (!is_letter(curr_char)) {
+    if (!isalpha(curr_char)) {
       free(new_string);
       return NULL;
     }
@@ -155,26 +100,52 @@ char *read_line() {
 }
 
 char *best_shift_match(const char *encoded, const char *partial, int len) {
-  /*
-      Find decoded message with biggest match with "partial"
-  */
+    int best_distance = -1;
+    int best_shift = 0;
 
-  char *best = malloc(len + 1);
-  int best_score = -1;
-  int best_shift = 0;
+    char *candidate = malloc(len + 1);
+    if (!candidate) return NULL;
 
-  // test all 2*26 shifts
-  for (int i = 0; i < 52; i++) {
-    shift(encoded, best, i);
-    int score = compare(best, partial);
-    if (score > best_score) {
-      best_score = score;
-      best_shift = i;
+    for (int i = 0; i < ALPHABET_SIZE; i++) {
+        shift(encoded, candidate, i);
+        int distance = levenshtein_distance(candidate, partial);
+        if (best_distance == -1 || distance < best_distance) {
+            best_distance = distance;
+            best_shift = i;
+        }
     }
-  }
 
-  // apply the best shift
-  shift(encoded, best, best_shift);
-  return best;
+    shift(encoded, candidate, best_shift);
+    return candidate;
+}
+
+int levenshtein_distance(const char *a, const char *b) {
+    int len_a = strlen(a);
+    int len_b = strlen(b);
+
+    int **dp = malloc((len_a + 1) * sizeof(int *));
+    for (int i = 0; i <= len_a; i++) {
+        dp[i] = malloc((len_b + 1) * sizeof(int));
+    }
+
+    for (int i = 0; i <= len_a; i++) dp[i][0] = i;
+    for (int j = 0; j <= len_b; j++) dp[0][j] = j;
+
+    for (int i = 1; i <= len_a; i++) {
+        for (int j = 1; j <= len_b; j++) {
+            int cost = (a[i - 1] == b[j - 1]) ? 0 : 1;
+            dp[i][j] = MIN(
+                MIN(dp[i - 1][j] + 1,     // delete
+                    dp[i][j - 1] + 1),    // insert
+                dp[i - 1][j - 1] + cost   // substition
+            );
+        }
+    }
+
+    int result = dp[len_a][len_b];
+    for (int i = 0; i <= len_a; i++) free(dp[i]);
+    free(dp);
+
+    return result;
 }
 
