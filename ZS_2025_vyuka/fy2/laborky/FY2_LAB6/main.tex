@@ -221,10 +221,9 @@ $$\eta'_{TEG} = \frac{T_H - T_S}{T_H} = 10,1071\ \%$$
 Když obě účinnosti srovnáme, zjistíme, že reálná účinnost tvoří jen zhruba $1,16\ \%$ maximální účinnosti vratně pracujícího tepelného stroje. 
 
 \subsection{Nejistoty}
-Pro Seebeckův koeficient musíme zahrnout přístrojovou nejistotu typu B pro použitý voltmetr, kterým jsme měřili $U_n$. Tu stanovíme z parametrů přístroje následovně:
-$$u_b(U_n) = \frac{U_n \cdot \frac{0.1}{100} + 0,003}{\sqrt{3}}$$
-Spočtením pro naměřené hodnoty získáváme finální výsledek:
-$$\alpha = (37,8 \pm 2)\ \unit{mV}\cdot \unitC^{-1}$$
+Pro Seebeckův koeficient využijeme nejistotu z metody nejmenších čtverců, jejíž hodnota je:
+
+$$\alpha = (37,8 \pm 0,33)\ \unit{mV}\cdot \unitC^{-1}$$
 
 Pro účinnost, který závisí na více veličinách, použijeme nejistotu typu C danou následujícím vztahem:
 $$u_c = \sqrt{\sum_{i=1}^{N}{a_i}} = \sqrt{\sum_{i=1}^{N}{\left(\frac{\partial \eta}{\partial x_i}\right)\cdot u_b^2(x_i)}}$$
@@ -359,7 +358,7 @@ $15$ & $13,8$ & $26,2$  \\
 \section{Závěr}
 V laboratorní úloze jsme pomocí měření teplot, napětí a zkratového proudu zjistili Seebeckův koeficient, který nám v režimu termoelektrického generátoru udává závislost napětí naprázdno na jednotku rozdílu teplot studené a teplé strany. Jeho hodnota je:
 
-$$\alpha = (37,8 \pm 2)\ \unit{mV}\cdot \unitC^{-1}$$
+$$\alpha = (37,8 \pm 0,33)\ \unit{mV}\cdot \unitC^{-1}$$
 Dále jsme se přesvědčili o poměrně nízké efektivitě Peltierova článku, jakožto generátoru elektrické energie. Ta činí jen:
 
 $$\eta_{TEG} = (0,12 \pm 0,02)\ \unit{\%}, $$
@@ -370,7 +369,11 @@ V režimu termoelektrického chladiče se nám podařilo dosáhnout nejnižší 
 V režimu ohřívače byla změna teploty v čase při podobných parametrech vyšší, než u chladiče. Zde se nám podařilo dosáhnout nejvyšší teploty $T_h = 40,6 \unitC$, tedy $T_{start}-T_{end} = 18,2 \unitC$). Tento děj je rychlejší, jelikož kromě samotného čerpání tepla dochází také ke vzniku Jouleova tepla uvnitř samotných polovodičových prvků, které ohřev urychluje.
 
 \section{Přílohy}
-Jupyter notebook pro výpočty a kreslení grafu: jako příloha nebo dostupné online:  \url{https://colab.research.google.com/drive/1mV62pdKovMqddPFaJD4j_541HQQD1n1g?usp=sharing}
+\begin{itemize}
+\item Jupyter notebook pro výpočty a kreslení grafu: jako příloha nebo dostupné online:  \url{https://colab.research.google.com/drive/1mV62pdKovMqddPFaJD4j_541HQQD1n1g?usp=sharing}
+
+\item Foto záznamového papíru s hodnotami
+\end{itemize}
 
 \begin{thebibliography}{}
 
