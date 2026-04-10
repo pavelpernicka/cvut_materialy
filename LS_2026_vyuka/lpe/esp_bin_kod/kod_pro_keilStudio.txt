@@ -1,0 +1,72 @@
+#include "mbed.h"
+static BufferedSerial pc(PA_2, PA_3, 115200); // UART2 TX RX 9600 baud rate
+
+AnalogIn adc_0(PA_0);
+AnalogIn adc_1(PA_1);
+DigitalOut ledka(PA_8);
+
+
+unsigned int aread0;
+unsigned int aread1;
+
+char buffer[20];
+char comIN;
+unsigned char status = 0;
+
+float v1;
+float v2;
+float tim = 0;
+unsigned char i;
+
+int main() {
+
+  char *buff = new char[1];
+  printf("WiFi test & measure!\r\n");
+
+  while (1) {
+
+    if (pc.readable()) { // je k dispozici novy prikaz?
+      pc.read(buff, 1);
+      comIN = *buff; // je, tak ho nacti
+      
+      switch (comIN) { // a podle toho co prislo, proved danou akci
+      case '0': // not sending data
+        status = 0;
+        printf("Off\r\n");
+        break;
+
+      case '1': // sending data
+        status = 1;
+        printf("On\r\n");
+        break;
+
+      case 'a': // LED off
+        ledka = 0;
+        printf("LED Off\r\n");
+        break;
+
+      case 's': // LED on
+        ledka = 1;
+        printf("LED On\r\n");
+        break;
+
+      default: // kdyz prijde neznamy znak, provede se „default“ cast kodu
+
+        break;
+
+      }; // switch
+
+    }; // if
+
+    aread0 = adc_0.read_u16();
+    aread1 = adc_1.read_u16();
+    aread0 /= 20; // hrubý pøevod na mV...(65535/3300)
+    aread1 /= 20;
+
+    if (status) {
+      printf("%04u,%04u\r\n",aread0,aread1); //SerialChart
+     }
+
+    ThisThread::sleep_for(50ms);
+  }
+}

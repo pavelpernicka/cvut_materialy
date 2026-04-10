@@ -1,0 +1,22 @@
+Poznámka k sekvencím do ESP term, v návodu týden LPE_7 na str.9 dole 
+
+
+je uvedeno
+Tip na „escape“ sekvence kterými můžete upravovat grafický vzhled ESPTermu (jejich zasláním přes UART do modulu),
+popsáno v jeho helpu (Quick Reference):
+"\e]27;2;5\n\e\\" změní počet tlačítek na 5
+"\e]28;5;off\n\e\\" změní text na tlačítku 5 na "off"
+"\e]30;3;#FD0007\n\e\\" změní barvu tlačítka 3 na červenou
+
+xxxxxxxxxxxxxxxxxx
+
+
+funkční ale je:
+
+
+
+Tip na „escape“ sekvence kterými můžete upravovat grafický vzhled ESPTermu (jejich zasláním přes UART do modulu),
+popsáno v jeho helpu (Quick Reference):
+"\e]27;2;5\a" změní počet tlačítek na 5
+"\e]28;5;off\a" změní text na tlačítku 5 na "off"
+"\e]30;3;#FD0007\a" změní barvu tlačítka 3 na červenou
