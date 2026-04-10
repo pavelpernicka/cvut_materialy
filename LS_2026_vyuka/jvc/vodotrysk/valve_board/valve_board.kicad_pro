@@ -1,0 +1,747 @@
+{
+  "board": {
+    "3dviewports": [],
+    "design_settings": {
+      "defaults": {},
+      "diff_pair_dimensions": [],
+      "drc_exclusions": [],
+      "rules": {},
+      "track_widths": [],
+      "via_dimensions": []
+    },
+    "ipc2581": {
+      "dist": "",
+      "distpn": "",
+      "internal_id": "",
+      "mfg": "",
+      "mpn": ""
+    },
+    "layer_pairs": [],
+    "layer_presets": [],
+    "viewports": []
+  },
+  "boards": [],
+  "cvpcb": {
+    "equivalence_files": []
+  },
+  "erc": {
+    "erc_exclusions": [],
+    "meta": {
+      "version": 0
+    },
+    "pin_map": [
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        2
+      ],
+      [
+        0,
+        2,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0,
+        2,
+        2,
+        2,
+        2
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        2
+      ],
+      [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        2,
+        1,
+        1,
+        2
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        2
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2
+      ],
+      [
+        1,
+        1,
+        1,
+        1,
+        1,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2
+      ],
+      [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        2
+      ],
+      [
+        0,
+        2,
+        1,
+        2,
+        0,
+        0,
+        1,
+        0,
+        2,
+        2,
+        2,
+        2
+      ],
+      [
+        0,
+        2,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0,
+        2,
+        0,
+        0,
+        2
+      ],
+      [
+        0,
+        2,
+        1,
+        1,
+        0,
+        0,
+        1,
+        0,
+        2,
+        0,
+        0,
+        2
+      ],
+      [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ]
+    ],
+    "rule_severities": {
+      "bus_definition_conflict": "error",
+      "bus_entry_needed": "error",
+      "bus_to_bus_conflict": "error",
+      "bus_to_net_conflict": "error",
+      "different_unit_footprint": "error",
+      "different_unit_net": "error",
+      "duplicate_reference": "error",
+      "duplicate_sheet_names": "error",
+      "endpoint_off_grid": "warning",
+      "extra_units": "error",
+      "footprint_filter": "ignore",
+      "footprint_link_issues": "warning",
+      "four_way_junction": "ignore",
+      "global_label_dangling": "warning",
+      "hier_label_mismatch": "error",
+      "label_dangling": "error",
+      "label_multiple_wires": "warning",
+      "lib_symbol_issues": "warning",
+      "lib_symbol_mismatch": "warning",
+      "missing_bidi_pin": "warning",
+      "missing_input_pin": "warning",
+      "missing_power_pin": "error",
+      "missing_unit": "warning",
+      "multiple_net_names": "warning",
+      "net_not_bus_member": "warning",
+      "no_connect_connected": "warning",
+      "no_connect_dangling": "warning",
+      "pin_not_connected": "error",
+      "pin_not_driven": "error",
+      "pin_to_pin": "warning",
+      "power_pin_not_driven": "error",
+      "same_local_global_label": "warning",
+      "similar_label_and_power": "warning",
+      "similar_labels": "warning",
+      "similar_power": "warning",
+      "simulation_model_issue": "ignore",
+      "single_global_label": "ignore",
+      "unannotated": "error",
+      "unconnected_wire_endpoint": "warning",
+      "unit_value_mismatch": "error",
+      "unresolved_variable": "error",
+      "wire_dangling": "error"
+    }
+  },
+  "libraries": {
+    "pinned_footprint_libs": [],
+    "pinned_symbol_libs": []
+  },
+  "meta": {
+    "filename": "valve_board.kicad_pro",
+    "version": 3
+  },
+  "net_settings": {
+    "classes": [
+      {
+        "bus_width": 12,
+        "clearance": 0.2,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "Default",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 2147483647,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.2,
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
+        "wire_width": 6
+      }
+    ],
+    "meta": {
+      "version": 4
+    },
+    "net_colors": null,
+    "netclass_assignments": null,
+    "netclass_patterns": []
+  },
+  "pcbnew": {
+    "last_paths": {
+      "gencad": "",
+      "idf": "",
+      "netlist": "",
+      "plot": "",
+      "pos_files": "",
+      "specctra_dsn": "",
+      "step": "",
+      "svg": "",
+      "vrml": ""
+    },
+    "page_layout_descr_file": ""
+  },
+  "schematic": {
+    "annotate_start_num": 0,
+    "bom_export_filename": "${PROJECTNAME}.csv",
+    "bom_fmt_presets": [],
+    "bom_fmt_settings": {
+      "field_delimiter": ",",
+      "keep_line_breaks": false,
+      "keep_tabs": false,
+      "name": "CSV",
+      "ref_delimiter": ",",
+      "ref_range_delimiter": "",
+      "string_delimiter": "\""
+    },
+    "bom_presets": [],
+    "bom_settings": {
+      "exclude_dnp": false,
+      "fields_ordered": [
+        {
+          "group_by": false,
+          "label": "Reference",
+          "name": "Reference",
+          "show": true
+        },
+        {
+          "group_by": false,
+          "label": "Qty",
+          "name": "${QUANTITY}",
+          "show": true
+        },
+        {
+          "group_by": true,
+          "label": "Value",
+          "name": "Value",
+          "show": true
+        },
+        {
+          "group_by": true,
+          "label": "DNP",
+          "name": "${DNP}",
+          "show": true
+        },
+        {
+          "group_by": true,
+          "label": "Exclude from BOM",
+          "name": "${EXCLUDE_FROM_BOM}",
+          "show": true
+        },
+        {
+          "group_by": true,
+          "label": "Exclude from Board",
+          "name": "${EXCLUDE_FROM_BOARD}",
+          "show": true
+        },
+        {
+          "group_by": true,
+          "label": "Footprint",
+          "name": "Footprint",
+          "show": true
+        },
+        {
+          "group_by": false,
+          "label": "Datasheet",
+          "name": "Datasheet",
+          "show": true
+        },
+        {
+          "group_by": false,
+          "label": "Sim.Pins",
+          "name": "Sim.Pins",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Description",
+          "name": "Description",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "#",
+          "name": "${ITEM_NUMBER}",
+          "show": false
+        }
+      ],
+      "filter_string": "",
+      "group_symbols": true,
+      "include_excluded_from_bom": true,
+      "name": "",
+      "sort_asc": true,
+      "sort_field": "Reference"
+    },
+    "connection_grid_size": 50.0,
+    "drawing": {
+      "dashed_lines_dash_length_ratio": 12.0,
+      "dashed_lines_gap_length_ratio": 3.0,
+      "default_line_thickness": 6.0,
+      "default_text_size": 50.0,
+      "field_names": [],
+      "intersheets_ref_own_page": false,
+      "intersheets_ref_prefix": "",
+      "intersheets_ref_short": false,
+      "intersheets_ref_show": false,
+      "intersheets_ref_suffix": "",
+      "junction_size_choice": 3,
+      "label_size_ratio": 0.375,
+      "operating_point_overlay_i_precision": 3,
+      "operating_point_overlay_i_range": "~A",
+      "operating_point_overlay_v_precision": 3,
+      "operating_point_overlay_v_range": "~V",
+      "overbar_offset_ratio": 1.23,
+      "pin_symbol_size": 25.0,
+      "text_offset_ratio": 0.15
+    },
+    "legacy_lib_dir": "",
+    "legacy_lib_list": [],
+    "meta": {
+      "version": 1
+    },
+    "net_format_name": "",
+    "page_layout_descr_file": "",
+    "plot_directory": "",
+    "space_save_all_events": true,
+    "spice_current_sheet_as_root": false,
+    "spice_external_command": "spice \"%I\"",
+    "spice_model_current_sheet_as_root": true,
+    "spice_save_all_currents": false,
+    "spice_save_all_dissipations": false,
+    "spice_save_all_voltages": false,
+    "subpart_first_id": 65,
+    "subpart_id_separator": 0
+  },
+  "sheets": [
+    [
+      "b6a4013b-906f-4769-b3cd-16e1f745b02e",
+      "Root"
+    ],
+    [
+      "b1ef5e6c-a415-4b69-ae82-e312c8935aaa",
+      "shift_registers"
+    ],
+    [
+      "51ff89e6-98fa-4828-88f1-729cb8bb9273",
+      "mosfet_73"
+    ],
+    [
+      "3953ac6b-957a-46c0-a86e-e8b88cfd9105",
+      "mosfet_74"
+    ],
+    [
+      "9509d1ca-3285-43d3-8d4a-2c70803f6348",
+      "mosfet_75"
+    ],
+    [
+      "5ba76ff2-85a0-4a46-bd1c-4ec5d6153719",
+      "mosfet_76"
+    ],
+    [
+      "fb65858c-c543-4cdb-a9d6-0c9e95c6faf6",
+      "valve_switch"
+    ],
+    [
+      "c906beb1-fd0e-499b-b132-cdfc1bf3a5ee",
+      "mosfet_1"
+    ],
+    [
+      "dbd85c0d-eea4-4725-afc6-ccc55bbceea7",
+      "mosfet_31"
+    ],
+    [
+      "e11121c1-184c-4a16-95eb-5ff864461fba",
+      "mosfet_61"
+    ],
+    [
+      "a088bf38-b3a2-4b8b-ac9b-41f17d132f53",
+      "mosfet_2"
+    ],
+    [
+      "ac15bfc1-c686-42b3-93aa-17083d5415c5",
+      "mosfet_32"
+    ],
+    [
+      "d7d2dc84-5b65-4393-bf8d-d39a416a7ad2",
+      "mosfet_62"
+    ],
+    [
+      "cbaa554c-7e18-4703-8676-8209e1c2b346",
+      "mosfet_3"
+    ],
+    [
+      "2ad44b9d-7a53-4dc2-821b-212ee781179a",
+      "mosfet_33"
+    ],
+    [
+      "26fdd612-a612-4fa8-a538-1abf03d6e988",
+      "mosfet_63"
+    ],
+    [
+      "7af58b8a-c92e-4531-b9d9-def151a2f607",
+      "mosfet_4"
+    ],
+    [
+      "67b09275-895e-4ddc-b4d5-5db217f241a6",
+      "mosfet_34"
+    ],
+    [
+      "ed942ff0-effb-4077-962b-4030b753ae0a",
+      "mosfet_64"
+    ],
+    [
+      "c052031b-75b4-4dd2-881b-69d805a46553",
+      "mosfet_5"
+    ],
+    [
+      "33c0d774-d9ac-4601-9b34-2370bb2c3625",
+      "mosfet_35"
+    ],
+    [
+      "29eb5024-b6de-41c7-a6d5-48ef00a522e5",
+      "mosfet_65"
+    ],
+    [
+      "83c53487-ae2d-4560-af3a-0701cd32a046",
+      "mosfet_6"
+    ],
+    [
+      "dde1a657-df58-4a0c-a87f-4d4807e9f650",
+      "mosfet_36"
+    ],
+    [
+      "101df93b-abe2-4754-a832-542ef8290031",
+      "mosfet_66"
+    ],
+    [
+      "5afbad74-ac4d-4ffa-9b23-6c66f1195cb3",
+      "mosfet_7"
+    ],
+    [
+      "175c385e-0f09-4350-98d0-fdd4e95af64d",
+      "mosfet_37"
+    ],
+    [
+      "cb787599-f1ec-46b5-a074-d42a771a67d7",
+      "mosfet_67"
+    ],
+    [
+      "1428e752-5371-45e7-8ca0-1d407333b5e9",
+      "mosfet_8"
+    ],
+    [
+      "e4dfd32b-efcf-41eb-98b4-b93bc66200f6",
+      "mosfet_38"
+    ],
+    [
+      "1447f345-e149-4e36-bb18-8d1256faad6e",
+      "mosfet_68"
+    ],
+    [
+      "667c7540-b685-44a0-9900-cf25c2e1a14e",
+      "mosfet_9"
+    ],
+    [
+      "1d430d46-7de3-49a8-8702-54b09d8036f3",
+      "mosfet_39"
+    ],
+    [
+      "3f8277bc-b909-4204-8067-b10a2f4a67fe",
+      "mosfet_69"
+    ],
+    [
+      "d1c76a44-6a13-4944-9036-01dff05736c6",
+      "mosfet_10"
+    ],
+    [
+      "2eb7c735-44b2-431f-a182-b60ddd161f85",
+      "mosfet_40"
+    ],
+    [
+      "8e74481d-ceb9-41ae-ad50-9cdf2bd1af75",
+      "mosfet_70"
+    ],
+    [
+      "4c792e0b-2e18-4814-b04a-f4bbe4dad24d",
+      "mosfet_11"
+    ],
+    [
+      "31362a8a-4e93-473b-beed-049d178c72bc",
+      "mosfet_41"
+    ],
+    [
+      "4dae14a1-fb69-4ebb-b68d-703b1f3ac21b",
+      "mosfet_71"
+    ],
+    [
+      "7b73f4a3-6696-4006-9068-d9ca4f503f54",
+      "mosfet_12"
+    ],
+    [
+      "20a2dc17-1452-4307-b407-603a09c4a8c3",
+      "mosfet_42"
+    ],
+    [
+      "4e0f4254-8431-4881-abd6-b0cb3e57541d",
+      "mosfet_72"
+    ],
+    [
+      "a0375bb2-3bf9-4c64-a846-9ce9e47c23d8",
+      "mosfet_13"
+    ],
+    [
+      "3619f3d8-472b-4402-8161-e5f39cfee179",
+      "mosfet_43"
+    ],
+    [
+      "8763f062-8d4a-47a9-8641-033c0c4824d5",
+      "mosfet_14"
+    ],
+    [
+      "34f98392-d9d6-4f6e-8b16-cd46cba289cf",
+      "mosfet_44"
+    ],
+    [
+      "de9dd884-6e72-4101-bdc7-5a5ddc641e0d",
+      "mosfet_15"
+    ],
+    [
+      "6299a88d-c20e-4f78-9bf0-b7ae3761a376",
+      "mosfet_45"
+    ],
+    [
+      "2ac0d5b5-084c-4ad7-a800-b7ae356799dd",
+      "mosfet_16"
+    ],
+    [
+      "a1a28490-78ca-4baf-9bee-52a373751908",
+      "mosfet_46"
+    ],
+    [
+      "ce5a99d6-c2e9-40a7-bb0d-20ea3585788c",
+      "mosfet_17"
+    ],
+    [
+      "c5fe40fb-e0c3-4d97-b977-52e08a6f5e46",
+      "mosfet_47"
+    ],
+    [
+      "4a71e280-19c7-482a-9f5c-829bca5189d9",
+      "mosfet_18"
+    ],
+    [
+      "8b1f066e-fbc8-43bd-945f-bffec0c2b1d4",
+      "mosfet_48"
+    ],
+    [
+      "f16de24d-d94a-473e-8e8a-d095f997fe22",
+      "mosfet_19"
+    ],
+    [
+      "1bc74602-3ff2-4d5d-be14-ab9ea4ffdbf3",
+      "mosfet_49"
+    ],
+    [
+      "14a035a5-8f6a-4b00-986e-ffab47cb0365",
+      "mosfet_20"
+    ],
+    [
+      "1a8b7b6c-d3ac-44ba-be87-62248262ffb7",
+      "mosfet_50"
+    ],
+    [
+      "c6109fcf-17aa-4572-8763-02b5b4872ee1",
+      "mosfet_21"
+    ],
+    [
+      "3392276e-0e9c-4365-ae82-8a39a06616e7",
+      "mosfet_51"
+    ],
+    [
+      "18ff83f2-d4f9-4cf9-902b-1c0d28a181df",
+      "mosfet_22"
+    ],
+    [
+      "0200f9d1-79a0-465d-b2e8-ff350f70bb08",
+      "mosfet_52"
+    ],
+    [
+      "9685c29e-cd0d-416a-98c5-86d543da6b80",
+      "mosfet_23"
+    ],
+    [
+      "2bc2d786-9d59-45ad-8f6e-7009df97db37",
+      "mosfet_53"
+    ],
+    [
+      "3d3533f6-a606-4c40-844f-eeb44e77fc3a",
+      "mosfet_24"
+    ],
+    [
+      "ee1fee3b-755e-4651-97ec-fb2125e410a2",
+      "mosfet_54"
+    ],
+    [
+      "a202a94a-eb3d-4da1-a637-79d8fd12d985",
+      "mosfet_25"
+    ],
+    [
+      "27d9a21d-d993-4f42-8e2e-219815c8eb6b",
+      "mosfet_55"
+    ],
+    [
+      "530d6b0e-62f0-41ee-9733-a233e025483f",
+      "mosfet_26"
+    ],
+    [
+      "e49041f9-dce7-40a0-b75d-29d6f7c394a0",
+      "mosfet_56"
+    ],
+    [
+      "f2c94077-3962-4b4f-a349-05f7a48f25d8",
+      "mosfet_27"
+    ],
+    [
+      "f538230e-5474-4b5c-bb1f-e0cea338708f",
+      "mosfet_57"
+    ],
+    [
+      "8245978a-d265-441a-b55d-7f16b763bc07",
+      "mosfet_28"
+    ],
+    [
+      "f319379e-af2b-4817-86bc-dbc653d39469",
+      "mosfet_58"
+    ],
+    [
+      "d7972257-3e25-462f-81bd-9686c2eef179",
+      "mosfet_29"
+    ],
+    [
+      "285f7fd7-0711-4ec6-933f-b4e4c4bdb4d8",
+      "mosfet_59"
+    ],
+    [
+      "e0b9beb2-7dee-4447-83de-d1470e653fd9",
+      "mosfet_30"
+    ],
+    [
+      "b9dd33c9-8323-494d-a08c-546044e52564",
+      "mosfet_60"
+    ]
+  ],
+  "text_variables": {}
+}
