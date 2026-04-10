@@ -158,53 +158,150 @@ Změřte proud tekoucí jednofázovou zátěží následujícími přístroji/se
     \begin{itemize}
       \item Harmonický průběh proudu: efektivní hodnota (měří střední hodnotu, ale je kalibrovaný na sinusový průběh)
       \item Neharmonický průběh proudu: změří nepřesně
-      \item Přítomnost DC složky: V DC režimu ji změříme docela přesně, v AC režimu ji sice vidíme za usměrňovačem, ale viz výše.
+      \item Přítomnost DC složky: V DC režimu ji změříme docela přesně, v AC režimu ji nevidíme (kondenzátor na vstupu).
     \end{itemize}
-  \item Naměřeno: $\mathbf{I_1 = 2,448\ A}$
+  \item Naměřeno: $\mathbf{I_1 = 2{,}448\ A}$
+  \item Nejistota měření:
+  $$
+    \Delta I_1 = \pm \left(0{,}015 \cdot 2{,}448 + 0{,}003\right)
+    = \pm \left(0{,}03672 + 0{,}003\right)\ \mathrm{A}
+    = \pm 0{,}03972\ \mathrm{A}.
+  $$
+  \item Výsledek: $\mathbf{I_1 = (2{,}448 \pm 0{,}040)\ \mathrm{A}}$
 \end{itemize}
-  
+
 \subsubsection{Pomocí externího bočníku a milivoltmetru}
 \begin{itemize}
   \item Přístroj: \textbf{HP 34401A + bočník HP 34330A $1mV/A$}
   \item Odpor bočníku: $1\ m\Omega$
-  \item Přesnost voltmertu: $(\pm 0,012 \%\ + 3\ \mathrm{digity})$
+  \item Přesnost voltmetru: $(\pm 0,012 \%\ + 3\ \mathrm{digity})$
   \item Přesnost bočníku: $0,3\ \%$ do frekvence $1\ kHz$
   \item Hodnota proudu v případě:
     \begin{itemize}
       \item Harmonický průběh proudu: True RMS
-      \item Neharmonický průběh proudu: True RMS, v rámci šířky pásma přístroje
-      \item Přítomnost DC složky: V AC režimu ji nevidíme, v DC režimu ano (vstup přes kondenzátor)
+      \item Neharmonický průběh proudu: True RMS
+      \item Přítomnost DC složky: v AC režimu ne, v DC režimu ano
     \end{itemize}
-  \item Naměřeno: $\mathbf{I_2 = 2,478\ A}$
+  \item Naměřeno: $\mathbf{I_2 = 2{,}478\ A}$
+  \item Nejistota měření:
+
+  $$
+    I = \frac{U}{R_s}
+  $$
+
+  $$
+    u_C(I) = \sqrt{
+      \left( \frac{\partial I}{\partial U} \cdot u(U) \right)^2 +
+      \left( \frac{\partial I}{\partial R_s} \cdot u(R_s) \right)^2
+    }
+  $$
+
+  $$
+    \frac{\partial I}{\partial U} = \frac{1}{R_s} = \frac{1}{0{,}001} = 1000
+  $$
+
+  $$
+    \frac{\partial I}{\partial R_s} = -\frac{U}{R_s^2}
+    = -\frac{0{,}002478}{0{,}001^2}
+    = -2478
+  $$
+
+  $$
+    u(U) = 0{,}00012 \cdot 0{,}002478 + 3 \cdot 10^{-6}
+    = 0{,}000003297\ \mathrm{V}
+  $$
+
+  $$
+    u(R_s) = 0{,}003 \cdot 0{,}001 = 0{,}000003\ \Omega
+  $$
+
+  $$
+    u_C(I_2) =
+    \sqrt{(1000 \cdot 0{,}000003297)^2 + (-2478 \cdot 0{,}000003)^2}
+    \approx 0{,}0081\ \mathrm{A}
+  $$
+
+  \item Výsledek: $\mathbf{I_2 = (2{,}478 \pm 0{,}008)\ \mathrm{A}}$
 \end{itemize}
 
 \subsubsection{Proudovým transformátorem}
 \begin{itemize}
   \item Přístroj: \textbf{MXD-4660A + proud. transformátor (1:2500)}
-  \item Přesnost voltmertu: $(\pm 0,5 \%\ + 10\ \mathrm{digit})$
+  \item Přesnost voltmetru: $(\pm 0,5 \%\ + 10\ \mathrm{digit})$
   \item Rezistor na sekundáru: $10\ \Omega, 0,1\ \%$
-  \item Přesnost obecně: něco kolem $5\ \%$ (na základě srovnání s jinými trans. měřiči)
   \item Hodnota proudu v případě:
     \begin{itemize}
       \item Harmonický průběh proudu: efektivní hodnota
-      \item Neharmonický průběh proudu: efektivní hodnota, ale záleží na frekvenčních složkách signálu, může to být nepřesné
-      \item Přítomnost DC složky: Nevidíme, je to transformátor
+      \item Neharmonický průběh proudu: závisí na spektru
+      \item Přítomnost DC složky: neměříme
     \end{itemize}
-  \item Naměřeno: $U_3 = 9,78\ mV \Rightarrow \mathbf{I_3 = 2,445\ A}$
+  \item Naměřeno: $U_3 = 9{,}78\ \mathrm{mV} \Rightarrow \mathbf{I_3 = 2{,}445\ \mathrm{A}}$
+  \item Nejistota měření:
+
+  $$
+    I = \frac{nU}{R}
+  $$
+
+  $$
+    u_C(I) = \sqrt{
+      \left( \frac{\partial I}{\partial U} \cdot u(U) \right)^2 +
+      \left( \frac{\partial I}{\partial R} \cdot u(R) \right)^2
+    }
+  $$
+
+  $$
+    \frac{\partial I}{\partial U} = \frac{n}{R} = \frac{2500}{10} = 250\
+  $$
+
+  $$
+    \frac{\partial I}{\partial R} = -\frac{nU}{R^2}
+    = -\frac{2500 \cdot 0{,}00978}{10^2}
+    = -0{,}2445
+  $$
+
+  $$
+    u(U) = 0{,}005 \cdot 0{,}00978 + 10 \cdot 0{,}00001
+    = 0{,}0001489\ \mathrm{V}
+  $$
+
+  $$
+    u(R) = 0{,}001 \cdot 10 = 0{,}01\ \Omega
+  $$
+
+  $$
+    u_C(I_3) =
+    \sqrt{(250 \cdot 0{,}0001489)^2 + (-0{,}2445 \cdot 0{,}01)^2}
+    \approx 0{,}037\ \mathrm{A}
+  $$
+
+  \item Výsledek: $\mathbf{I_3 = (2{,}445 \pm 0{,}037)\ \mathrm{A}}$
 \end{itemize}
 
 \subsubsection{Klešťovým ampérmetrem – wattmetrem}
 \begin{itemize}
   \item Přístroj: \textbf{Parkside HG06985A}
-  \item Odpor přístroje: \textbf{velký (transformátor)}
+  \item Odpor přístroje: desítky ohmů (nevidíme vnitřní realizaci přístroje)
   \item Přesnost: $(\pm 4 \%\ + 15\ \mathrm{digity})$
   \item Hodnota proudu v případě:
     \begin{itemize}
       \item Harmonický průběh proudu: True RMS
-      \item Neharmonický průběh proudu: opět záleží na frekvenčních složkách
-      \item Přítomnost DC složky: Nevidíme, je to transformátor
+      \item Neharmonický průběh proudu: závisí na spektru
+      \item Přítomnost DC složky: neměříme
     \end{itemize}
-  \item Naměřeno: $I_3 = 7,30\ A$ (3 závity) $\Rightarrow \mathbf{I_4 = 2,43\ A}$
+  \item Naměřeno: $I_m = 7{,}30\ \mathrm{A}$ (3 závity) $\Rightarrow \mathbf{I_4 = 2{,}43\ \mathrm{A}}$
+  \item Nejistota měření:
+
+  $$
+    \Delta I_m = \pm(0{,}04 \cdot 7{,}30 + 15 \cdot 0{,}01)
+    = \pm(0{,}292 + 0{,}15)
+    = \pm 0{,}442\ \mathrm{A}
+  $$
+
+  $$
+    \Delta I_4 = \frac{0{,}442}{3} \approx 0{,}147\ \mathrm{A}
+  $$
+
+  \item Výsledek: $\mathbf{I_4 = (2{,}43 \pm 0{,}15)\ \mathrm{A}}$
 \end{itemize}
 
 \subsubsection{Pomocí proudových kleští a osciloskopu}
