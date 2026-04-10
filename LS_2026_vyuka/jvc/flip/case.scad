@@ -1,3 +1,5 @@
+include <flip_main.scad>
+
 module hrana_x(delka, n_zubu, posun_y, kerf = 0) {
     if (n_zubu > 0) {
         krok = delka / (1 + 2 * n_zubu);
@@ -40,96 +42,15 @@ module hrana_y(delka, n_zubu, posun_x, kerf = 0) {
     }
 }
 
-module tvar(velikost, typ) {
-    if (typ == "ctverec") {
-        square([velikost, velikost], center = true);
-    }
-
-    if (typ == "trojuhelnik") {
-        polovina = velikost / 2;
-        vyska = sqrt(3) / 2 * velikost;
-        polygon(points = [
-            [ 0,        vyska / 2 ],
-            [ -polovina, -vyska / 2],
-            [  polovina, -vyska / 2]
-        ]);
-    }
-
-    if (typ == "kruh") {
-        circle(r = velikost / 2, $fn = 50);
-    }
-
-    if (typ == "hvezda") {
-        r1 = velikost / 2;
-        r2 = velikost / 4;
-        polygon(
-            points = [
-                for (i = [0 : 9])
-                    let(uhel = i * 36,r = (i % 2 == 0) ? r1 : r2)
-                    [ r * cos(uhel), r * sin(uhel) ]
-            ]
-        );
-    }
-
-    if (typ == "srdce") {
-        r = velikost / 4;
-        posun = r;
-        union() {
-            translate([-posun, 0]) circle(r = r, $fn = 40);
-            translate([ posun, 0]) circle(r = r, $fn = 40);
-            polygon(points = [
-                [-2 * r, 0],
-                [ 2 * r, 0],
-                [ 0, -2.8 * r]
-            ]);
-        }
-    }
-
-    if (typ == "kosoctverec") {
-        sirka  = velikost * 0.6;
-        vyska  = velikost * 1.3;
-        sirka_pul = sirka / 2;
-        vyska_pul = vyska / 2;
-        sirka_carky = velikost / 8;
-        vyska_carky = velikost * 0.7;
-
-        difference() {
-            polygon(points = [
-                [ 0,         vyska_pul],
-                [ sirka_pul, 0        ],
-                [ 0,        -vyska_pul],
-                [-sirka_pul, 0        ]
-            ]);
-            square([sirka_carky, vyska_carky], center = true);
-        }
-    }
-}
-
-
-module tvar_3d(sx, sy, typ) {
-    velikost = min(sx, sy) / 3;
-    translate([sx / 2, sy / 2, 0])
-        linear_extrude(height = tloustka + 0.2)
-            tvar(velikost, typ);
-}
-
 module strana(
     sx,
     sy,
     n_zubu_podel_x,
     n_zubu_podel_y,
-    typ_tvaru = "none",
     kerf = 0
 ) {
     union() {
-        if (typ_tvaru == "none") {
-            cube([sx, sy, tloustka]);
-        } else {
-            difference() {
-                cube([sx, sy, tloustka]);
-                tvar_3d(sx, sy, typ_tvaru);
-            }
-        }
+        cube([sx, sy, tloustka]);
 
         hrana_x(sx, n_zubu_podel_x, -tloustka, kerf);
         hrana_x(sx, n_zubu_podel_x, sy,        kerf);
@@ -142,7 +63,7 @@ module strana(
 function random_color() =
     concat(
         rands(0,1,3, floor(rands(0,1000000,1)[0])),
-        [0.8]
+        [0.4]
     );
 
 module krabicka_slozena(
@@ -160,14 +81,14 @@ module krabicka_slozena(
     color(random_color())
         strana(size_x, size_y,
                n_zubu_x, n_zubu_y,
-               "ctverec", kerf);
+               kerf);
 
     // XY vršek
     color(random_color())
     translate([0, 0, size_z_vika])
         strana(size_x, size_y,
                n_zubu_x, n_zubu_y,
-               "kruh", kerf);
+               kerf);
 
     // XZ předek
     color(random_color())
@@ -175,7 +96,7 @@ module krabicka_slozena(
         rotate([-90, 0, 0])
             strana(size_x, size_z,
                    -n_zubu_x, n_zubu_z,
-                   "trojuhelnik", kerf);
+                   kerf);
 
     // XZ zadek
     color(random_color())
@@ -183,7 +104,7 @@ module krabicka_slozena(
         rotate([-90, 0, 0])
             strana(size_x, size_z,
                    -n_zubu_x, n_zubu_z,
-                   "hvezda", kerf);
+                   kerf);
 
     // ZY levý
     color(random_color())
@@ -191,7 +112,7 @@ module krabicka_slozena(
         rotate([0, -90, 0])
             strana(size_z, size_y,
                    -n_zubu_z, -n_zubu_y,
-                   "srdce", kerf);
+                   kerf);
 
     // ZY pravý
     color(random_color())
@@ -199,7 +120,7 @@ module krabicka_slozena(
         rotate([0, -90, 0])
             strana(size_z, size_y,
                    -n_zubu_z, -n_zubu_y,
-                   "kosoctverec", kerf);
+                   kerf);
 }
 
 module krabicka_rozlozena(
@@ -221,31 +142,31 @@ module krabicka_rozlozena(
         translate([0, 0, -tloustka/2])
             strana(size_x, size_y,
                    n_zubu_x, n_zubu_y,
-                   "ctverec", kerf);
+                   kerf);
 
         // XY vršek
         translate([dx, 0, -tloustka/2])
             strana(size_x, size_y,
                    n_zubu_x, n_zubu_y,
-                   "kruh", kerf);
+                   kerf);
 
         // XZ předek
         translate([0, size_y + tloustka + offset, -tloustka/2])
             strana(size_x, size_z,
                    -n_zubu_x, n_zubu_z,
-                   "trojuhelnik", kerf);
+                   kerf);
 
         // XZ zadek
         translate([dx, size_y + tloustka + offset, -tloustka/2])
             strana(size_x, size_z,
                    -n_zubu_x, n_zubu_z,
-                   "hvezda", kerf);
+                   kerf);
 
         // ZY levý
         translate([-size_z - tloustka - offset, 0, -tloustka/2])
             strana(size_z, size_y,
                    -n_zubu_z, -n_zubu_y,
-                   "srdce", kerf);
+                   kerf);
 
         // ZY pravý
         translate([-size_z - tloustka - offset,
@@ -253,20 +174,22 @@ module krabicka_rozlozena(
                    -tloustka/2])
             strana(size_z, size_y,
                    -n_zubu_z, -n_zubu_y,
-                   "kosoctverec", kerf);
+                   kerf);
     }
 }
 
-size_x   = 100;
-size_y   = 100;
-size_z   = 100;
+tloustka = 4;
+odsazeni = 4;
+size_x   = 80;
+size_y   = 130;
+size_z   = wheel_height+(2*tloustka)+(odsazeni*2);
 n_zubu_x = 4;
 n_zubu_y = 4;
 n_zubu_z = 4;
-tloustka = 4;
-kerf = 0.5;
+kerf = 1;
 
-krabicka_rozlozena (
+translate([50,65,tloustka+odsazeni]) all();
+krabicka_slozena(
     size_x,
     size_y,
     size_z,
