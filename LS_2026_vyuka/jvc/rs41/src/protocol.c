@@ -2,183 +2,109 @@
 
 #include <stdbool.h>
 #include <stddef.h>
+#include <stdint.h>
+
+#include "crc16.h"
 
 enum {
-    AX25_FLAG = 0x7E,
-    AX25_CONTROL_UI = 0x03,
-    AX25_PID_NO_LAYER3 = 0xF0,
+    TELEMETRY_MAGIC_0 = 'R',
+    TELEMETRY_MAGIC_1 = 'S',
+    TELEMETRY_HEADER_BYTES = 12U,
+    TELEMETRY_CRC_OFFSET = TELEMETRY_PACKET_BYTES - 2U,
+    TLV_BOARD_STATUS = 0x01U,
+    TLV_GPS_POSITION = 0x02U,
+    TLV_GPS_MOTION = 0x03U,
+    FLAG_GPS_POSITION_VALID = 1U << 0,
+    FLAG_GPS_ALTITUDE_VALID = 1U << 1,
+    FLAG_GPS_SPEED_VALID = 1U << 2,
 };
 
-static uint16_t crc16_x25(const uint8_t *data, size_t length) {
-    uint16_t crc = 0xFFFFU;
+static uint16_t g_sequence;
 
-    for (size_t i = 0; i < length; ++i) {
-        crc ^= data[i];
-        for (uint8_t bit = 0; bit < 8U; ++bit) {
-            if ((crc & 0x0001U) != 0U) {
-                crc = (uint16_t) ((crc >> 1U) ^ 0x8408U);
-            } else {
-                crc >>= 1U;
-            }
-        }
+static uint8_t whiten_byte(uint16_t *lfsr) {
+    uint8_t mask = 0U;
+
+    for (uint8_t bit = 0U; bit < 8U; ++bit) {
+        uint16_t feedback = (uint16_t) (((*lfsr >> 0U) ^ (*lfsr >> 5U)) & 0x01U);
+        mask |= (uint8_t) (((*lfsr & 0x01U) != 0U ? 1U : 0U) << bit);
+        *lfsr = (uint16_t) ((*lfsr >> 1U) | (feedback << 8U));
     }
 
-    return (uint16_t) ~crc;
+    return mask;
 }
 
-static void append_char(char *buffer, size_t *pos, char ch) {
-    if (*pos < AX25_MAX_INFO_BYTES) {
-        buffer[*pos] = ch;
-    }
-    *pos += 1U;
-}
+static void whiten_packet(uint8_t *packet) {
+    uint16_t lfsr = 0x01FFU;
 
-static void append_text(char *buffer, size_t *pos, const char *text) {
-    while (*text != '\0') {
-        append_char(buffer, pos, *text++);
+    for (size_t i = 2U; i < TELEMETRY_PACKET_BYTES; ++i) {
+        packet[i] ^= whiten_byte(&lfsr);
     }
 }
 
-static void append_uint_padded(char *buffer, size_t *pos, uint32_t value, uint8_t width) {
-    char digits[10];
-
-    for (uint8_t i = 0U; i < width; ++i) {
-        digits[width - 1U - i] = (char) ('0' + (value % 10U));
-        value /= 10U;
-    }
-
-    for (uint8_t i = 0U; i < width; ++i) {
-        append_char(buffer, pos, digits[i]);
-    }
+static void write_u16_le(uint8_t *dest, uint16_t value) {
+    dest[0] = (uint8_t) (value & 0xFFU);
+    dest[1] = (uint8_t) (value >> 8U);
 }
 
-static void append_signed_two_digits(char *buffer, size_t *pos, int16_t value) {
-    if (value < 0) {
-        append_char(buffer, pos, '-');
-        append_uint_padded(buffer, pos, (uint32_t) (-value), 2U);
-    } else {
-        append_char(buffer, pos, '+');
-        append_uint_padded(buffer, pos, (uint32_t) value, 2U);
-    }
+static void write_s16_le(uint8_t *dest, int16_t value) {
+    write_u16_le(dest, (uint16_t) value);
 }
 
-static void encode_address_field(uint8_t *dest, const char *callsign, uint8_t ssid, bool last) {
-    uint8_t index = 0U;
-
-    while (callsign[index] != '\0' && index < 6U) {
-        dest[index] = (uint8_t) (callsign[index] << 1U);
-        index++;
-    }
-
-    while (index < 6U) {
-        dest[index++] = (uint8_t) (' ' << 1U);
-    }
-
-    dest[6] = (uint8_t) (0x60U | ((ssid & 0x0FU) << 1U) | (last ? 0x01U : 0x00U));
+static void write_u32_le(uint8_t *dest, uint32_t value) {
+    dest[0] = (uint8_t) (value & 0xFFU);
+    dest[1] = (uint8_t) ((value >> 8U) & 0xFFU);
+    dest[2] = (uint8_t) ((value >> 16U) & 0xFFU);
+    dest[3] = (uint8_t) ((value >> 24U) & 0xFFU);
 }
 
-static void format_aprs_coordinate(char *dest, uint8_t degree_width, int32_t value_e7, char positive_hemisphere, char negative_hemisphere) {
-    uint32_t absolute_value = (value_e7 < 0) ? (uint32_t) (-(int64_t) value_e7) : (uint32_t) value_e7;
-    uint32_t degrees = absolute_value / 10000000U;
-    uint32_t fraction = absolute_value % 10000000U;
-    uint32_t minutes_x100 = (uint32_t) (((uint64_t) fraction * 6000U + 5000000U) / 10000000U);
-    uint32_t minutes_whole;
-    uint32_t minutes_frac;
-    size_t pos = 0U;
-
-    if (minutes_x100 >= 6000U) {
-        degrees += 1U;
-        minutes_x100 -= 6000U;
-    }
-
-    minutes_whole = minutes_x100 / 100U;
-    minutes_frac = minutes_x100 % 100U;
-
-    append_uint_padded(dest, &pos, degrees, degree_width);
-    append_uint_padded(dest, &pos, minutes_whole, 2U);
-    append_char(dest, &pos, '.');
-    append_uint_padded(dest, &pos, minutes_frac, 2U);
-    append_char(dest, &pos, (value_e7 < 0) ? negative_hemisphere : positive_hemisphere);
+static void write_s32_le(uint8_t *dest, int32_t value) {
+    write_u32_le(dest, (uint32_t) value);
 }
 
-static uint32_t altitude_feet_from_cm(int32_t altitude_cm) {
-    if (altitude_cm <= 0) {
-        return 0U;
+static bool append_tlv_header(uint8_t *packet, size_t *payload_pos, uint8_t type, uint8_t length) {
+    if ((*payload_pos + 2U + length) > TELEMETRY_CRC_OFFSET) {
+        return false;
     }
 
-    return (uint32_t) (((int64_t) altitude_cm * 125U + 1905U) / 3810U);
+    packet[(*payload_pos)++] = type;
+    packet[(*payload_pos)++] = length;
+    return true;
 }
 
-static uint16_t speed_knots_from_cms(uint16_t speed_cms) {
-    return (uint16_t) (((uint32_t) speed_cms * 3600U + 92600U) / 185200U);
+static void append_board_status(uint8_t *packet, size_t *payload_pos, uint16_t battery_mv, int16_t mcu_temp_centi) {
+    if (!append_tlv_header(packet, payload_pos, TLV_BOARD_STATUS, 4U)) {
+        return;
+    }
+
+    write_u16_le(packet + *payload_pos, battery_mv);
+    *payload_pos += 2U;
+    write_s16_le(packet + *payload_pos, mcu_temp_centi);
+    *payload_pos += 2U;
 }
 
-static size_t build_position_info(char *info, const gps_fix_t *fix, uint16_t battery_mv, int16_t mcu_temp_centi) {
-    char latitude[8];
-    char longitude[9];
-    size_t pos = 0U;
-    uint32_t altitude_ft = altitude_feet_from_cm(fix->altitude_cm);
-    uint16_t speed_knots = speed_knots_from_cms(fix->speed_cms);
-    int16_t temp_c = (int16_t) (mcu_temp_centi / 100);
-
-    if (altitude_ft > 999999U) {
-        altitude_ft = 999999U;
-    }
-    if (speed_knots > 999U) {
-        speed_knots = 999U;
-    }
-    if (temp_c > 99) {
-        temp_c = 99;
-    } else if (temp_c < -99) {
-        temp_c = -99;
+static void append_gps_position(uint8_t *packet, size_t *payload_pos, const gps_fix_t *fix) {
+    if (!append_tlv_header(packet, payload_pos, TLV_GPS_POSITION, 12U)) {
+        return;
     }
 
-    format_aprs_coordinate(latitude, 2U, fix->latitude_e7, 'N', 'S');
-    format_aprs_coordinate(longitude, 3U, fix->longitude_e7, 'E', 'W');
-
-    append_char(info, &pos, '!');
-    for (size_t i = 0U; i < sizeof(latitude); ++i) {
-        append_char(info, &pos, latitude[i]);
-    }
-    append_char(info, &pos, '/');
-    for (size_t i = 0U; i < sizeof(longitude); ++i) {
-        append_char(info, &pos, longitude[i]);
-    }
-    append_char(info, &pos, 'O');
-    append_text(info, &pos, "000/");
-    append_uint_padded(info, &pos, speed_knots, 3U);
-    append_text(info, &pos, "/A=");
-    append_uint_padded(info, &pos, altitude_ft, 6U);
-    append_char(info, &pos, 'V');
-    append_uint_padded(info, &pos, battery_mv, 4U);
-    append_char(info, &pos, 'T');
-    append_signed_two_digits(info, &pos, temp_c);
-
-    return (pos <= AX25_MAX_INFO_BYTES) ? pos : AX25_MAX_INFO_BYTES;
+    write_s32_le(packet + *payload_pos, fix->latitude_e7);
+    *payload_pos += 4U;
+    write_s32_le(packet + *payload_pos, fix->longitude_e7);
+    *payload_pos += 4U;
+    write_s32_le(packet + *payload_pos, fix->altitude_cm);
+    *payload_pos += 4U;
 }
 
-static size_t build_status_info(char *info, uint32_t uptime_ms, const gps_fix_t *fix, uint16_t battery_mv, int16_t mcu_temp_centi) {
-    size_t pos = 0U;
-    uint32_t uptime_s = uptime_ms / 1000U;
-    int16_t temp_c = (int16_t) (mcu_temp_centi / 100);
+static void append_gps_motion(uint8_t *packet, size_t *payload_pos, const gps_fix_t *fix) {
+    uint16_t speed_cms = ((fix->flags & GPS_FLAG_SPEED_VALID) != 0U) ? fix->speed_cms : 0U;
 
-    if (temp_c > 99) {
-        temp_c = 99;
-    } else if (temp_c < -99) {
-        temp_c = -99;
+    if (!append_tlv_header(packet, payload_pos, TLV_GPS_MOTION, 3U)) {
+        return;
     }
 
-    append_text(info, &pos, ">NOFIX ");
-    append_char(info, &pos, 'V');
-    append_uint_padded(info, &pos, battery_mv, 4U);
-    append_text(info, &pos, " T");
-    append_signed_two_digits(info, &pos, temp_c);
-    append_text(info, &pos, " U");
-    append_uint_padded(info, &pos, uptime_s % 100000000U, 8U);
-    append_text(info, &pos, " Q");
-    append_uint_padded(info, &pos, fix->satellites, 2U);
-
-    return (pos <= AX25_MAX_INFO_BYTES) ? pos : AX25_MAX_INFO_BYTES;
+    write_u16_le(packet + *payload_pos, speed_cms);
+    *payload_pos += 2U;
+    packet[(*payload_pos)++] = fix->satellites;
 }
 
 size_t protocol_build_packet(uint8_t *packet,
@@ -186,37 +112,44 @@ size_t protocol_build_packet(uint8_t *packet,
                              const gps_fix_t *fix,
                              uint16_t battery_mv,
                              int16_t mcu_temp_centi) {
-    char info[AX25_MAX_INFO_BYTES];
-    size_t info_length;
-    size_t frame_pos = 0U;
-    uint16_t fcs;
+    uint8_t flags = 0U;
+    size_t payload_pos = TELEMETRY_HEADER_BYTES;
+    uint16_t crc;
 
-    for (size_t i = 0U; i < AX25_MAX_FRAME_BYTES; ++i) {
+    for (size_t i = 0U; i < TELEMETRY_PACKET_BYTES; ++i) {
         packet[i] = 0U;
     }
 
-    packet[frame_pos++] = AX25_FLAG;
-    encode_address_field(packet + frame_pos, AX25_DEST_CALLSIGN, AX25_DEST_SSID, false);
-    frame_pos += 7U;
-    encode_address_field(packet + frame_pos, AX25_SOURCE_CALLSIGN, AX25_SOURCE_SSID, true);
-    frame_pos += 7U;
-    packet[frame_pos++] = AX25_CONTROL_UI;
-    packet[frame_pos++] = AX25_PID_NO_LAYER3;
+    if ((fix->flags & GPS_FLAG_POSITION_VALID) != 0U) {
+        flags |= FLAG_GPS_POSITION_VALID;
+    }
+    if ((fix->flags & GPS_FLAG_ALTITUDE_VALID) != 0U) {
+        flags |= FLAG_GPS_ALTITUDE_VALID;
+    }
+    if ((fix->flags & GPS_FLAG_SPEED_VALID) != 0U) {
+        flags |= FLAG_GPS_SPEED_VALID;
+    }
+
+    packet[0] = TELEMETRY_MAGIC_0;
+    packet[1] = TELEMETRY_MAGIC_1;
+    packet[2] = TELEMETRY_PROTOCOL_VERSION;
+    packet[3] = flags;
+    write_u16_le(packet + 4U, g_sequence++);
+    write_u32_le(packet + 6U, uptime_ms);
+
+    append_board_status(packet, &payload_pos, battery_mv, mcu_temp_centi);
+    append_gps_motion(packet, &payload_pos, fix);
 
     if ((fix->flags & GPS_FLAG_POSITION_VALID) != 0U) {
-        info_length = build_position_info(info, fix, battery_mv, mcu_temp_centi);
-    } else {
-        info_length = build_status_info(info, uptime_ms, fix, battery_mv, mcu_temp_centi);
+        append_gps_position(packet, &payload_pos, fix);
     }
 
-    for (size_t i = 0U; i < info_length; ++i) {
-        packet[frame_pos++] = (uint8_t) info[i];
-    }
+    packet[10] = (uint8_t) (payload_pos - TELEMETRY_HEADER_BYTES);
+    packet[11] = 0U;
 
-    fcs = crc16_x25(packet + 1U, frame_pos - 1U);
-    packet[frame_pos++] = (uint8_t) (fcs & 0xFFU);
-    packet[frame_pos++] = (uint8_t) (fcs >> 8U);
-    packet[frame_pos++] = AX25_FLAG;
+    crc = crc16_ccitt_false(packet, TELEMETRY_CRC_OFFSET);
+    write_u16_le(packet + TELEMETRY_CRC_OFFSET, crc);
+    whiten_packet(packet);
 
-    return frame_pos;
+    return TELEMETRY_PACKET_BYTES;
 }

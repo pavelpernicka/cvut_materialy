@@ -25,7 +25,7 @@ static void startup_blink(void) {
 }
 
 int main(void) {
-    uint8_t packet[AX25_MAX_FRAME_BYTES];
+    uint8_t packet[TELEMETRY_PACKET_BYTES];
     uint32_t last_tx;
 
     platform_init();
@@ -52,7 +52,7 @@ int main(void) {
                                                   adc_read_mcu_temperature_centi());
 
             platform_led_green(true);
-            si4032_transmit_aprs(packet, packet_length);
+            si4032_transmit_packet(packet, packet_length);
             platform_led_green(false);
         }
     }

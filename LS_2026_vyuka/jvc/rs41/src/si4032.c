@@ -1,42 +1,40 @@
 #include "si4032.h"
 
-#include <stdbool.h>
 #include <stddef.h>
+#include <stdint.h>
 
 #include "board.h"
 #include "platform.h"
 #include "spi.h"
 
 enum {
-    SI4032_AX25_FLAG = 0x7E,
-    SI4032_DIRECT_FSK = 0x12,
-    SI4032_TX_DEVIATION = 0x05,
-    BELL202_MARK_HZ = 1200U,
-    BELL202_SPACE_HZ = 2200U,
-    AX25_SYMBOL_US = 833U,
-    TIM15_TICK_HZ = 1000000U,
+    SI4032_DIRECT_FSK = 0x12U,
+    MODULATION_TIMER_HZ = 1000000U,
+    BIT_PERIOD_BASE_US = 1000000U / RF_BITRATE_BPS,
+    BIT_PERIOD_REMAINDER = 1000000U % RF_BITRATE_BPS,
+    SI4032_MAX_PACKET_BYTES = 64U,
 };
 
-static void radio_select(bool select) {
-    gpio_write(GPIOC, 13U, !select);
+static void radio_select(uint8_t select) {
+    gpio_write(GPIOC, 13U, select == 0U);
 }
 
 static uint8_t read_register(uint8_t address) {
     uint8_t value;
 
-    radio_select(true);
+    radio_select(1U);
     (void) spi2_transfer((uint8_t) (address & 0x7FU));
     value = spi2_transfer(0x00U);
-    radio_select(false);
+    radio_select(0U);
 
     return value;
 }
 
 static void write_register(uint8_t address, uint8_t data) {
-    radio_select(true);
+    radio_select(1U);
     (void) spi2_transfer((uint8_t) (address | 0x80U));
     (void) spi2_transfer(data);
-    radio_select(false);
+    radio_select(0U);
 }
 
 static void clear_interrupts(void) {
@@ -52,47 +50,28 @@ static void inhibit_tx(void) {
     write_register(0x07U, 0x03U);
 }
 
-static void use_direct_mode(bool use) {
-    gpio_write(GPIOC, 13U, !use);
+static void use_direct_mode(uint8_t use) {
+    radio_select(use);
 }
 
 static void set_modulation_direct_fsk(void) {
+    write_register(0x70U, 0x20U);
     write_register(0x71U, SI4032_DIRECT_FSK);
-    write_register(0x72U, SI4032_TX_DEVIATION);
+    write_register(0x72U, RF_DEVIATION_LEVEL);
     write_register(0x73U, 0x00U);
     write_register(0x74U, 0x00U);
     write_register(0x30U, 0x00U);
 }
 
-static uint16_t pwm_period_for_tone(uint32_t tone_hz) {
-    return (uint16_t) (((TIM15_TICK_HZ + tone_hz) / (tone_hz * 2U)) - 1U);
+static void modulation_pin_write(uint8_t high) {
+    gpio_write(GPIOB, 15U, high != 0U);
 }
 
-static void pwm_timer_use(bool use) {
-    if (use) {
-        AFIO->MAPR2 |= AFIO_MAPR2_TIM15_REMAP;
-    } else {
-        AFIO->MAPR2 &= ~AFIO_MAPR2_TIM15_REMAP;
-    }
-}
-
-static void pwm_timer_set_period(uint16_t period) {
-    TIM15->ARR = period;
-}
-
-static void pwm_timer_enable_output(bool enable) {
-    if (enable) {
-        TIM15->BDTR |= TIM_BDTR_MOE;
-    } else {
-        TIM15->BDTR &= ~TIM_BDTR_MOE;
-    }
-}
-
-static void pwm_timer_init(uint16_t period) {
-    RCC->APB2ENR |= RCC_APB2ENR_AFIOEN | RCC_APB2ENR_IOPBEN | RCC_APB2ENR_TIM15EN;
+static void modulation_pin_init(void) {
+    RCC->APB2ENR |= RCC_APB2ENR_IOPBEN | RCC_APB2ENR_TIM15EN;
     SPI2->CR1 &= ~SPI_CR1_SPE;
-    pwm_timer_use(true);
-    gpio_config_output(GPIOB, 15U, GPIO_MODE_OUTPUT_50MHZ, GPIO_CNF_AF_PUSHPULL);
+    gpio_config_output(GPIOB, 15U, GPIO_MODE_OUTPUT_50MHZ, GPIO_CNF_GP_PUSHPULL);
+    modulation_pin_write(0U);
 
     TIM15->CR1 = 0x00U;
     TIM15->CR2 = 0x00U;
@@ -101,75 +80,63 @@ static void pwm_timer_init(uint16_t period) {
     TIM15->SR = 0x00U;
     TIM15->CCER = 0x00U;
     TIM15->CCMR1 = 0x00U;
-    TIM15->PSC = (SYSTEM_CORE_CLOCK_HZ / TIM15_TICK_HZ) - 1U;
-    TIM15->ARR = period;
+    TIM15->PSC = (SYSTEM_CORE_CLOCK_HZ / MODULATION_TIMER_HZ) - 1U;
+    TIM15->ARR = 0xFFFFU;
+    TIM15->CNT = 0x0000U;
     TIM15->RCR = 0x00U;
-    TIM15->CCR2 = 0x00U;
     TIM15->BDTR = 0x00U;
     TIM15->EGR = TIM_EGR_UG;
-    TIM15->CCMR1 = TIM_CCMR1_OC2FE | TIM_CCMR1_OC2M_0 | TIM_CCMR1_OC2M_1;
-    TIM15->CCER = TIM_CCER_CC2E;
-    TIM15->CR1 = TIM_CR1_ARPE | TIM_CR1_CEN;
-    pwm_timer_enable_output(true);
+    TIM15->CR1 = TIM_CR1_CEN;
 }
 
-static void pwm_timer_uninit(void) {
-    pwm_timer_enable_output(false);
+static void modulation_pin_uninit(void) {
     TIM15->CR1 = 0x00U;
-    TIM15->CCER = 0x00U;
-    gpio_config_output(GPIOB, 15U, GPIO_MODE_OUTPUT_50MHZ, GPIO_CNF_GP_PUSHPULL);
-    gpio_write(GPIOB, 15U, false);
-    pwm_timer_use(false);
     RCC->APB2ENR &= ~RCC_APB2ENR_TIM15EN;
+    modulation_pin_write(0U);
 }
 
-static void bell_emit_symbol(bool mark_tone) {
-    pwm_timer_set_period(pwm_period_for_tone(mark_tone ? BELL202_MARK_HZ : BELL202_SPACE_HZ));
-    delay_us(AX25_SYMBOL_US);
-}
+static void modulation_wait_us(uint16_t duration_us) {
+    uint16_t start = (uint16_t) TIM15->CNT;
 
-static void bell_emit_bit(bool *mark_tone, bool bit) {
-    if (!bit) {
-        *mark_tone = !*mark_tone;
-    }
-
-    bell_emit_symbol(*mark_tone);
-}
-
-static void bell_emit_byte(bool *mark_tone, uint8_t byte, bool apply_bit_stuffing, uint8_t *ones_run) {
-    for (uint8_t bit_index = 0U; bit_index < 8U; ++bit_index) {
-        bool bit = ((byte >> bit_index) & 0x01U) != 0U;
-
-        bell_emit_bit(mark_tone, bit);
-
-        if (!apply_bit_stuffing) {
-            *ones_run = 0U;
-            continue;
-        }
-
-        if (bit) {
-            *ones_run += 1U;
-            if (*ones_run >= 5U) {
-                bell_emit_bit(mark_tone, false);
-                *ones_run = 0U;
-            }
-        } else {
-            *ones_run = 0U;
-        }
+    while ((uint16_t) (TIM15->CNT - start) < duration_us) {
     }
 }
 
-static void transmit_bell202_ax25(const uint8_t *payload, size_t length) {
-    bool mark_tone = true;
-    uint8_t ones_run = 0U;
+static void transmit_bit(uint8_t bit_value, uint16_t *timing_error_accum) {
+    modulation_pin_write(bit_value);
+    modulation_wait_us(BIT_PERIOD_BASE_US);
 
-    for (uint8_t i = 0U; i < AX25_PREAMBLE_FLAGS; ++i) {
-        bell_emit_byte(&mark_tone, SI4032_AX25_FLAG, false, &ones_run);
+    *timing_error_accum = (uint16_t) (*timing_error_accum + BIT_PERIOD_REMAINDER);
+    if (*timing_error_accum >= RF_BITRATE_BPS) {
+        modulation_wait_us(1U);
+        *timing_error_accum = (uint16_t) (*timing_error_accum - RF_BITRATE_BPS);
     }
+}
+
+static void transmit_byte(uint8_t byte, uint16_t *timing_error_accum) {
+    for (uint8_t bit = 0U; bit < 8U; ++bit) {
+        transmit_bit((uint8_t) ((byte & 0x80U) != 0U), timing_error_accum);
+        byte <<= 1U;
+    }
+}
+
+static void transmit_frame(const uint8_t *payload, size_t length) {
+    uint16_t timing_error_accum = 0U;
+
+    modulation_pin_write(0U);
+
+    for (uint8_t i = 0U; i < RF_PREAMBLE_BYTES; ++i) {
+        transmit_byte(0xAAU, &timing_error_accum);
+    }
+
+    transmit_byte(RF_SYNC_WORD_0, &timing_error_accum);
+    transmit_byte(RF_SYNC_WORD_1, &timing_error_accum);
 
     for (size_t i = 0U; i < length; ++i) {
-        bell_emit_byte(&mark_tone, payload[i], payload[i] != SI4032_AX25_FLAG, &ones_run);
+        transmit_byte(payload[i], &timing_error_accum);
     }
+
+    modulation_pin_write(0U);
 }
 
 void si4032_set_frequency(float frequency_mhz) {
@@ -183,7 +150,7 @@ void si4032_set_frequency(float frequency_mhz) {
 }
 
 void si4032_set_power(uint8_t level) {
-    write_register(0x6DU, (uint8_t) (level & 0x7U));
+    write_register(0x6DU, (uint8_t) (level & 0x07U));
 }
 
 void si4032_init(void) {
@@ -221,25 +188,38 @@ void si4032_init(void) {
     si4032_set_power(RF_POWER_LEVEL);
     si4032_set_frequency(RF_FREQUENCY_MHZ);
     clear_interrupts();
-    use_direct_mode(false);
     inhibit_tx();
+    use_direct_mode(0U);
 }
 
-void si4032_transmit_aprs(const uint8_t *payload, size_t length) {
-    if (payload == NULL || length == 0U) {
+void si4032_transmit_packet(const uint8_t *payload, size_t length) {
+    uint32_t systick_ctrl;
+
+    if (payload == NULL || length == 0U || length > SI4032_MAX_PACKET_BYTES) {
         return;
     }
 
     si4032_init();
-    pwm_timer_init(pwm_period_for_tone(BELL202_MARK_HZ));
-    enable_tx();
-    use_direct_mode(true);
 
-    transmit_bell202_ax25(payload, length);
+    for (uint8_t repeat = 0U; repeat < RF_PACKET_REPEATS; ++repeat) {
+        enable_tx();
+        modulation_pin_init();
+        use_direct_mode(1U);
 
-    use_direct_mode(false);
-    pwm_timer_uninit();
-    inhibit_tx();
-    clear_interrupts();
-    spi2_init();
+        systick_ctrl = SYSTICK->CTRL;
+        SYSTICK->CTRL = systick_ctrl & ~SYSTICK_CTRL_TICKINT;
+
+        transmit_frame(payload, length);
+
+        SYSTICK->CTRL = systick_ctrl;
+        use_direct_mode(0U);
+        modulation_pin_uninit();
+        spi2_init();
+        inhibit_tx();
+        clear_interrupts();
+
+        if ((repeat + 1U) < RF_PACKET_REPEATS) {
+            delay_ms(RF_INTER_PACKET_GAP_MS);
+        }
+    }
 }

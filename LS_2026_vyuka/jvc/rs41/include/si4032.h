@@ -7,6 +7,6 @@
 void si4032_init(void);
 void si4032_set_frequency(float frequency_mhz);
 void si4032_set_power(uint8_t level);
-void si4032_transmit_aprs(const uint8_t *payload, size_t length);
+void si4032_transmit_packet(const uint8_t *payload, size_t length);
 
 #endif

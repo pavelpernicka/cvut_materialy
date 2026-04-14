@@ -8,6 +8,8 @@
 
 #include "board.h"
 
+#define TELEMETRY_PROTOCOL_VERSION 2U
+
 size_t protocol_build_packet(uint8_t *packet,
                              uint32_t uptime_ms,
                              const gps_fix_t *fix,

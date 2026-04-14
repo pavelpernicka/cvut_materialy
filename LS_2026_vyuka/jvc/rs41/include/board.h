@@ -8,18 +8,18 @@
 #define GPS_BAUDRATE               9600U
 
 #define RF_FREQUENCY_MHZ           433.920f
-#define RF_BITRATE_BPS             1200U
+#define RF_BITRATE_BPS             2400U
 #define RF_POWER_LEVEL             0x00U
-#define AX25_PREAMBLE_FLAGS        40U
-#define AX25_MAX_INFO_BYTES        46U
-#define AX25_MAX_FRAME_BYTES       (1U + 14U + 2U + AX25_MAX_INFO_BYTES + 2U + 1U)
-#define AX25_STUFFING_MARGIN_BYTES 12U
-#define RF_EST_TX_AIRTIME_MS       (((((AX25_PREAMBLE_FLAGS + AX25_MAX_FRAME_BYTES + AX25_STUFFING_MARGIN_BYTES) * 8U) * 1000U) + RF_BITRATE_BPS - 1U) / RF_BITRATE_BPS)
-
-#define AX25_DEST_CALLSIGN         "APRS"
-#define AX25_DEST_SSID             0U
-#define AX25_SOURCE_CALLSIGN       "RS41"
-#define AX25_SOURCE_SSID           11U
+#define RF_DEVIATION_LEVEL         0x08U
+#define RF_PREAMBLE_BYTES          32U
+#define RF_SYNC_BYTES              2U
+#define RF_SYNC_WORD_0             0x2DU
+#define RF_SYNC_WORD_1             0xD4U
+#define RF_PACKET_REPEATS          3U
+#define RF_INTER_PACKET_GAP_MS     20U
+#define TELEMETRY_PACKET_BYTES     48U
+#define RF_SINGLE_PACKET_AIRTIME_MS (((((RF_PREAMBLE_BYTES + RF_SYNC_BYTES + TELEMETRY_PACKET_BYTES) * 8U) * 1000U) + RF_BITRATE_BPS - 1U) / RF_BITRATE_BPS)
+#define RF_EST_TX_AIRTIME_MS       ((RF_SINGLE_PACKET_AIRTIME_MS * RF_PACKET_REPEATS) + (RF_INTER_PACKET_GAP_MS * (RF_PACKET_REPEATS - 1U)))
 
 /*
  * Czech SRD default used here:
