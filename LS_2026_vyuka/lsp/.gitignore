@@ -1,0 +1,45 @@
+*.zip
+*.pdf
+VeekMT2_Quartus201/
+VeekMT2_Quartus20/
+lcd/VeekMT2_Quartus20/
+
+# Quartus / FPGA generated data
+**/db/
+**/incremental_db/
+**/output_files/
+**/simulation/
+
+*.qws
+*.dpf
+*.qmsg
+*.smsg
+*.rpt
+*.summary
+*.jdi
+*.pin
+*.sld
+*.sof
+*.pof
+*.cdf
+*.done
+*.sft
+*.vo
+*.vho
+*.xrf
+
+# HDL simulator / local build artifacts
+*.bak
+*.o
+*.vcd
+*.wlf
+work-obj*.cf
+e~*
+
+# Editor / OS noise
+*~
+*.swp
+.DS_Store
+Thumbs.db
+
+lcd/FPGA-LCD_Utils/
