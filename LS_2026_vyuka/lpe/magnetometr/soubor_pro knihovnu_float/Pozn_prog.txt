@@ -1,0 +1,12 @@
+Pro print floatu je potreba v rootu projektu vytvorit soubor   (   mbed_app.json ) 
+ pro pouziti standartni stdio knihovny (ne te minimalisticke)
+
+
+
+   {
+    "target_overrides": {
+        "*": {
+            "target.printf_lib": "std"
+        }
+    }
+    }
