@@ -123,7 +123,7 @@
     \end{itemize}
   \item Jak se z naměřené hodnoty výstupního napětí (např $U_X=5\ V$), znalosti napájení senzoru (např. $10\ V$), zesílení vyhodnocovacího obvodu $A[-] =100$ a údaje o citlivosti senzoru např. $S = 10\ mV/V\cdot psi$ vypočte působící tlak $p\ [psi]$?
     $$
-      p = \frac{U_X}{A \cdot S \cdot U_n}\ [psi]
+      p = \frac{U_X}{A \cdot S \cdot U_n} = \frac{5}{100\cdot 0.01\cdot 10} = 0,5\ [psi]
     $$
   \item Jaké výhody má senzor se snímacími elementy zapojenými do plného 4-ramenného můstku?
     \begin{itemize}
@@ -131,6 +131,7 @@
     \end{itemize}
 \end{itemize}
 
+\newpage
 \section{Měření}
 \subsection{Offset a citlivost relativního senzoru}
 
@@ -139,7 +140,34 @@ v~přípravku s~manžetou pro měření krevního tlaku.
 
 \par\noindent\rule{\textwidth}{0.4pt}
 
-aaa
+Při nulovém působícím tlaku jsme naměřili offset senzoru:
+$$
+U_{P0} = U_{offset} = 0{,}89\ \mathrm{V}
+$$
+
+Při tlaku $p = 200\ \mathrm{mmHg}$ jsme naměřili:
+$$
+U_{P200} = 5{,}48\ \mathrm{V}
+$$
+
+Citlivost senzoru určíme jako směrnici lineární závislosti:
+$$
+k = \frac{p_{200} - p_0}{U_{P200} - U_{offset}} = \frac{200 - 0}{5{,}48 - 0{,}89}
+$$
+
+$$
+k = \frac{200}{4{,}59} = 43{,}57\ \mathrm{mmHg/V}
+$$
+
+Z těchto hodnot vytvoříme lineární aproximační vztah pro výpočet tlaku:
+$$
+p = k \cdot (U - U_{offset})
+$$
+
+Po dosazení:
+$$
+p = 43{,}57 \cdot (U - 0{,}89)
+$$
 
 \subsection{Měření tlaku krve a frekvence tepu}
 
@@ -149,8 +177,51 @@ na Flash-disk). Je možné že Flash-disk s větší kapacitou (>8GB) nebude osc
 
 \par\noindent\rule{\textwidth}{0.4pt}
 
-aaa
+Napumpovali jsme manžetu na $p = 170\ mmHg$ a postupně snižovali tlak. Sledovali jsme, jak amplituda Korotkovových pulsů zpočátku postupně roste a pak následně klesá. Maximální Korotkovovův puls měl amplitudu: 
+$$
+U_{max} = 19,375\ mV
+$$.
 
+Pro hledání systolického a diastolického tlaku jsme si vypočítali očekávané aplitudy pulsů:
+$$
+U_{sys} = 0,5\cdot U_{max} = 9,68\ mV
+$$
+
+$$
+U_{dia} = 0,85\cdot U_{max} = 16,47\ mV
+$$
+
+A následně jsme hledali takové Korotkovovy pulsy, kde byla amplituda nejblíže. Ve stejném časovém bodě jsme pak získali hodnoty stejnosměrné složky, kterou použijeme pro výpočet tlaku.
+$$
+U_{Psys} = 3,625\ V
+$$
+
+$$
+U_{Pdia} = 2,425\ V
+$$
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.90\textwidth]{img/scope_8.png}
+\caption{Stejnosměrná a střídavá složka signálu z tlakového senzoru pro zjištění krevního tlaku}
+\label{fig:sipky}
+\end{figure}
+
+Pro přepočet použijeme vztah z předchozího bodu a získáme:
+$$
+p_{sys} = 119,17\ mmHg
+$$
+
+$$
+p_{dia} = 66,88\ mmHg
+$$.
+
+Tepovou frekvenci pak určíme jako frekvenci Korotkovových impulsů pomocí measurements na osciloskopu:
+$$
+f_{tep} = 1,232\ Hz = 73,92\ bpm
+$$
+
+\newpage
 \subsection{Absolutní senzor tlaku}
 K číslicovému multimetru přepnutému do režimu vyššího rozlišení připojte přípravek
 s absolutním senzorem tlaku. Změřte změnu atmosférického tlaku při změně výšky o 1 metr
@@ -161,6 +232,30 @@ v programu v LabView).
 
 \par\noindent\rule{\textwidth}{0.4pt}
 
-aaa
+Naměřili jsme hodnoty v tabulce. Pro převod napětí absolutního tlakového senzoru jsme použili vztah:
+$$
+p_x = (U_x/5)\cdot 30000 + 80000\ Pa
+$$
 
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Rel. výška & $U_{24PCCFA6G}$ & $p_{24PCCFA6G}$ & $p_{BMP390}$ & $p_{LPS33k}$ \\
+\hline
+$0\ m$ & $3,27164\ V$ & $996,2984\ hPa$ & $995,974\ hPa$ & $995,802\ hPa$\\
+\hline
+$1\ m$ & $3,26923\ V$ & $996,1538\ hPa$ & $995,904\ hPa$ & $995,694\ hPa$\\
+\hline
+\end{tabular}
+\caption{Atmosférický tlak v počáteční výšce a ve výšce o metr vyšší}
+\end{table}
+
+Z toho plyne pokles tlaku se změnou výšky o jeden metr:
+$$
+\Delta p_{\mathrm{24PCCFA6G}} = 14{,}46\,\mathrm{Pa} \quad
+\Delta p_{\mathrm{BMP390}} = 7\,\mathrm{Pa} \quad
+\Delta p_{\mathrm{LPS33k}} = 10{,}8\,\mathrm{Pa}
+$$
+Což je hlavně v případě senzoru LPS33k blízko k očekávané hodnotě $11,5\ Pa$
 \end{document}
