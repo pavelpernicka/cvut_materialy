@@ -1,0 +1,144 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[
+    left=2cm,
+    right=2cm,
+    top=3cm,
+    bottom=3cm
+]{geometry}
+
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{makecell}
+\usepackage{gensymb}
+\usepackage{float}
+\usepackage{newunicodechar}
+\usepackage{url}
+\usepackage{siunitx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{diagbox}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepgfplotslibrary{polar}
+\pgfplotsset{compat=1.18}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\fancyhf{}
+\fancyhead[L]{SME -- Lab 7: Měření lineárního posuvu}
+\fancyhead[R]{Pavel Pernička}
+\fancyfoot[C]{\thepage}
+
+\fancypagestyle{firstpage}{
+    \fancyhf{}
+    \renewcommand{\headrulewidth}{0pt}
+    \renewcommand{\footrulewidth}{0pt}
+    \fancyfoot[C]{\thepage}
+}
+
+\definecolor{myblue}{RGB}{111,0,248}
+\newcommand{\colorcircle}[1]{%
+  \tikz[baseline=-0.6ex]\draw[fill=#1,draw=none] (0,0) circle (1.5ex);%
+}
+\newcommand{\unitC}{\,^\circ\mathrm{C}}
+\newcommand{\unitV}{\,\mathrm{V}}
+\newcommand{\unitA}{\,\mathrm{A}}
+\newcommand{\units}{\,\mathrm{s}}
+\newcommand{\unitmin}{\,\mathrm{min}}
+
+\newcommand{\centered}[1]{\begin{tabular}{l} #1 \end{tabular}}
+
+\addto\captionsczech{\renewcommand{\refname}{Seznam použité literatury}}
+\addto\captionsczech{\renewcommand{\figurename}{\textbf{Obrázek}}}
+\addto\captionsczech{\renewcommand{\tablename}{\textbf{Tabulka}}}
+\renewcommand{\lstlistingname}{\textbf{Kód}}
+
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    breaklines=true,
+    frame=single
+}
+
+\begin{document}
+\thispagestyle{firstpage}
+
+\vspace*{\fill}
+\begin{center}
+\renewcommand{\arraystretch}{1.75}
+
+\begin{tabularx}{\textwidth}{|X|X|X|}
+    \hline
+    \multicolumn{1}{|c|}{\rule{0pt}{2.25cm} \includegraphics[height=2cm]{img/ctu_logo.png}}
+    & \multicolumn{2}{c|}{\makecell{\textbf{KATEDRA MĚŘENÍ}}} \\
+    \hline
+    \multicolumn{3}{|c|}{\Large \textbf{\centered{Senzory a měření}}} \\
+    \hline
+    \multicolumn{2}{|X}{\small{Jméno} \newline \textbf{Pavel Pernička}}
+    & \multicolumn{1}{|X|}{\small{Datum měření} \newline \textbf{29.4.2026}} \\
+    \hline
+    {\small{Semestr} \newline \textbf{Letní 2026}}
+    & {\small{Ročník} \newline \textbf{2.}}
+    & {\small{Datum odevzdání} \newline \textbf{6.5.2026}} \\
+    \hline
+    \multicolumn{3}{|c|}{\rule{0pt}{1cm}} \\
+    \hline
+    \multicolumn{1}{|X|}{\small{Číslo úlohy \newline \textbf{7}}}
+    & \multicolumn{2}{|p{9cm}|}{\small{Název úlohy \newline \textbf{Měření lineárního posuvu}}} \\
+    \hline
+\end{tabularx}
+
+\end{center}
+\vspace*{\fill}
+
+\newpage
+\pagestyle{fancy}
+
+\section{Domácí příprava}
+\begin{itemize}
+  \item Vysvětlete podrobně principy výše uvedených snímačů.
+    \begin{itemize}
+      \item Potenciometrické snímače -- změnou polohy posouváme jezdce na potenciometru a tím měníme odpor
+      \item Optické inkrementální snímače -- při změně polohy se posune nebo pootočí maska s výřezy. To zachytíme optozávorou a počítáme impulzy.
+      \item LVDT senzory -- změnou polohy posouváme jádro uvnitř transformátoru a měníme vzájemnou indukčnost primáru a sekundárů.
+    \end{itemize}
+
+  \item Čemu se rovná výstupní odpor potenciometrického snímače polohy (odporového děliče napětí)?
+    $$
+      R_{OUT} = x\cdot(1-x)R
+    $$
+    $x\in (0,1)$ je relativní poloha
+    
+  \item Jak je určen u inkrementálního senzoru směr pohybu?
+    \begin{itemize}
+      \item Pomocí kvadraturního výstupu -- druhý impulz je od čítacího posunutý buď v kladném nebo záporném smyslu
+    \end{itemize}
+    
+  \item Proč nelze výstupní napětí UO u LVDT senzoru měřit střídavým voltmetrem a jaký přístroj lze použít?
+    \begin{itemize}
+      \item Na výstupu LVDT není čistý sinus, navíc nás zajímá informace o amplitudě i fázi vůči budícímu signálu. K měření používáme synchronní detektor nebo raciometrickou metodu.
+    \end{itemize}
+    
+  \item Co to je raciometrická metoda a jaké jsou její výhody?
+    \begin{itemize}
+      \item U raciometrické metody pracujeme s poměrem vstupního a výstupního signálu. Měření je potom odolné vůči změně amplitudy, změně frekvence a snižuje vliv rušení.
+    \end{itemize}
+\end{itemize}
+
+\section{Měření}
+
+\end{document}
