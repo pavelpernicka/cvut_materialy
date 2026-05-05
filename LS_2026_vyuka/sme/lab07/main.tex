@@ -116,12 +116,6 @@
       \item Optické inkrementální snímače -- při změně polohy se posune nebo pootočí maska s výřezy. To zachytíme optozávorou a počítáme impulzy.
       \item LVDT senzory -- změnou polohy posouváme jádro uvnitř transformátoru a měníme vzájemnou indukčnost primáru a sekundárů.
     \end{itemize}
-
-  \item Čemu se rovná výstupní odpor potenciometrického snímače polohy (odporového děliče napětí)?
-    $$
-      R_{OUT} = x\cdot(1-x)R
-    $$
-    $x\in (0,1)$ je relativní poloha
     
   \item Jak je určen u inkrementálního senzoru směr pohybu?
     \begin{itemize}
@@ -140,5 +134,373 @@
 \end{itemize}
 
 \section{Měření}
+\subsection{Převodní charakteristika odporového senzoru polohy}
+
+Změřte převodní charakteristiku (závislost výstupního napění na poloze) odporového senzoru polohy
+Novotechnik TR100 (viz obr. 1) v potenciometrickém zapojení v rozsahu $0$ až $100\ mm$ s krokem $10 mm$.
+Jako referenční snímač použijte optický inkrementální snímač SL101LB připojený k indikátoru ADP1.
+
+Napětí $U_2$ měřte voltmetrem na svorce jezdce. Schéma zapojení viz obr. 2. Měření proveďte pro
+následující zatěžovací odpory $R_Z$ (pro urychlení vždy změřte všechny hodnoty $R_Z$ pro danou
+vzdálenost): $R_Z = 100\ k\Omega$; $R_Z = 10\ k\Omega$; $R_Z = \infty$.
+
+Naměřené hodnoty vyneste do jednoho grafu a na vedlejší osu vyneste odchylky od průběhu pro $R_Z = \infty$. Určete max. odchylku od linearity pro $RZ = 100\ k\Omega$ a $R_Z = 10\ k\Omega$ pro měřený rozsah v procentech rozsahu.
+
+\par\noindent\rule{\textwidth}{0.4pt}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+$d$ & $U_{100k}\ [V]$ & $U_{10k}\ [V]$ & $U_{\infty}\ [V]$ \\
+\hline
+$0\ mm$ & $4,9636$ & $4,7102$ & $4,9928$\\
+\hline
+$10\ mm$ & $4,4945$ & $4,1066$ & $4,5422$\\
+\hline
+$20\ mm$ & $3,9962$ & $3,5471$ & $4,0536$\\
+\hline
+$30\ mm$ & $3,5056$ & $3,0469$ & $3,5654$\\
+\hline
+$40\ mm$ & $3,0230$ & $2,5945$ & $3,0790$\\
+\hline
+$50\ mm$ & $2,5399$ & $2,1699$ & $2,5890$\\
+\hline
+$60\ mm$ & $2,0613$ & $1,7655$ & $2,1006$\\
+\hline
+$70\ mm$ & $1,5832$ & $1,3687$ & $1,6113$\\
+\hline
+$80\ mm$ & $1,1039$ & $0,97165$ & $1,12087$\\
+\hline
+$90\ mm$ & $0,62214$ & $0,56194$ & $0,62960$\\
+\hline
+$100\ mm$ & $0,137785$ & $0,12903$ & $0,13891$\\
+\hline
+\end{tabular}
+\caption{Závislost naměřeného napětí na vzdálenosti při různých $R_Z$}
+\end{table}
+
+Lineární charakteristiku jsme určili metodou nejmenších čtverců ve tvaru
+$$
+U_{\mathrm{lin}}(d) = k d + q.
+$$
+
+Pro nezatížený průběh $R_Z=\infty$ vyšla aproximace:
+$$
+U_{\mathrm{lin},\infty}(d) = -0{,}04873d + 5{,}02051
+$$
+
+Pro zatěžovací odpor $R_Z=100\,k\Omega$:
+$$
+U_{\mathrm{lin},100k}(d) = -0{,}04827d + 4{,}96201
+$$
+
+Pro zatěžovací odpor $R_Z=10\,k\Omega$:
+$$
+U_{\mathrm{lin},10k}(d) = -0{,}04454d + 4{,}49729
+$$
+
+Odchylka od linearity byla určena jako
+$$
+\Delta U_{\mathrm{lin}} = U_{\mathrm{měř}} - U_{\mathrm{lin}}(d).
+$$
+
+Maximální odchylka od linearity vztažená k měřenému rozsahu:
+$$
+\delta_{\mathrm{lin}} =
+\frac{\max|\Delta U_{\mathrm{lin}}|}{U_{\max}-U_{\min}}\cdot 100\,\%.
+$$
+
+Pro $R_Z=100\,k\Omega$:
+$$
+\max|\Delta U_{\mathrm{lin},100k}| = 15{,}24\,mV
+$$
+
+$$
+\delta_{\mathrm{lin},100k} = 0{,}316\,\%
+$$
+
+Pro $R_Z=10\,k\Omega$:
+$$
+\max|\Delta U_{\mathrm{lin},10k}| = 212{,}91\,mV
+$$
+
+$$
+\delta_{\mathrm{lin},10k} = 4{,}65\,\%
+$$
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+
+\begin{axis}[
+    width=0.95\textwidth,
+    height=8cm,
+    xlabel={$d\ [mm]$},
+    ylabel={$U\ [V]$},
+    xmin=0, xmax=100,
+    grid=both,
+    legend style={at={(0.5,1.22)}, anchor=north, legend columns=3},
+]
+
+\addplot[mark=*, thick] coordinates {
+    (0,4.9636) (10,4.4945) (20,3.9962) (30,3.5056) (40,3.0230)
+    (50,2.5399) (60,2.0613) (70,1.5832) (80,1.1039) (90,0.62214) (100,0.137785)
+};
+\addlegendentry{$R_Z=100\,k\Omega$}
+
+\addplot[mark=square*, thick] coordinates {
+    (0,4.7102) (10,4.1066) (20,3.5471) (30,3.0469) (40,2.5945)
+    (50,2.1699) (60,1.7655) (70,1.3687) (80,0.97165) (90,0.56194) (100,0.12903)
+};
+\addlegendentry{$R_Z=10\,k\Omega$}
+
+\addplot[mark=triangle*, thick] coordinates {
+    (0,4.9928) (10,4.5422) (20,4.0536) (30,3.5654) (40,3.0790)
+    (50,2.5890) (60,2.1006) (70,1.6113) (80,1.12087) (90,0.62960) (100,0.13891)
+};
+\addlegendentry{$R_Z=\infty$}
+
+\addplot[dashed, thick] coordinates {
+    (0,5.02051) (100,0.14736)
+};
+\addlegendentry{$U_{\mathrm{lin},\infty}$}
+
+\addplot[dashed, thick] coordinates {
+    (0,4.96201) (100,0.13456)
+};
+\addlegendentry{$U_{\mathrm{lin},100k}$}
+
+\addplot[dashed, thick] coordinates {
+    (0,4.49729) (100,0.04308)
+};
+\addlegendentry{$U_{\mathrm{lin},10k}$}
+
+\end{axis}
+
+\begin{axis}[
+    width=0.95\textwidth,
+    height=8cm,
+    xmin=0, xmax=100,
+    axis x line=none,
+    axis y line*=right,
+    ylabel={$\Delta U\ [mV]$},
+]
+
+\addplot[dotted, mark=o] coordinates {
+    (0,-29.2) (10,-47.7) (20,-57.4) (30,-59.8) (40,-56.0)
+    (50,-49.1) (60,-39.3) (70,-28.1) (80,-16.97) (90,-7.46) (100,-1.125)
+};
+
+\addplot[dotted, mark=x] coordinates {
+    (0,-282.6) (10,-435.6) (20,-506.5) (30,-518.5) (40,-484.5)
+    (50,-419.1) (60,-335.1) (70,-242.6) (80,-149.22) (90,-67.66) (100,-9.88)
+};
+
+\end{axis}
+
+\end{tikzpicture}
+\caption{Převodní charakteristika odporového senzoru a odchylky zatížených průběhů od průběhu pro $R_Z=\infty$}
+\end{figure}
+
+\subsection{LVDT snímač}
+Proměřte statickou charakteristiku snímače LVDT (přípravek viz obr. 3) jako funkci $f(d) = U_O$, kde $d$ je
+údaj z posuvného měřítka spojeného s jezdcem senzoru a $U_O$ je výstupní napětí zpracované obvodem
+AD598. Při proměření charakteristiky se zaměřte na obě krajní polohy snímače.
+
+\begin{enumerate}
+\item Najděte středovou polohu ($U_O = 0$) a detailněji proměřte výstup senzoru v blízkém okolí $\pm 5\ mm$ s krokem $1\ mm$.
+\item Změřené hodnoty vyneste do grafu, proložte je přímkou a určete její parametry (směrnici, posunutí). Určete odchylku od linearity pro celý měřený rozsah (v rozmezí kdy je funkce monotónní).
+\item Určete přibližně takový měřicí rozsah, ve kterém odchylka od linearity nepřesáhne hodnotu: $5\ \%$, $1\ \%$.
+\item Statickou charakteristiku proměřte pouze v několika bodech (7 až 9) též pomocí osciloskopu tak, že prostřednictvím matematických funkcí zrealizujete rozdíl signálů ze sekundárních vinutí $(A - B)$. Poté změřte efektivní hodnotu (RMS) vypočteného signálu. Správné znaménko signálu určíte sledováním fáze.
+\end{enumerate}
+
+\par\noindent\rule{\textwidth}{0.4pt}
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+$d$ & $U_O\ [V]$ \\
+\hline
+$42,71\ mm$ & $0,001412$\\
+\hline
+$43,69\ mm$ & $0,38599$\\
+\hline
+$44,71\ mm$ & $0,79346$\\
+\hline
+$45,70\ mm$ & $1,18574$\\
+\hline
+$46,67\ mm$ & $1,5623$\\
+\hline
+$47,70\ mm$ & $1,9649$\\
+\hline
+$48,70\ mm$ & $2,3467$\\
+\hline
+$58,69\ mm$ & $5,9281$\\
+\hline
+$68,73\ mm$ & $8,536$\\
+\hline
+$78,73\ mm$ & $9,3535$\\
+\hline
+\hline
+$41,71\ mm$ & $-0,40167$\\
+\hline
+$40,71\ mm$ & $-0,78927$\\
+\hline
+$39,69\ mm$ & $-1,19400$\\
+\hline
+$38,69\ mm$ & $-1,5900$\\
+\hline
+$37,72\ mm$ & $-1,9567$\\
+\hline
+$36,72\ mm$ & $-2,3435$\\
+\hline
+$26,73\ mm$ & $-5,8685$\\
+\hline
+$6,67\ mm$ & $-8,3670$\\
+\hline
+$6,73\ mm$ & $-9,0108$\\
+\hline
+\end{tabular}
+\caption{Závislost $U_O$ na vzdálenosti $d$}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+$d$ & $U_{osc}$ \\
+\hline
+$42,66\ mm$ & $56\ mV$\\
+\hline
+$52,72\ mm$ & $1,160\ V$\\
+\hline
+$62,71\ mm$ & $2,140\ V$\\
+\hline
+$72,77\ mm$ & $2,706\ V$\\
+\hline
+$32,74\ mm$ & $-1,125\ V$\\
+\hline
+$22,76\ mm$ & $-2,077\ V$\\
+\hline
+$12,72\ mm$ & $-2,594$\\
+\hline
+\end{tabular}
+\caption{Statická charakteristika pomocí osciloskopu}
+\end{table}
+
+
+Linearizace jsme provedli metodou nejmenších čtverců na bodech v rozsahu
+$$
+d \in \langle 26{,}73;\ 58{,}69 \rangle\ \mathrm{mm}.
+$$
+
+Výsledná lineární charakteristika vyšla:
+$$
+U_{\mathrm{lin}}(d) = 0{,}37543d - 16{,}03000
+$$
+
+Odchylka od linearity byla určena jako
+$$
+\Delta U_{\mathrm{lin}} = U_O - U_{\mathrm{lin}}(d).
+$$
+
+Pro všechny měřené body vyšla maximální odchylka od této přímky:
+$$
+\max |\Delta U_{\mathrm{lin}}| = 5{,}159\ \mathrm{V}.
+$$
+
+\newpage
+Rozsahy bodů splňující zadané procentuální odchylky vycházejí:
+\begin{itemize}
+    \item pro odchylku do $5\,\%$:
+    $$
+    d \in \langle 26{,}73;\ 58{,}69 \rangle\ \mathrm{mm}
+    $$
+
+    \item pro odchylku do $1\,\%$:
+    $$
+    d \in \langle 36{,}72;\ 58{,}69 \rangle\ \mathrm{mm}
+    $$
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+
+\begin{axis}[
+    width=0.95\textwidth,
+    height=8cm,
+    xlabel={$d\ [mm]$},
+    ylabel={$U_O\ [V]$},
+    grid=both,
+    xmin=0, xmax=80,
+    legend style={at={(0.5,1.15)}, anchor=north},
+]
+
+\addplot[thick, mark=*] coordinates {
+    (6.67,-8.3670)
+    (6.73,-9.0108)
+    (26.73,-5.8685)
+    (36.72,-2.3435)
+    (37.72,-1.9567)
+    (38.69,-1.5900)
+    (39.69,-1.1940)
+    (40.71,-0.78927)
+    (41.71,-0.40167)
+    (42.71,0.001412)
+    (43.69,0.38599)
+    (44.71,0.79346)
+    (45.70,1.18574)
+    (46.67,1.5623)
+    (47.70,1.9649)
+    (48.70,2.3467)
+    (58.69,5.9281)
+    (68.73,8.536)
+    (78.73,9.3535)
+};
+\addlegendentry{měření}
+
+\addplot[dashed, thick, domain=0:80] {0.37543*x - 16.03000};
+\addlegendentry{$U_{\mathrm{lin}}$}
+
+\end{axis}
+
+\begin{axis}[
+    width=0.95\textwidth,
+    height=8cm,
+    xmin=0, xmax=80,
+    axis x line=none,
+    axis y line*=right,
+    ylabel={$\Delta U_{\mathrm{lin}}\ [V]$},
+]
+
+\addplot[only marks, mark=x] coordinates {
+    (6.67,5.1589)
+    (6.73,4.4926)
+    (26.73,0.1264)
+    (36.72,-0.0991)
+    (37.72,-0.0877)
+    (38.69,-0.0852)
+    (39.69,-0.0646)
+    (40.71,-0.0428)
+    (41.71,-0.0307)
+    (42.71,-0.0030)
+    (43.69,0.0137)
+    (44.71,0.0382)
+    (45.70,0.0588)
+    (46.67,0.0712)
+    (47.70,0.0871)
+    (48.70,0.0935)
+    (58.69,-0.0756)
+    (68.73,-1.2370)
+    (78.73,-4.1737)
+};
+
+\end{axis}
+
+\end{tikzpicture}
+\caption{Statická charakteristika LVDT senzoru}
+\end{figure}
 
 \end{document}
