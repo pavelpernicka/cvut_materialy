@@ -39,7 +39,7 @@
 
 set_global_assignment -name FAMILY "Cyclone IV E"
 set_global_assignment -name DEVICE EP4CE115F29C7
-set_global_assignment -name TOP_LEVEL_ENTITY Demo_LCD
+set_global_assignment -name TOP_LEVEL_ENTITY Demo_ControlPanel
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 20.1.1
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "14:59:02  SEPTEMBER 06, 2024"
 set_global_assignment -name LAST_QUARTUS_VERSION "20.1.0 Lite Edition"
@@ -673,10 +673,6 @@ set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -rise
 set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -fall
 set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -rise
 set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -fall
-set_global_assignment -name EDA_TIME_SCALE "1 ps" -section_id eda_simulation
-set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "VERILOG HDL" -section_id eda_simulation
-set_global_assignment -name EDA_NETLIST_WRITER_OUTPUT_DIR simulation/qsim -section_id eda_simulation
-
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
@@ -1281,16 +1277,30 @@ set_instance_assignment -name IO_STANDARD LVDS -to HSMC_TX_D_N[16]
 set_instance_assignment -name IO_STANDARD LVDS -to HSMC_RX_D_N[16]
 set_instance_assignment -name IO_STANDARD LVDS -to HSMC_CLKOUT_N2
 set_instance_assignment -name IO_STANDARD LVDS -to HSMC_CLKOUT_N1
-set_global_assignment -name VHDL_FILE LCDlogicMy.vhd
 set_global_assignment -name TEXT_FILE @README.txt
-set_global_assignment -name BDF_FILE Demo_LCD.bdf
-set_global_assignment -name VHDL_FILE balon.vhd
-set_global_assignment -name VHDL_FILE LCDlogic0.vhd
+set_global_assignment -name BDF_FILE Demo_ControlPanel.bdf
+set_global_assignment -name VHDL_FILE UserInterfaceV2.vhd
+set_global_assignment -name VHDL_FILE LCDlogicTask4.vhd
+set_global_assignment -name VHDL_FILE MorseEngine.vhd
+set_global_assignment -name VHDL_FILE testbenchV2_ControlPanel.vhd
+set_global_assignment -name VHDL_FILE LCDlogic4testbench.vhd
 set_global_assignment -name VHDL_FILE LCDpackV2.vhd
-set_global_assignment -name VHDL_FILE testbenchV2_LCDlogic.vhd
-set_global_assignment -name VHDL_FILE Demo_LCDvhd.vhd
-set_global_assignment -name VHDL_FILE VeekMT2_LCDregV2.vhd
+set_global_assignment -name VHDL_FILE TouchIRDApackV2.vhd
+set_global_assignment -name VHDL_FILE UIpack.vhd
+set_global_assignment -name VHDL_FILE balon_noshadow_white_opt.vhd
+set_global_assignment -name VHDL_FILE PERNIC.vhd
+set_global_assignment -name VHDL_FILE VeekMT2_I2CTouchLCD.vhd
+set_global_assignment -name VHDL_FILE VeekMT2_IRDAv2.vhd
 set_global_assignment -name VHDL_FILE VeekMT2_LCDgenV2.vhd
-set_global_assignment -name SDC_FILE VeekMT2_LCD.sdc
+set_global_assignment -name VHDL_FILE VeekMT2_LCDregV2.vhd
+set_global_assignment -name VHDL_FILE morse_my.vhd
+set_global_assignment -name VERILOG_FILE i2c_touch_config_v2.v
 set_global_assignment -name SDC_FILE VeekMT2.sdc
+set_global_assignment -name SDC_FILE VeekMT2_LCD.sdc
+
+
+
+set_global_assignment -name EDA_TIME_SCALE "1 ps" -section_id eda_simulation
+set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "VERILOG HDL" -section_id eda_simulation
+set_global_assignment -name EDA_NETLIST_WRITER_OUTPUT_DIR simulation/qsim -section_id eda_simulation
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

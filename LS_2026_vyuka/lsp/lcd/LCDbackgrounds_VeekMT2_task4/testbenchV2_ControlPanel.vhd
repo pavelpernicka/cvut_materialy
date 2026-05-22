@@ -1,4 +1,4 @@
--- testbenchV2_LCDlogic version V2.2 (Sept 27, 2024) - simplified and a minor error was corrected.
+-- testbenchV2_LCDlogic version V2.3
 -------------------------------------------------------------
 -- CTU-FFE Prague, Dept. of Control Eng. [Richard Susta], GNU General Public License
 -------------------------------------------------------------
@@ -13,16 +13,19 @@
 -- which can be opened by LCDTestbenchViewer version 3 and later/
 -----------------------------------
 
-library ieee, work;
+library ieee, work; 
 use ieee.std_logic_1164.all; use ieee.numeric_std.all;
 use ieee.std_logic_textio.all; use std.textio.all;
 use std.env.all;
 use work.LCDpackV2.all;
 
-entity testbenchV2_LCDlogic is --testbench entity is always without any inputs/outputs.
+entity testbenchV2_ControlPanel is --testbench entity is always without any inputs/outputs.
+  generic(
+    COUNT_OF_FRAMES_G : positive := 12
+  );
 end entity;
 
-architecture testbench of testbenchV2_LCDlogic is
+architecture testbench of testbenchV2_ControlPanel is
     ---------------------------------------------------------------------------------------
     -- ***ToDo 1 of 2 (the next ToDo is at the end of this file)
     --=====================================================================================
@@ -36,12 +39,12 @@ architecture testbench of testbenchV2_LCDlogic is
     -- The compression reduces the result size and accelerates simulations, but it writes only complete lines. 
     -- Disable the compression, if you want to see immediate pixels after a breakpoint.  
 
-   constant SINGLE_FRAME : boolean := TRUE;
+   constant SINGLE_FRAME : boolean := FALSE;
     --  On TRUE, the simulation is terminated after the first frame.
     --  On FALSE, the simulation terminates after storing COUNT_OF_FRAMES. 
     --  In case of more frames, it is recommended ENABLE_COMPRESSION=TRUE to prevent huge file sizes.
     
-    constant COUNT_OF_FRAMES : positive := 32;
+    constant COUNT_OF_FRAMES : positive := COUNT_OF_FRAMES_G;
     -- The count of stored frames is active only if SINGLE_FRAME=FALSE, otherwise it is ignored.
 
     --------------------------------------------------------------
@@ -177,13 +180,13 @@ begin
                     if SINGLE_FRAME then
                         file_close(outfile);
                         iswrite := FALSE;
-                        -- nechapu proc se tady pouzivalo assert a severity failure
-                        -- ja jsem si to upravil, abych pak mohl simulovat bez chyb (abych pak z toho nemel nenulovy exit kod)
-                        report LF&LF&":-) OK end of SINGLE frame simulation."&LF; 
+                        report LF&LF&":-) OK end of SINGLE frame simulation."&LF;
                         finish;
                       else
                         counter_of_frames := counter_of_frames + 1;
-                        if counter_of_frames > COUNT_OF_FRAMES then
+                        if counter_of_frames >= COUNT_OF_FRAMES then
+                            file_close(outfile);
+                            iswrite := FALSE;
                             report LF&LF&":-) OK end of simulation: " & integer'image(COUNT_OF_FRAMES) & " frames were stored."&LF;
                             finish;
                         else
@@ -212,7 +215,7 @@ begin
     --------------------------------------------------------------------------------------
     -- ***ToDo 2 of 2: Adjust to your own component name
 	 --------------------------------------------------------------------------------------
-	 iLCDLogic : entity work.LCDlogicMy
+     iLCDLogic : entity work.LCDlogic4testbench
 	     port map(
 		   xcolumn=>xcolumn, yrow=>yrow, XEND_N=>XEND_N, YEND_N=>YEND_N, 
          LCD_DE=>LCD_DE, LCD_DCLK=>LCD_DCLK,

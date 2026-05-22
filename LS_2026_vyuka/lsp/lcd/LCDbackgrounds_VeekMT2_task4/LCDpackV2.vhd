@@ -56,7 +56,7 @@ package LCDpackV2 is
 	function ToRGB(r, g, b:natural) return RGB_t;
 -- it does nothing, but it exist if a user accidently utilizes it
 	function ToRGB(rgb:RGB_t) return RGB_t;
-
+ 
 	
  -- it converts positive integer to color byte in range 0 to 255
 	function ToByte(n:natural) return color_t; 
