@@ -1,0 +1,6 @@
+build/
+managed_components/
+sdkconfig
+sdkconfig.old
+main/web_assets.c
+main/web_assets.h

@@ -1,0 +1,27 @@
+#pragma once
+
+#define PIN_USB_D_MINUS 19
+#define PIN_USB_D_PLUS 20
+
+#define PIN_SR_DATA 10
+#define PIN_SR_SHIFT_CLK 11
+#define PIN_SR_LATCH_CLK 12
+#define PIN_SR_CLEAR 13
+#define PIN_SR_ENABLE 14
+
+#define PIN_I2C_SDA 38
+#define PIN_I2C_SCL 39
+
+#define PIN_WS2812B 18
+#define PIN_LED_INT 41
+
+#define PIN_WATER_LEVEL_1 6
+#define PIN_WATER_LEVEL_2 7
+
+#define PIN_CURR_ADC1 1
+#define PIN_CURR_ADC2 2
+#define PIN_CURR_ADC3 4
+
+#define PIN_SW_PUMP1_RECOMMENDED 15
+#define PIN_SW_PUMP1_LEGACY 45
+#define PIN_SW_PUMP2 47
