@@ -6,6 +6,7 @@
 
 #include "engine/font5x7.h"
 #include "engine/template_fields.h"
+#include "system/config.h"
 
 typedef struct {
     water_frame_t *frames;
@@ -13,13 +14,87 @@ typedef struct {
     size_t capacity;
 } frame_builder_t;
 
-static uint64_t glyph_column_to_mask(uint8_t column_bits)
+typedef struct {
+    const char *start;
+    size_t len;
+} text_line_t;
+
+static size_t split_text_lines(const char *text, text_line_t *lines, size_t max_lines)
+{
+    size_t count = 0;
+    const char *cursor = text;
+    const char *line_start = text;
+    while (*cursor != '\0' && count < max_lines) {
+        if (*cursor == '\n') {
+            lines[count].start = line_start;
+            lines[count].len = (size_t) (cursor - line_start);
+            ++count;
+            line_start = cursor + 1;
+        }
+        ++cursor;
+    }
+    if (count < max_lines) {
+        lines[count].start = line_start;
+        lines[count].len = (size_t) (cursor - line_start);
+        ++count;
+    }
+    return count == 0 ? 1 : count;
+}
+
+static size_t text_block_column_count(const char *text, uint8_t font_scale)
+{
+    text_line_t lines[8];
+    size_t line_count = split_text_lines(text, lines, 8);
+    size_t max_columns = 1;
+    size_t advance = (size_t) font_scale * 6U;
+    for (size_t i = 0; i < line_count; ++i) {
+        size_t line_columns = lines[i].len == 0 ? 1U : (lines[i].len * advance);
+        if (line_columns > max_columns) {
+            max_columns = line_columns;
+        }
+    }
+    return max_columns;
+}
+
+static uint64_t text_column_to_mask(const char *text, size_t column_index, uint8_t font_scale, uint8_t line_spacing)
 {
     uint64_t mask = 0;
-    const int y_offset = 28;
-    for (int row = 0; row < 7; ++row) {
-        if ((column_bits >> row) & 0x01) {
-            mask |= (1ULL << (y_offset + row));
+    text_line_t lines[8];
+    size_t line_count = split_text_lines(text, lines, 8);
+    size_t scale = font_scale == 0 ? 1U : (size_t) font_scale;
+    size_t vertical_gap = (size_t) line_spacing;
+    size_t line_height = 7U * scale;
+    size_t block_height = (line_count * line_height) + ((line_count > 1 ? line_count - 1 : 0) * vertical_gap);
+    size_t y_offset = block_height >= 64U ? 0U : (64U - block_height) / 2U;
+    size_t char_advance = 6U * scale;
+
+    for (size_t line = 0; line < line_count; ++line) {
+        if (lines[line].len == 0) {
+            continue;
+        }
+        size_t char_index = column_index / char_advance;
+        size_t column_in_char = column_index % char_advance;
+        if (char_index >= lines[line].len) {
+            continue;
+        }
+        if (column_in_char >= (5U * scale)) {
+            continue;
+        }
+        uint8_t glyph[5];
+        font5x7_get_glyph(lines[line].start[char_index], glyph);
+        size_t glyph_col = column_in_char / scale;
+        uint8_t column_bits = glyph[glyph_col];
+        size_t line_y = y_offset + (line * (line_height + vertical_gap));
+        for (size_t row = 0; row < 7U; ++row) {
+            if (((column_bits >> row) & 0x01U) == 0) {
+                continue;
+            }
+            for (size_t sy = 0; sy < scale; ++sy) {
+                size_t valve = line_y + (row * scale) + sy;
+                if (valve < 64U) {
+                    mask |= (1ULL << valve);
+                }
+            }
         }
     }
     return mask;
@@ -52,11 +127,6 @@ static esp_err_t append_blank_columns(frame_builder_t *builder, size_t count, ui
     return ESP_OK;
 }
 
-static size_t plain_text_column_count(const char *text)
-{
-    return text[0] == '\0' ? 1 : strlen(text) * 6;
-}
-
 static const char *screen_template_text(const screen_model_t *screen)
 {
     if (screen->text[0] != '\0') {
@@ -73,22 +143,25 @@ static const char *screen_template_text(const screen_model_t *screen)
     }
 }
 
-static esp_err_t append_plain_text(frame_builder_t *builder, const char *text, uint16_t duration_ms)
+static esp_err_t append_plain_text(frame_builder_t *builder,
+    const char *text,
+    uint16_t duration_ms,
+    uint16_t gap_ms,
+    uint8_t font_scale,
+    uint8_t line_spacing)
 {
-    size_t text_len = strlen(text);
-    if (text_len == 0) {
+    size_t column_count = text_block_column_count(text, font_scale);
+    if (text[0] == '\0') {
         return frame_builder_push(builder, 0, duration_ms);
     }
-    for (size_t i = 0; i < text_len; ++i) {
-        uint8_t glyph[5];
-        font5x7_get_glyph(text[i], glyph);
-        for (size_t col = 0; col < 5; ++col) {
-            if (frame_builder_push(builder, glyph_column_to_mask(glyph[col]), duration_ms) != ESP_OK) {
+    for (size_t col = 0; col < column_count; ++col) {
+        if (frame_builder_push(builder, text_column_to_mask(text, col, font_scale, line_spacing), duration_ms) != ESP_OK) {
+            return ESP_ERR_NO_MEM;
+        }
+        if (gap_ms > 0 && col + 1 < column_count) {
+            if (frame_builder_push(builder, 0, gap_ms) != ESP_OK) {
                 return ESP_ERR_NO_MEM;
             }
-        }
-        if (frame_builder_push(builder, 0, duration_ms) != ESP_OK) {
-            return ESP_ERR_NO_MEM;
         }
     }
     return ESP_OK;
@@ -97,12 +170,18 @@ static esp_err_t append_plain_text(frame_builder_t *builder, const char *text, u
 static esp_err_t render_text_sequence(const screen_model_t *screen, const char *text, rendered_sequence_t *out_sequence)
 {
     frame_builder_t builder = {0};
-    uint16_t default_duration = (uint16_t) (screen->duration_ms == 0 ? 35 : screen->duration_ms);
+    const engine_config_t *engine = &config_get()->engine;
+    uint8_t font_scale = screen->font_scale == 0 ? 1 : screen->font_scale;
+    uint8_t line_spacing = screen->line_spacing;
+    uint16_t default_duration = (uint16_t) (
+        engine->column_period_ms != 0 ? engine->column_period_ms :
+        (engine->solenoid_hold_ms != 0 ? engine->solenoid_hold_ms : 35));
+    uint16_t gap_duration = (uint16_t) engine->text_column_gap_ms;
     uint16_t current_duration = default_duration;
     size_t leading_blanks = 0;
 
     if (screen->layout == SCREEN_LAYOUT_CENTER && !screen->rich_text) {
-        size_t columns = plain_text_column_count(text);
+        size_t columns = text_block_column_count(text, font_scale);
         if (columns < 64) {
             leading_blanks = (64 - columns) / 2;
         }
@@ -113,7 +192,7 @@ static esp_err_t render_text_sequence(const screen_model_t *screen, const char *
     }
 
     if (!screen->rich_text) {
-        if (append_plain_text(&builder, text, default_duration) != ESP_OK) {
+        if (append_plain_text(&builder, text, default_duration, gap_duration, font_scale, line_spacing) != ESP_OK) {
             goto fail;
         }
     } else {
@@ -127,7 +206,7 @@ static esp_err_t render_text_sequence(const screen_model_t *screen, const char *
                 if (end != NULL) {
                     if (plain_len > 0) {
                         plain_segment[plain_len] = '\0';
-                        if (append_plain_text(&builder, plain_segment, current_duration) != ESP_OK) {
+                        if (append_plain_text(&builder, plain_segment, current_duration, gap_duration, font_scale, line_spacing) != ESP_OK) {
                             goto fail;
                         }
                         plain_len = 0;
@@ -161,7 +240,7 @@ static esp_err_t render_text_sequence(const screen_model_t *screen, const char *
         }
         if (plain_len > 0) {
             plain_segment[plain_len] = '\0';
-            if (append_plain_text(&builder, plain_segment, current_duration) != ESP_OK) {
+            if (append_plain_text(&builder, plain_segment, current_duration, gap_duration, font_scale, line_spacing) != ESP_OK) {
                 goto fail;
             }
         }
@@ -186,13 +265,6 @@ static esp_err_t render_text_sequence(const screen_model_t *screen, const char *
             if (frame_builder_push(&builder, builder.frames[j].valves, builder.frames[j].duration_ms) != ESP_OK) {
                 goto fail;
             }
-        }
-    }
-
-    if (screen->hold_ms > 0) {
-        uint64_t last_mask = builder.count > 0 ? builder.frames[builder.count - 1].valves : 0;
-        if (frame_builder_push(&builder, last_mask, (uint16_t) screen->hold_ms) != ESP_OK) {
-            goto fail;
         }
     }
 
@@ -228,7 +300,9 @@ static esp_err_t render_bitmap_sequence(const screen_model_t *screen, rendered_s
         return ESP_ERR_INVALID_ARG;
     }
     frame_builder_t builder = {0};
-    uint16_t duration_ms = (uint16_t) (screen->duration_ms == 0 ? 35 : screen->duration_ms);
+    const engine_config_t *engine = &config_get()->engine;
+    uint16_t duration_ms = (uint16_t) (engine->solenoid_hold_ms == 0 ? 35 : engine->solenoid_hold_ms);
+    uint16_t gap_ms = (uint16_t) engine->bitmap_row_gap_ms;
     size_t frame_count = screen->bitmap_frames > SCREEN_BITMAP_MAX_FRAMES ? SCREEN_BITMAP_MAX_FRAMES : screen->bitmap_frames;
     for (size_t i = 0; i < frame_count; ++i) {
         char hex[17];
@@ -237,6 +311,12 @@ static esp_err_t render_bitmap_sequence(const screen_model_t *screen, rendered_s
         if (frame_builder_push(&builder, strtoull(hex, NULL, 16), duration_ms) != ESP_OK) {
             free(builder.frames);
             return ESP_ERR_NO_MEM;
+        }
+        if (gap_ms > 0 && i + 1 < frame_count) {
+            if (frame_builder_push(&builder, 0, gap_ms) != ESP_OK) {
+                free(builder.frames);
+                return ESP_ERR_NO_MEM;
+            }
         }
     }
     if (screen->hold_ms > 0 && builder.count > 0) {

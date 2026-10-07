@@ -1,5 +1,6 @@
 #include "engine/water_engine.h"
 
+#include <stdlib.h>
 #include <string.h>
 
 #include "drivers/shiftreg.h"
@@ -28,6 +29,19 @@ static char s_active_playlist_id[32] = "playlist-main";
 static size_t s_active_playlist_screen_index;
 static uint8_t s_active_playlist_repeat_left;
 
+static void set_active_screen_id(const char *screen_id);
+static void current_sequence_clear(void);
+
+static void water_engine_prepare_live_override(void)
+{
+    s_status.state = WATER_ENGINE_PAUSED;
+    current_sequence_clear();
+    s_status.active_mask = 0;
+    set_active_screen_id("");
+    shiftreg_all_off();
+    vTaskDelay(pdMS_TO_TICKS(60));
+}
+
 static void set_active_screen_id(const char *screen_id)
 {
     strlcpy(s_status.screen_id, screen_id == NULL ? "" : screen_id, sizeof(s_status.screen_id));
@@ -46,39 +60,53 @@ static esp_err_t load_next_playlist_sequence(void)
     if (playlist == NULL || playlist->item_count == 0) {
         return ESP_ERR_NOT_FOUND;
     }
-    if (s_active_playlist_screen_index >= playlist->item_count) {
-        if (!playlist->loop) {
-            return ESP_ERR_NOT_FOUND;
+    size_t attempts = 0;
+    while (attempts < playlist->item_count) {
+        if (s_active_playlist_screen_index >= playlist->item_count) {
+            if (!playlist->loop) {
+                return ESP_ERR_NOT_FOUND;
+            }
+            s_active_playlist_screen_index = 0;
         }
-        s_active_playlist_screen_index = 0;
-    }
 
-    playlist_item_t item = playlist->items[s_active_playlist_screen_index];
-    if (!item.enabled || item.screen_id[0] == '\0') {
-        s_active_playlist_screen_index++;
-        s_active_playlist_repeat_left = 0;
-        return ESP_ERR_NOT_FOUND;
-    }
-    if (s_active_playlist_repeat_left == 0) {
-        s_active_playlist_repeat_left = item.repeat_count == 0 ? 1 : item.repeat_count;
-    }
+        playlist_item_t item = playlist->items[s_active_playlist_screen_index];
+        if (!item.enabled || item.screen_id[0] == '\0') {
+            s_active_playlist_screen_index++;
+            s_active_playlist_repeat_left = 0;
+            ++attempts;
+            continue;
+        }
+        if (s_active_playlist_repeat_left == 0) {
+            s_active_playlist_repeat_left = item.repeat_count == 0 ? 1 : item.repeat_count;
+        }
 
-    const screen_model_t *screen = show_model_get_screen_by_id(item.screen_id);
-    if (screen == NULL || !screen->enabled) {
-        s_active_playlist_screen_index++;
+        const screen_model_t *screen = show_model_get_screen_by_id(item.screen_id);
+        if (screen == NULL || !screen->enabled) {
+            s_active_playlist_screen_index++;
+            s_active_playlist_repeat_left = 0;
+            ++attempts;
+            continue;
+        }
+        if (s_active_playlist_repeat_left > 0) {
+            s_active_playlist_repeat_left--;
+        }
+        if (s_active_playlist_repeat_left == 0) {
+            s_active_playlist_screen_index++;
+        }
+        current_sequence_clear();
+        strlcpy(s_status.playlist_id, s_active_playlist_id, sizeof(s_status.playlist_id));
+        set_active_screen_id(item.screen_id);
+        esp_err_t err = renderer_render_screen(screen, &s_current_sequence);
+        if (err == ESP_OK) {
+            return ESP_OK;
+        }
+        ESP_LOGW(TAG, "Skipping screen '%s', render failed: %s", item.screen_id, esp_err_to_name(err));
+        current_sequence_clear();
+        set_active_screen_id("");
         s_active_playlist_repeat_left = 0;
-        return ESP_ERR_NOT_FOUND;
+        ++attempts;
     }
-    if (s_active_playlist_repeat_left > 0) {
-        s_active_playlist_repeat_left--;
-    }
-    if (s_active_playlist_repeat_left == 0) {
-        s_active_playlist_screen_index++;
-    }
-    current_sequence_clear();
-    strlcpy(s_status.playlist_id, s_active_playlist_id, sizeof(s_status.playlist_id));
-    set_active_screen_id(item.screen_id);
-    return renderer_render_screen(screen, &s_current_sequence);
+    return ESP_ERR_NOT_FOUND;
 }
 
 static esp_err_t load_next_sequence(void)
@@ -107,6 +135,11 @@ static void water_engine_task(void *arg)
         }
         if (s_status.state == WATER_ENGINE_IDLE) {
             shiftreg_all_off();
+            vTaskDelay(pdMS_TO_TICKS(50));
+            continue;
+        }
+
+        if (s_status.state == WATER_ENGINE_PLAYING_GUEST_ITEM && s_current_sequence.frames == NULL) {
             vTaskDelay(pdMS_TO_TICKS(50));
             continue;
         }
@@ -210,16 +243,56 @@ esp_err_t water_engine_all_off(void)
 
 esp_err_t water_engine_set_live_mask(uint64_t mask)
 {
-    current_sequence_clear();
+    water_engine_prepare_live_override();
     s_status.active_mask = mask;
     s_status.state = WATER_ENGINE_PLAYING_GUEST_ITEM;
     set_active_screen_id("live-mask");
     return shiftreg_write_u64(mask);
 }
 
+esp_err_t water_engine_pulse_mask(uint64_t mask, uint32_t duration_ms)
+{
+    water_engine_prepare_live_override();
+    s_status.active_mask = mask;
+    s_status.state = WATER_ENGINE_PLAYING_GUEST_ITEM;
+    set_active_screen_id("live-pulse");
+    ESP_ERROR_CHECK(shiftreg_write_u64(mask));
+    vTaskDelay(pdMS_TO_TICKS(duration_ms));
+    s_status.active_mask = 0;
+    shiftreg_all_off();
+    s_status.state = WATER_ENGINE_IDLE;
+    set_active_screen_id("");
+    return ESP_OK;
+}
+
+esp_err_t water_engine_chase(uint32_t step_ms)
+{
+    water_engine_prepare_live_override();
+    current_sequence_clear();
+    s_current_sequence.frame_count = 64;
+    s_current_sequence.owns_memory = true;
+    s_current_sequence.frames = calloc(s_current_sequence.frame_count, sizeof(water_frame_t));
+    if (s_current_sequence.frames == NULL) {
+        s_current_sequence.frame_count = 0;
+        s_current_sequence.owns_memory = false;
+        s_status.state = WATER_ENGINE_IDLE;
+        set_active_screen_id("");
+        return ESP_ERR_NO_MEM;
+    }
+
+    for (uint32_t i = 0; i < 64; ++i) {
+        s_current_sequence.frames[i].valves = 1ULL << i;
+        s_current_sequence.frames[i].duration_ms = step_ms == 0 ? 35 : step_ms;
+    }
+
+    s_status.state = WATER_ENGINE_PLAYING_GUEST_ITEM;
+    set_active_screen_id("chase");
+    return ESP_OK;
+}
+
 esp_err_t water_engine_drain_pulse(uint32_t duration_ms)
 {
-    current_sequence_clear();
+    water_engine_prepare_live_override();
     s_status.active_mask = UINT64_MAX;
     s_status.state = WATER_ENGINE_PLAYING_GUEST_ITEM;
     set_active_screen_id("drain");

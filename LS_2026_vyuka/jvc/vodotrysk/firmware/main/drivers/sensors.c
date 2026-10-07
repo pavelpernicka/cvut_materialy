@@ -7,6 +7,8 @@
 #include "drivers/aht20.h"
 #include "drivers/rtc_ds3231.h"
 #include "driver/gpio.h"
+#include "esp_adc/adc_cali.h"
+#include "esp_adc/adc_cali_scheme.h"
 #include "esp_adc/adc_oneshot.h"
 #include "esp_check.h"
 #include "esp_log.h"
@@ -16,6 +18,8 @@
 static const char *TAG = "sensors";
 static sensor_snapshot_t s_cached;
 static adc_oneshot_unit_handle_t s_adc_units[2];
+static adc_cali_handle_t s_adc_cali[2];
+static bool s_adc_cali_valid[2];
 static adc_unit_t s_adc_unit_ids[3];
 static adc_channel_t s_adc_channels[3];
 static bool s_adc_valid[3];
@@ -37,15 +41,44 @@ static water_level_state_t sensors_compute_water_state(bool level_low, bool leve
     return WATER_STATE_LOW;
 }
 
-static float adc_raw_to_current(int raw)
+static int adc_raw_to_mv(size_t unit_index, adc_channel_t channel, int raw)
+{
+    if (unit_index < (sizeof(s_adc_cali) / sizeof(s_adc_cali[0])) && s_adc_cali_valid[unit_index] && s_adc_cali[unit_index] != NULL) {
+        int mv = 0;
+        if (adc_cali_raw_to_voltage(s_adc_cali[unit_index], raw, &mv) == ESP_OK) {
+            return mv;
+        }
+    }
+    (void) channel;
+    return (int) (((int64_t) raw * 3300LL) / 4095LL);
+}
+
+static float adc_raw_to_current_mv(int voltage_mv)
 {
     const app_config_t *cfg = config_get();
-    const float voltage = ((float) raw / 4095.0f) * 3.3f;
-    const float sense_resistor_ohm = 0.1f;
+    const float voltage = (float) voltage_mv / 1000.0f;
+    const float sense_resistor_ohm = 0.002f;
     const float ina_gain = 50.0f;
     float current = voltage / (sense_resistor_ohm * ina_gain);
-    current = current * cfg->sensors.current_adc_scale + cfg->sensors.current_adc_offset;
+    current = (current - cfg->sensors.current_adc_offset) * cfg->sensors.current_adc_scale;
     return current < 0.0f ? 0.0f : current;
+}
+
+static void sensors_adc_try_init_calibration(adc_unit_t unit, size_t unit_index)
+{
+    if (unit_index >= (sizeof(s_adc_cali) / sizeof(s_adc_cali[0])) || s_adc_cali_valid[unit_index]) {
+        return;
+    }
+
+    adc_cali_curve_fitting_config_t cali_cfg = {
+        .unit_id = unit,
+        .atten = ADC_ATTEN_DB_12,
+        .bitwidth = ADC_BITWIDTH_DEFAULT,
+    };
+    if (adc_cali_create_scheme_curve_fitting(&cali_cfg, &s_adc_cali[unit_index]) == ESP_OK) {
+        s_adc_cali_valid[unit_index] = true;
+        ESP_LOGI(TAG, "ADC calibration enabled for unit=%d", (int) unit);
+    }
 }
 
 static esp_err_t sensors_adc_setup_channel(int pin, size_t index)
@@ -59,7 +92,12 @@ static esp_err_t sensors_adc_setup_channel(int pin, size_t index)
         return err;
     }
 
-    size_t unit_index = unit - 1;
+    size_t unit_index = (size_t) unit;
+    if (unit_index >= (sizeof(s_adc_units) / sizeof(s_adc_units[0]))) {
+        ESP_LOGW(TAG, "GPIO%d mapped to unsupported ADC unit %d", pin, (int) unit);
+        s_adc_valid[index] = false;
+        return ESP_ERR_INVALID_ARG;
+    }
     if (s_adc_units[unit_index] == NULL) {
         adc_oneshot_unit_init_cfg_t init_cfg = {
             .unit_id = unit,
@@ -73,9 +111,11 @@ static esp_err_t sensors_adc_setup_channel(int pin, size_t index)
         .bitwidth = ADC_BITWIDTH_DEFAULT,
     };
     ESP_RETURN_ON_ERROR(adc_oneshot_config_channel(s_adc_units[unit_index], channel, &chan_cfg), TAG, "adc channel config failed");
+    sensors_adc_try_init_calibration(unit, unit_index);
     s_adc_unit_ids[index] = unit;
     s_adc_channels[index] = channel;
     s_adc_valid[index] = true;
+    ESP_LOGI(TAG, "Current ADC GPIO%d mapped to unit=%d channel=%d", pin, (int) unit, (int) channel);
     return ESP_OK;
 }
 
@@ -135,26 +175,55 @@ esp_err_t sensors_sample(sensor_snapshot_t *out_snapshot)
         s_cached.adc_valid[i] = s_adc_valid[i];
         if (s_adc_valid[i]) {
             int raw = 0;
-            adc_oneshot_unit_handle_t handle = s_adc_units[s_adc_unit_ids[i] - 1];
-            if (adc_oneshot_read(handle, s_adc_channels[i], &raw) == ESP_OK) {
+            size_t unit_index = (size_t) s_adc_unit_ids[i];
+            adc_oneshot_unit_handle_t handle = unit_index < (sizeof(s_adc_units) / sizeof(s_adc_units[0])) ? s_adc_units[unit_index] : NULL;
+            if (handle != NULL) {
+                int sum_raw = 0;
+                int ok_reads = 0;
+                for (int sample = 0; sample < 8; ++sample) {
+                    int sample_raw = 0;
+                    if (adc_oneshot_read(handle, s_adc_channels[i], &sample_raw) == ESP_OK) {
+                        sum_raw += sample_raw;
+                        ++ok_reads;
+                    }
+                }
+                if (ok_reads > 0) {
+                    raw = sum_raw / ok_reads;
+                }
+            }
+            if (handle != NULL && raw > 0) {
+                int voltage_mv = adc_raw_to_mv(unit_index, s_adc_channels[i], raw);
                 s_cached.adc_raw[i] = raw;
-                s_cached.pump_currents_a[i] = adc_raw_to_current(raw);
+                s_cached.pump_currents_a[i] = adc_raw_to_current_mv(voltage_mv);
+            } else {
+                s_cached.adc_valid[i] = false;
+                s_cached.adc_raw[i] = 0;
+                s_cached.pump_currents_a[i] = 0.0f;
             }
         } else {
             s_cached.adc_raw[i] = 0;
+            s_cached.pump_currents_a[i] = 0.0f;
         }
     }
     s_cached.history_head = (uint8_t) ((s_cached.history_head + 1U) % SENSOR_HISTORY_LEN);
-    for (size_t i = 0; i < 2; ++i) {
+    for (size_t i = 0; i < 3; ++i) {
         s_cached.pump_current_history_a[i][s_cached.history_head] = s_cached.pump_currents_a[i];
     }
-    if (aht20_read(&s_cached.temperature_c, &s_cached.humidity_pct) != ESP_OK) {
+    float aht20_temp_c = 0.0f;
+    float aht20_humidity_pct = 0.0f;
+    if (aht20_read(&aht20_temp_c, &aht20_humidity_pct) != ESP_OK) {
         s_cached.temperature_c = 0.0f;
         s_cached.humidity_pct = 0.0f;
+    } else {
+        s_cached.temperature_c = aht20_humidity_pct;
+        s_cached.humidity_pct = aht20_temp_c;
     }
     if (rtc_ds3231_get_unix_time(&s_cached.unix_time) != ESP_OK) {
         s_cached.unix_time = (uint64_t) time(NULL);
     }
+    s_cached.temperature_history_c[s_cached.history_head] = s_cached.temperature_c;
+    s_cached.humidity_history_pct[s_cached.history_head] = s_cached.humidity_pct;
+    s_cached.water_state_history[s_cached.history_head] = (uint8_t) s_cached.water_state;
 
     *out_snapshot = s_cached;
     return ESP_OK;

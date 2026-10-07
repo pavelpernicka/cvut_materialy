@@ -7,4 +7,5 @@
 
 esp_err_t rtc_ds3231_init(void);
 esp_err_t rtc_ds3231_get_unix_time(uint64_t *out_unix_time);
+esp_err_t rtc_ds3231_set_unix_time(uint64_t unix_time);
 bool rtc_ds3231_is_present(void);

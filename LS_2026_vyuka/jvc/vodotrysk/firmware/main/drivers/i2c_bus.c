@@ -11,6 +11,7 @@
 static const char *TAG = "i2c_bus";
 static bool s_inited;
 static i2c_master_bus_handle_t s_bus;
+static const int I2C_XFER_TIMEOUT_MS = 1000;
 
 typedef struct {
     uint8_t address;
@@ -65,7 +66,7 @@ esp_err_t i2c_bus_init(void)
         .clk_source = I2C_CLK_SRC_DEFAULT,
         .glitch_ignore_cnt = 7,
         .intr_priority = 0,
-        .trans_queue_depth = 4,
+        .trans_queue_depth = 0,
         .flags.enable_internal_pullup = 1,
         .flags.allow_pd = 0,
     };
@@ -79,26 +80,29 @@ esp_err_t i2c_bus_init(void)
 
 esp_err_t i2c_bus_probe(uint8_t address)
 {
-    return i2c_master_probe(s_bus, address, 100);
+    if (!s_inited || s_bus == NULL) {
+        return ESP_ERR_INVALID_STATE;
+    }
+    return i2c_master_probe(s_bus, address, I2C_XFER_TIMEOUT_MS);
 }
 
 esp_err_t i2c_bus_write(uint8_t address, const uint8_t *data, size_t len)
 {
     i2c_master_dev_handle_t handle = NULL;
     ESP_RETURN_ON_ERROR(get_or_create_device(address, &handle), TAG, "device alloc failed");
-    return i2c_master_transmit(handle, data, len, 100);
+    return i2c_master_transmit(handle, data, len, I2C_XFER_TIMEOUT_MS);
 }
 
 esp_err_t i2c_bus_read(uint8_t address, uint8_t *data, size_t len)
 {
     i2c_master_dev_handle_t handle = NULL;
     ESP_RETURN_ON_ERROR(get_or_create_device(address, &handle), TAG, "device alloc failed");
-    return i2c_master_receive(handle, data, len, 100);
+    return i2c_master_receive(handle, data, len, I2C_XFER_TIMEOUT_MS);
 }
 
 esp_err_t i2c_bus_write_read(uint8_t address, const uint8_t *wr, size_t wr_len, uint8_t *rd, size_t rd_len)
 {
     i2c_master_dev_handle_t handle = NULL;
     ESP_RETURN_ON_ERROR(get_or_create_device(address, &handle), TAG, "device alloc failed");
-    return i2c_master_transmit_receive(handle, wr, wr_len, rd, rd_len, 100);
+    return i2c_master_transmit_receive(handle, wr, wr_len, rd, rd_len, I2C_XFER_TIMEOUT_MS);
 }

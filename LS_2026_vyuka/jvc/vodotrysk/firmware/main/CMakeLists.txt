@@ -23,6 +23,9 @@ idf_component_register(
         "system/logger.c"
         "system/safety.c"
         "system/diagnostics.c"
+    EMBED_TXTFILES
+        "web/bootstrap.min.css"
+        "web/bootstrap.bundle.min.js"
     INCLUDE_DIRS
         "."
     REQUIRES

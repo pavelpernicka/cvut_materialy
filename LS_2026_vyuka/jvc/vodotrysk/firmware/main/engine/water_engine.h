@@ -45,6 +45,8 @@ esp_err_t water_engine_resume(void);
 esp_err_t water_engine_next(void);
 esp_err_t water_engine_all_off(void);
 esp_err_t water_engine_set_live_mask(uint64_t mask);
+esp_err_t water_engine_pulse_mask(uint64_t mask, uint32_t duration_ms);
+esp_err_t water_engine_chase(uint32_t step_ms);
 esp_err_t water_engine_drain_pulse(uint32_t duration_ms);
 esp_err_t water_engine_play_screen_now(const char *screen_id);
 esp_err_t water_engine_start_playlist(const char *playlist_id);

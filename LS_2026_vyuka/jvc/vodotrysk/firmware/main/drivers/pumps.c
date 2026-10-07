@@ -11,6 +11,9 @@
 #include "system/logger.h"
 
 static const char *TAG = "pumps";
+static const uint32_t PUMP_UNDERCURRENT_GRACE_MS = 500;
+static const uint32_t PUMP_UNDERCURRENT_CONFIRM_MS = 1500;
+static const uint32_t PUMP_FAULT_RETRY_MS = 3000;
 static pump_state_t s_pumps[2];
 static uint64_t s_fill_started_ms[2];
 static uint64_t s_drain_cooldown_until_ms;
@@ -46,16 +49,27 @@ static void pump_write(uint8_t index, bool on, const char *reason)
         uint64_t now_ms = (uint64_t) (esp_timer_get_time() / 1000ULL);
         if (on) {
             s_pumps[index].last_switch_ms = now_ms;
+            s_pumps[index].startup_grace_until_ms = now_ms + PUMP_UNDERCURRENT_GRACE_MS;
+            s_pumps[index].undercurrent_since_ms = 0;
             logger_event(LOG_CAT_PUMP, "pump%u on reason=%s", (unsigned) index + 1, reason == NULL ? "-" : reason);
         } else {
             if (s_pumps[index].last_switch_ms > 0 && now_ms > s_pumps[index].last_switch_ms) {
                 s_pumps[index].last_runtime_ms = (uint32_t) (now_ms - s_pumps[index].last_switch_ms);
             }
+            s_pumps[index].undercurrent_since_ms = 0;
             logger_event(LOG_CAT_PUMP, "pump%u off reason=%s runtime_ms=%u", (unsigned) index + 1, reason == NULL ? "-" : reason, (unsigned) s_pumps[index].last_runtime_ms);
         }
     }
     s_pumps[index].output_on = on;
     set_reason(index, reason);
+}
+
+static bool pump_mode_is_auto(pump_mode_t mode)
+{
+    return mode == PUMP_MODE_TWO_LEVEL_SENSORS ||
+        mode == PUMP_MODE_HIGH_LEVEL_ONLY ||
+        mode == PUMP_MODE_TIMED_AFTER_DRAIN ||
+        mode == PUMP_MODE_PWM_INTERVAL;
 }
 
 static void apply_config_to_state(uint8_t index, const pump_config_model_t *cfg)
@@ -76,13 +90,17 @@ static const pump_config_model_t *config_for_index(uint8_t index)
     return index == 0 ? &cfg->pumps.pump1 : &cfg->pumps.pump2;
 }
 
-static void pump_fault_shutdown(uint8_t index, const char *reason, bool overcurrent, bool undercurrent)
+static void pump_fault_shutdown(uint8_t index, const char *reason, bool overcurrent, bool undercurrent, bool disable_control)
 {
+    uint64_t now_ms = (uint64_t) (esp_timer_get_time() / 1000ULL);
     s_pumps[index].fault_overcurrent = overcurrent;
     s_pumps[index].fault_undercurrent = undercurrent;
-    s_pumps[index].auto_enabled = false;
-    s_pumps[index].manual_override = false;
-    s_pumps[index].mode = PUMP_MODE_OFF;
+    s_pumps[index].fault_retry_at_ms = now_ms + PUMP_FAULT_RETRY_MS;
+    if (disable_control) {
+        s_pumps[index].auto_enabled = false;
+        s_pumps[index].manual_override = false;
+        s_pumps[index].mode = PUMP_MODE_OFF;
+    }
     pump_write(index, false, reason);
     logger_event(LOG_CAT_ERROR, "pump%u fault=%s current=%.3f", (unsigned) index + 1, reason, (double) s_pumps[index].current_a);
 }
@@ -90,14 +108,35 @@ static void pump_fault_shutdown(uint8_t index, const char *reason, bool overcurr
 static void pumps_apply_fault_checks(uint8_t index)
 {
     if (!s_pumps[index].output_on) {
+        s_pumps[index].undercurrent_since_ms = 0;
         return;
     }
     if (s_pumps[index].current_a > s_pumps[index].max_current_a && s_pumps[index].max_current_a > 0.0f) {
-        pump_fault_shutdown(index, "overcurrent", true, false);
+        pump_fault_shutdown(index, "overcurrent", true, false, true);
         return;
     }
-    if (s_pumps[index].current_a < s_pumps[index].min_current_when_on_a && s_pumps[index].min_current_when_on_a > 0.0f) {
-        pump_fault_shutdown(index, "undercurrent", false, true);
+    uint64_t now_ms = (uint64_t) (esp_timer_get_time() / 1000ULL);
+    if (now_ms < s_pumps[index].startup_grace_until_ms) {
+        return;
+    }
+    if (s_pumps[index].manual_override) {
+        s_pumps[index].undercurrent_since_ms = 0;
+        return;
+    }
+    if (s_pumps[index].min_current_when_on_a <= 0.0f) {
+        s_pumps[index].undercurrent_since_ms = 0;
+        return;
+    }
+    if (s_pumps[index].current_a < s_pumps[index].min_current_when_on_a) {
+        if (s_pumps[index].undercurrent_since_ms == 0) {
+            s_pumps[index].undercurrent_since_ms = now_ms;
+            return;
+        }
+        if ((now_ms - s_pumps[index].undercurrent_since_ms) >= PUMP_UNDERCURRENT_CONFIRM_MS) {
+            pump_fault_shutdown(index, "undercurrent", false, true, false);
+        }
+    } else {
+        s_pumps[index].undercurrent_since_ms = 0;
     }
 }
 
@@ -108,6 +147,15 @@ static void pumps_apply_auto_logic_for_index(uint8_t index, const sensor_snapsho
     }
 
     uint64_t now_ms = (uint64_t) (esp_timer_get_time() / 1000ULL);
+    if (s_pumps[index].fault_retry_at_ms != 0 && now_ms < s_pumps[index].fault_retry_at_ms) {
+        pump_write(index, false, "fault_cooldown");
+        return;
+    }
+    if (s_pumps[index].fault_retry_at_ms != 0 && now_ms >= s_pumps[index].fault_retry_at_ms) {
+        s_pumps[index].fault_retry_at_ms = 0;
+        s_pumps[index].fault_overcurrent = false;
+        s_pumps[index].fault_undercurrent = false;
+    }
     if (now_ms < s_drain_cooldown_until_ms) {
         pump_write(index, false, "drain_cooldown");
         return;
@@ -125,11 +173,14 @@ static void pumps_apply_auto_logic_for_index(uint8_t index, const sensor_snapsho
                 if (s_pumps[index].output_on && s_fill_started_ms[index] != 0 && s_pumps[index].fill_timeout_s > 0 &&
                     (now_ms - s_fill_started_ms[index]) > ((uint64_t) s_pumps[index].fill_timeout_s * 1000ULL)) {
                     s_pumps[index].timed_out = true;
-                    pump_fault_shutdown(index, "fill_timeout", false, false);
+                    pump_fault_shutdown(index, "fill_timeout", false, false, false);
                 }
             } else if (snapshot->water_state == WATER_STATE_HIGH) {
                 s_fill_started_ms[index] = 0;
                 s_pumps[index].timed_out = false;
+                s_pumps[index].fault_retry_at_ms = 0;
+                s_pumps[index].fault_overcurrent = false;
+                s_pumps[index].fault_undercurrent = false;
                 pump_write(index, false, "level_high");
             } else if (snapshot->water_state == WATER_STATE_ERROR) {
                 s_fill_started_ms[index] = 0;
@@ -199,6 +250,8 @@ esp_err_t pumps_apply_config(uint8_t index)
         return ESP_ERR_INVALID_ARG;
     }
     apply_config_to_state(index, config_for_index(index));
+    s_pumps[index].fault_retry_at_ms = 0;
+    s_pumps[index].undercurrent_since_ms = 0;
     return ESP_OK;
 }
 
@@ -230,6 +283,8 @@ esp_err_t pumps_set_manual(uint8_t index, bool on)
     s_pumps[index].timed_out = false;
     s_pumps[index].fault_overcurrent = false;
     s_pumps[index].fault_undercurrent = false;
+    s_pumps[index].fault_retry_at_ms = 0;
+    s_pumps[index].undercurrent_since_ms = 0;
     s_pumps[index].mode = on ? PUMP_MODE_MANUAL_ON : PUMP_MODE_OFF;
     pump_write(index, on, on ? "manual_on" : "manual_off");
     return ESP_OK;
@@ -245,6 +300,8 @@ esp_err_t pumps_set_auto(uint8_t index, bool enabled)
     s_pumps[index].timed_out = false;
     s_pumps[index].fault_overcurrent = false;
     s_pumps[index].fault_undercurrent = false;
+    s_pumps[index].fault_retry_at_ms = 0;
+    s_pumps[index].undercurrent_since_ms = 0;
     if (!enabled) {
         s_pumps[index].mode = PUMP_MODE_OFF;
         pump_write(index, false, "auto_off");
@@ -264,8 +321,14 @@ esp_err_t pumps_update_from_levels(const sensor_snapshot_t *snapshot)
         s_last_water_used_ms = (uint64_t) (esp_timer_get_time() / 1000ULL);
     }
     for (uint8_t i = 0; i < 2; ++i) {
+        if (s_pumps[i].manual_override && s_pumps[i].mode == PUMP_MODE_MANUAL_ON) {
+            pump_write(i, true, "manual_hold");
+        }
         pumps_apply_auto_logic_for_index(i, snapshot);
         pumps_apply_fault_checks(i);
+        if (!s_pumps[i].manual_override && pump_mode_is_auto(s_pumps[i].mode) && !s_pumps[i].output_on && s_pumps[i].fault_retry_at_ms == 0) {
+            s_pumps[i].timed_out = false;
+        }
     }
     return ESP_OK;
 }

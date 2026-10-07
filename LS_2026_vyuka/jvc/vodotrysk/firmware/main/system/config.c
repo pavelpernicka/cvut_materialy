@@ -7,10 +7,71 @@
 
 static app_config_t s_config;
 
+static void config_fill_legacy_valve_map(uint8_t *valve_map, size_t count)
+{
+    if (valve_map == NULL || count < 64) {
+        return;
+    }
+
+    size_t idx = 0;
+    for (size_t block = 0; block < 4; ++block) {
+        uint8_t base = (uint8_t) (block * 16);
+        for (size_t bit = 0; bit < 8; ++bit) {
+            valve_map[idx++] = (uint8_t) (base + 15 - (bit * 2));
+        }
+    }
+    for (size_t block = 0; block < 4; ++block) {
+        uint8_t base = (uint8_t) (block * 16);
+        for (size_t bit = 0; bit < 8; ++bit) {
+            valve_map[idx++] = (uint8_t) (base + 14 - (bit * 2));
+        }
+    }
+}
+
+static void config_fill_default_valve_map(uint8_t *valve_map, size_t count)
+{
+    if (valve_map == NULL || count < 64) {
+        return;
+    }
+
+    size_t idx = 0;
+    for (size_t pair = 0; pair < 4; ++pair) {
+        uint8_t left_base = (uint8_t) (pair * 8);
+        uint8_t right_base = (uint8_t) ((7 - pair) * 8);
+        for (size_t bit = 0; bit < 8; ++bit) {
+            valve_map[idx++] = (uint8_t) (left_base + (7 - bit));
+            valve_map[idx++] = (uint8_t) (right_base + bit);
+        }
+    }
+}
+
+static bool config_valve_map_is_identity(const uint8_t *valve_map, size_t count)
+{
+    if (valve_map == NULL || count < 64) {
+        return false;
+    }
+    for (size_t i = 0; i < 64; ++i) {
+        if (valve_map[i] != i) {
+            return false;
+        }
+    }
+    return true;
+}
+
+static bool config_valve_map_matches_legacy_default(const uint8_t *valve_map, size_t count)
+{
+    uint8_t legacy[64];
+    if (valve_map == NULL || count < 64) {
+        return false;
+    }
+    config_fill_legacy_valve_map(legacy, sizeof(legacy));
+    return memcmp(valve_map, legacy, sizeof(legacy)) == 0;
+}
+
 void config_load_defaults(app_config_t *out_config)
 {
     app_config_t cfg = {
-        .version = 1,
+        .version = 4,
         .device_name = "Water Curtain",
         .wifi = {
             .mode = "ap_client",
@@ -26,7 +87,10 @@ void config_load_defaults(app_config_t *out_config)
         },
         .engine = {
             .column_period_ms = 35,
+            .text_column_gap_ms = 0,
             .default_frame_duration_ms = 35,
+            .solenoid_hold_ms = 1200,
+            .bitmap_row_gap_ms = 0,
             .pre_flush_ms = 100,
             .post_flush_ms = 100,
             .max_active_valves = 64,
@@ -72,9 +136,7 @@ void config_load_defaults(app_config_t *out_config)
         },
     };
 
-    for (uint8_t i = 0; i < 64; ++i) {
-        cfg.hardware.valve_map[i] = i;
-    }
+    config_fill_default_valve_map(cfg.hardware.valve_map, sizeof(cfg.hardware.valve_map));
 
     if (out_config != NULL) {
         *out_config = cfg;
@@ -187,7 +249,7 @@ esp_err_t config_to_json(const app_config_t *config, char **out_json)
             config->hardware.valve_map[i]);
     }
 
-    size_t capacity = 2300;
+    size_t capacity = 2700;
     char *printed = calloc(capacity, 1);
     if (printed == NULL) {
         return ESP_ERR_NO_MEM;
@@ -200,7 +262,7 @@ esp_err_t config_to_json(const app_config_t *config, char **out_json)
         "\"device_name\":\"%s\","
         "\"wifi\":{\"mode\":\"%s\",\"ap_ssid\":\"%s\",\"ap_password\":\"%s\",\"client_ssid\":\"%s\",\"client_password\":\"%s\",\"fallback_ap\":%s},"
         "\"hardware\":{\"solenoid_count\":%u,\"shift_register_count\":%u,\"bit_order_msb_first\":%s,\"invert_outputs\":%s,\"valve_map\":[%s]},"
-        "\"engine\":{\"column_period_ms\":%" PRIu32 ",\"default_frame_duration_ms\":%" PRIu32 ",\"pre_flush_ms\":%" PRIu32 ",\"post_flush_ms\":%" PRIu32 ",\"max_active_valves\":%u},"
+        "\"engine\":{\"column_period_ms\":%" PRIu32 ",\"text_column_gap_ms\":%" PRIu32 ",\"default_frame_duration_ms\":%" PRIu32 ",\"solenoid_hold_ms\":%" PRIu32 ",\"bitmap_row_gap_ms\":%" PRIu32 ",\"pre_flush_ms\":%" PRIu32 ",\"post_flush_ms\":%" PRIu32 ",\"max_active_valves\":%u},"
         "\"exhibition\":{\"enabled\":%s,\"max_queue\":%u,\"max_text_length\":%u,\"allow_bitmap\":%s,\"cooldown_s\":%u},"
         "\"pumps\":{\"pump1\":{\"enabled\":%s,\"mode\":\"%s\",\"invert_output\":%s,\"max_current_a\":%.3f,\"min_current_when_on_a\":%.3f,\"fill_timeout_s\":%" PRIu32 ",\"interval_period_ms\":%" PRIu32 ",\"duty_percent\":%u,\"only_after_water_used\":%s},"
         "\"pump2\":{\"enabled\":%s,\"mode\":\"%s\",\"invert_output\":%s,\"max_current_a\":%.3f,\"min_current_when_on_a\":%.3f,\"fill_timeout_s\":%" PRIu32 ",\"interval_period_ms\":%" PRIu32 ",\"duty_percent\":%u,\"only_after_water_used\":%s}},"
@@ -220,7 +282,10 @@ esp_err_t config_to_json(const app_config_t *config, char **out_json)
         config->hardware.invert_outputs ? "true" : "false",
         valve_map,
         config->engine.column_period_ms,
+        config->engine.text_column_gap_ms,
         config->engine.default_frame_duration_ms,
+        config->engine.solenoid_hold_ms,
+        config->engine.bitmap_row_gap_ms,
         config->engine.pre_flush_ms,
         config->engine.post_flush_ms,
         config->engine.max_active_valves,
@@ -283,7 +348,10 @@ esp_err_t config_from_json(const char *json, app_config_t *out_config)
     if (json_parse_bool(json, "bit_order_msb_first", &tmp_bool)) cfg.hardware.bit_order_msb_first = tmp_bool;
     if (json_parse_bool(json, "invert_outputs", &tmp_bool)) cfg.hardware.invert_outputs = tmp_bool;
     json_parse_u32(json, "column_period_ms", &cfg.engine.column_period_ms);
+    json_parse_u32(json, "text_column_gap_ms", &cfg.engine.text_column_gap_ms);
     json_parse_u32(json, "default_frame_duration_ms", &cfg.engine.default_frame_duration_ms);
+    json_parse_u32(json, "solenoid_hold_ms", &cfg.engine.solenoid_hold_ms);
+    json_parse_u32(json, "bitmap_row_gap_ms", &cfg.engine.bitmap_row_gap_ms);
     json_parse_u32(json, "pre_flush_ms", &cfg.engine.pre_flush_ms);
     json_parse_u32(json, "post_flush_ms", &cfg.engine.post_flush_ms);
     if (json_parse_u32(json, "max_active_valves", &tmp_u32)) cfg.engine.max_active_valves = (uint8_t) tmp_u32;
@@ -337,6 +405,24 @@ esp_err_t config_from_json(const char *json, app_config_t *out_config)
                 break;
             }
         }
+    }
+
+    if (cfg.version < 2 && config_valve_map_is_identity(cfg.hardware.valve_map, sizeof(cfg.hardware.valve_map))) {
+        config_fill_default_valve_map(cfg.hardware.valve_map, sizeof(cfg.hardware.valve_map));
+        cfg.version = 2;
+    }
+    if (cfg.version < 3) {
+        if (cfg.engine.solenoid_hold_ms == 0) {
+            cfg.engine.solenoid_hold_ms = 1200;
+        }
+        cfg.version = 3;
+    }
+    if (cfg.version < 4) {
+        if (config_valve_map_is_identity(cfg.hardware.valve_map, sizeof(cfg.hardware.valve_map)) ||
+            config_valve_map_matches_legacy_default(cfg.hardware.valve_map, sizeof(cfg.hardware.valve_map))) {
+            config_fill_default_valve_map(cfg.hardware.valve_map, sizeof(cfg.hardware.valve_map));
+        }
+        cfg.version = 4;
     }
 
     *out_config = cfg;

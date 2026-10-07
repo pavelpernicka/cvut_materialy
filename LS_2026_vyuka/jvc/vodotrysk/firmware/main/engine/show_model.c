@@ -106,6 +106,8 @@ static void show_model_load_defaults(void)
     s_screens[0].repeat_count = 1;
     s_screens[0].gap_columns = 8;
     s_screens[0].layout = SCREEN_LAYOUT_CENTER;
+    s_screens[0].font_scale = 1;
+    s_screens[0].line_spacing = 2;
     s_screens[0].enabled = true;
     snprintf(s_screens[0].text, sizeof(s_screens[0].text), "CAS {{time}}");
 
@@ -117,6 +119,8 @@ static void show_model_load_defaults(void)
     s_screens[1].repeat_count = 1;
     s_screens[1].gap_columns = 8;
     s_screens[1].layout = SCREEN_LAYOUT_SCROLL;
+    s_screens[1].font_scale = 1;
+    s_screens[1].line_spacing = 2;
     s_screens[1].enabled = true;
     s_screens[1].rich_text = true;
     snprintf(s_screens[1].text, sizeof(s_screens[1].text), "T {{temp}} [gap=4] H {{humidity}}");
@@ -129,6 +133,8 @@ static void show_model_load_defaults(void)
     s_screens[2].repeat_count = 1;
     s_screens[2].gap_columns = 10;
     s_screens[2].layout = SCREEN_LAYOUT_SCROLL;
+    s_screens[2].font_scale = 1;
+    s_screens[2].line_spacing = 2;
     s_screens[2].enabled = true;
     s_screens[2].rich_text = true;
     snprintf(s_screens[2].text, sizeof(s_screens[2].text), "[speed=24]AHOJ [gap=6] VODNI OPONA");
@@ -159,7 +165,7 @@ static esp_err_t show_model_save_screens(void)
             buf + cursor,
             sizeof(buf) - (size_t) cursor,
             "%s{\"id\":\"%s\",\"name\":\"%s\",\"type\":%u,\"duration_ms\":%u,\"hold_ms\":%u,\"enabled\":%s,"
-            "\"rich_text\":%s,\"repeat_count\":%u,\"gap_columns\":%u,\"layout\":%u,\"text\":\"%s\",\"bitmap_frames\":%u,\"bitmap\":\"%s\"}",
+            "\"rich_text\":%s,\"repeat_count\":%u,\"gap_columns\":%u,\"layout\":%u,\"font_scale\":%u,\"line_spacing\":%u,\"text\":\"%s\",\"bitmap_frames\":%u,\"bitmap\":\"%s\"}",
             i == 0 ? "" : ",",
             s_screens[i].id,
             s_screens[i].name,
@@ -171,6 +177,8 @@ static esp_err_t show_model_save_screens(void)
             (unsigned) s_screens[i].repeat_count,
             (unsigned) s_screens[i].gap_columns,
             (unsigned) s_screens[i].layout,
+            (unsigned) s_screens[i].font_scale,
+            (unsigned) s_screens[i].line_spacing,
             s_screens[i].text,
             (unsigned) s_screens[i].bitmap_frames,
             s_screens[i].bitmap);
@@ -228,6 +236,8 @@ static void load_screens_from_json(const char *json)
         screen->repeat_count = (uint8_t) parse_u32_after(cursor, "repeat_count", 1);
         screen->gap_columns = (uint8_t) parse_u32_after(cursor, "gap_columns", 6);
         screen->layout = (screen_layout_t) parse_u32_after(cursor, "layout", SCREEN_LAYOUT_SCROLL);
+        screen->font_scale = (uint8_t) parse_u32_after(cursor, "font_scale", 1);
+        screen->line_spacing = (uint8_t) parse_u32_after(cursor, "line_spacing", 2);
         screen->bitmap_frames = (uint8_t) parse_u32_after(cursor, "bitmap_frames", 0);
         ++s_screen_count;
         ++cursor;
@@ -334,6 +344,12 @@ esp_err_t show_model_upsert_screen(const screen_model_t *screen)
     if (normalized.repeat_count == 0) {
         normalized.repeat_count = 1;
     }
+    if (normalized.font_scale == 0) {
+        normalized.font_scale = 1;
+    }
+    if (normalized.line_spacing > 16) {
+        normalized.line_spacing = 16;
+    }
     normalized.bitmap[SCREEN_BITMAP_HEX_LEN - 1] = '\0';
     if (normalized.type != SCREEN_BITMAP) {
         normalized.bitmap_frames = 0;
@@ -430,7 +446,7 @@ esp_err_t show_model_export_json(char *screens_json, size_t screens_size, char *
             screens_json + sc,
             screens_size - (size_t) sc,
             "%s{\"id\":\"%s\",\"name\":\"%s\",\"type\":%u,\"duration_ms\":%u,\"hold_ms\":%u,\"enabled\":%s,"
-            "\"rich_text\":%s,\"repeat_count\":%u,\"gap_columns\":%u,\"layout\":%u,\"text\":\"%s\",\"bitmap_frames\":%u,\"bitmap\":\"%s\"}",
+            "\"rich_text\":%s,\"repeat_count\":%u,\"gap_columns\":%u,\"layout\":%u,\"font_scale\":%u,\"line_spacing\":%u,\"text\":\"%s\",\"bitmap_frames\":%u,\"bitmap\":\"%s\"}",
             i == 0 ? "" : ",",
             s_screens[i].id,
             s_screens[i].name,
@@ -442,6 +458,8 @@ esp_err_t show_model_export_json(char *screens_json, size_t screens_size, char *
             (unsigned) s_screens[i].repeat_count,
             (unsigned) s_screens[i].gap_columns,
             (unsigned) s_screens[i].layout,
+            (unsigned) s_screens[i].font_scale,
+            (unsigned) s_screens[i].line_spacing,
             s_screens[i].text,
             (unsigned) s_screens[i].bitmap_frames,
             s_screens[i].bitmap);

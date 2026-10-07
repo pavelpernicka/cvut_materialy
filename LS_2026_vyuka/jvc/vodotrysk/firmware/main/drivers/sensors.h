@@ -13,7 +13,7 @@ typedef enum {
     WATER_STATE_ERROR,
 } water_level_state_t;
 
-#define SENSOR_HISTORY_LEN 32
+#define SENSOR_HISTORY_LEN 96
 
 typedef struct {
     bool level_low;
@@ -23,7 +23,10 @@ typedef struct {
     bool adc_valid[3];
     int adc_raw[3];
     float pump_currents_a[3];
-    float pump_current_history_a[2][SENSOR_HISTORY_LEN];
+    float pump_current_history_a[3][SENSOR_HISTORY_LEN];
+    float temperature_history_c[SENSOR_HISTORY_LEN];
+    float humidity_history_pct[SENSOR_HISTORY_LEN];
+    uint8_t water_state_history[SENSOR_HISTORY_LEN];
     uint8_t history_head;
     water_level_state_t water_state;
     float temperature_c;

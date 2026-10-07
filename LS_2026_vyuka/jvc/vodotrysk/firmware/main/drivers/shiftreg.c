@@ -11,10 +11,28 @@
 #include "esp_rom_sys.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "system/config.h"
 
 static const char *TAG = "shiftreg";
 static spi_device_handle_t s_spi;
 static bool s_inited;
+
+static uint64_t shiftreg_apply_valve_map(uint64_t logical_mask)
+{
+    const app_config_t *cfg = config_get();
+    uint64_t physical_mask = 0;
+
+    for (size_t logical = 0; logical < 64; ++logical) {
+        if (((logical_mask >> logical) & 1ULL) == 0) {
+            continue;
+        }
+        uint8_t physical = cfg->hardware.valve_map[logical];
+        if (physical < 64) {
+            physical_mask |= 1ULL << physical;
+        }
+    }
+    return physical_mask;
+}
 
 static void shiftreg_latch(void)
 {
@@ -89,10 +107,11 @@ esp_err_t shiftreg_write_u64(uint64_t mask)
     }
 
     const board_config_t *board = board_config_get();
+    uint64_t physical_mask = shiftreg_apply_valve_map(mask);
     uint8_t tx[8];
     for (size_t i = 0; i < sizeof(tx); ++i) {
         size_t shift = board->shift_msb_first ? (56 - (i * 8)) : (i * 8);
-        tx[i] = (uint8_t) ((mask >> shift) & 0xffU);
+        tx[i] = (uint8_t) ((physical_mask >> shift) & 0xffU);
         if (board->invert_shift_outputs) {
             tx[i] = (uint8_t) ~tx[i];
         }

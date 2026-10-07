@@ -33,6 +33,9 @@ typedef struct {
     bool fault_overcurrent;
     bool fault_undercurrent;
     uint64_t last_switch_ms;
+    uint64_t startup_grace_until_ms;
+    uint64_t fault_retry_at_ms;
+    uint64_t undercurrent_since_ms;
     uint32_t last_runtime_ms;
     char last_reason[24];
 } pump_state_t;

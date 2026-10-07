@@ -19,9 +19,31 @@
 #include "system/wifi_manager.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "driver/gpio.h"
+#include "board/pinmap.h"
 
 static const char *TAG = "app";
 static const BaseType_t APP_CORE_IO = 0;
+
+static void boot_blink_user_led(void)
+{
+    const gpio_config_t cfg = {
+        .pin_bit_mask = 1ULL << PIN_LED_INT,
+        .mode = GPIO_MODE_OUTPUT,
+        .pull_up_en = GPIO_PULLUP_DISABLE,
+        .pull_down_en = GPIO_PULLDOWN_DISABLE,
+        .intr_type = GPIO_INTR_DISABLE,
+    };
+
+    ESP_ERROR_CHECK(gpio_config(&cfg));
+
+    for (int i = 0; i < 4; ++i) {
+        gpio_set_level(PIN_LED_INT, 1);
+        vTaskDelay(pdMS_TO_TICKS(300));
+        gpio_set_level(PIN_LED_INT, 0);
+        vTaskDelay(pdMS_TO_TICKS(300));
+    }
+}
 
 static rgb_t rgb_scale(rgb_t color, uint8_t scale)
 {
@@ -63,15 +85,19 @@ static rgb_t rgb_for_status(uint32_t tick_ms)
 static void sensor_task(void *arg)
 {
     (void) arg;
+    sensor_snapshot_t *snapshot = calloc(1, sizeof(sensor_snapshot_t));
+    if (snapshot == NULL) {
+        vTaskDelete(NULL);
+        return;
+    }
 
     while (true) {
-        sensor_snapshot_t snapshot;
-        if (sensors_sample(&snapshot) == ESP_OK) {
-            (void) pumps_set_current(0, snapshot.pump_currents_a[0]);
-            (void) pumps_set_current(1, snapshot.pump_currents_a[1]);
-            (void) pumps_update_from_levels(&snapshot);
+        if (sensors_sample(snapshot) == ESP_OK) {
+            (void) pumps_set_current(0, snapshot->pump_currents_a[0]);
+            (void) pumps_set_current(1, snapshot->pump_currents_a[1]);
+            (void) pumps_update_from_levels(snapshot);
         }
-        vTaskDelay(pdMS_TO_TICKS(250));
+        vTaskDelay(pdMS_TO_TICKS(100));
     }
 }
 
@@ -92,8 +118,10 @@ void app_main(void)
     app_config_t config;
     TaskHandle_t sensor_task_handle = NULL;
     TaskHandle_t led_task_handle = NULL;
+    esp_err_t err = ESP_OK;
 
     logger_init();
+    boot_blink_user_led();
     logger_event(LOG_CAT_SYSTEM, "firmware boot start");
     diagnostics_log_boot();
     ESP_ERROR_CHECK(safety_pre_init());
@@ -106,21 +134,30 @@ void app_main(void)
     ESP_ERROR_CHECK(pumps_init());
     ESP_ERROR_CHECK(sensors_init());
     ESP_ERROR_CHECK(ws2812_init());
-    ESP_ERROR_CHECK(aht20_init());
-    ESP_ERROR_CHECK(rtc_ds3231_init());
+    err = aht20_init();
+    if (err != ESP_OK && err != ESP_ERR_NOT_FOUND) {
+        ESP_ERROR_CHECK(err);
+    }
+    err = rtc_ds3231_init();
+    if (err != ESP_OK && err != ESP_ERR_NOT_FOUND) {
+        ESP_ERROR_CHECK(err);
+    }
     ESP_ERROR_CHECK(queue_init(config.exhibition.max_queue));
     ESP_ERROR_CHECK(water_engine_init());
     ESP_ERROR_CHECK(wifi_manager_init());
     ESP_ERROR_CHECK(websocket_init());
     ESP_ERROR_CHECK(web_server_start());
-    xTaskCreatePinnedToCore(sensor_task, "sensor_task", 4096, NULL, 4, &sensor_task_handle, APP_CORE_IO);
+    xTaskCreatePinnedToCore(sensor_task, "sensor_task", 6144, NULL, 4, &sensor_task_handle, APP_CORE_IO);
     xTaskCreatePinnedToCore(led_task, "led_task", 3072, NULL, 2, &led_task_handle, APP_CORE_IO);
     diagnostics_register_task(DIAG_TASK_SENSOR, sensor_task_handle, APP_CORE_IO);
     diagnostics_register_task(DIAG_TASK_LED, led_task_handle, APP_CORE_IO);
 
     shiftreg_enable(true);
-    (void) ws2812_set((rgb_t) {0, 40, 0});
     ESP_ERROR_CHECK(water_engine_start());
     logger_event(LOG_CAT_SYSTEM, "system ready");
     ESP_LOGI(TAG, "System ready");
+
+    while (true) {
+        vTaskDelay(portMAX_DELAY);
+    }
 }

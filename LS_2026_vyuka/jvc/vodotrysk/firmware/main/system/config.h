@@ -24,7 +24,10 @@ typedef struct {
 
 typedef struct {
     uint32_t column_period_ms;
+    uint32_t text_column_gap_ms;
     uint32_t default_frame_duration_ms;
+    uint32_t solenoid_hold_ms;
+    uint32_t bitmap_row_gap_ms;
     uint32_t pre_flush_ms;
     uint32_t post_flush_ms;
     uint8_t max_active_valves;

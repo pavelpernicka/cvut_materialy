@@ -2,6 +2,7 @@
 
 #include <inttypes.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "drivers/pumps.h"
@@ -17,6 +18,7 @@
 
 static const char *TAG = "websocket";
 static const BaseType_t WS_CORE = 0;
+static const size_t WS_BODY_SIZE = 16384;
 static httpd_handle_t s_server;
 static TaskHandle_t s_ws_task;
 
@@ -35,12 +37,8 @@ static esp_err_t ws_snapshot_build(char *body, size_t body_size)
         body,
         body_size,
         "{\"type\":\"snapshot\",\"status\":{\"ip\":\"%s\",\"mode\":\"%s\",\"queue_len\":%u,\"engine_state\":%u},"
-        "\"sensors\":{\"level_low\":%s,\"level_high\":%s,\"water_state\":%u,\"temp\":%.1f,\"humidity\":%.1f,\"unix_time\":%" PRIu64 "},"
-        "\"pumps\":{\"pump1\":{\"on\":%s,\"auto_enabled\":%s,\"manual_override\":%s,\"timed_out\":%s,\"current\":%.3f},"
-        "\"pump2\":{\"on\":%s,\"auto_enabled\":%s,\"manual_override\":%s,\"timed_out\":%s,\"current\":%.3f}},"
-        "\"engine\":{\"frame_period_ms\":%u,\"fps\":%u,\"core\":%u,\"playlist_id\":\"%s\",\"screen_id\":\"%s\"},"
-        "\"diagnostics\":{\"uptime_ms\":%" PRIu64 ",\"free_heap_bytes\":%u,\"min_free_heap_bytes\":%u,\"largest_free_block_bytes\":%u,"
-        "\"task_core\":[%u,%u,%u,%u],\"task_stack_hwm_words\":[%u,%u,%u,%u]}}",
+        "\"sensors\":{\"level_low\":%s,\"level_high\":%s,\"water_state\":%u,\"temp\":%.1f,\"humidity\":%.1f,\"unix_time\":%" PRIu64 ","
+        "\"adc_valid\":[%s,%s,%s],\"adc_raw\":[%d,%d,%d],\"pump1_current\":%.3f,\"pump2_current\":%.3f,\"pump3_current\":%.3f,\"pump_current_history_a\":[[",
         wifi_manager_get_ip(),
         wifi_manager_get_mode(),
         (unsigned) queue_len(),
@@ -51,6 +49,104 @@ static esp_err_t ws_snapshot_build(char *body, size_t body_size)
         (double) s->temperature_c,
         (double) s->humidity_pct,
         s->unix_time,
+        s->adc_valid[0] ? "true" : "false",
+        s->adc_valid[1] ? "true" : "false",
+        s->adc_valid[2] ? "true" : "false",
+        s->adc_raw[0],
+        s->adc_raw[1],
+        s->adc_raw[2],
+        (double) s->pump_currents_a[0],
+        (double) s->pump_currents_a[1],
+        (double) s->pump_currents_a[2]);
+    if (written <= 0 || (size_t) written >= body_size) {
+        return ESP_ERR_NO_MEM;
+    }
+
+    for (size_t i = 0; i < SENSOR_HISTORY_LEN; ++i) {
+        size_t idx = (s->history_head + 1U + i) % SENSOR_HISTORY_LEN;
+        written += snprintf(body + written, body_size - (size_t) written, "%s%.3f", i == 0 ? "" : ",", (double) s->pump_current_history_a[0][idx]);
+        if (written <= 0 || (size_t) written >= body_size) {
+            return ESP_ERR_NO_MEM;
+        }
+    }
+
+    written += snprintf(body + written, body_size - (size_t) written, "],[");
+    if (written <= 0 || (size_t) written >= body_size) {
+        return ESP_ERR_NO_MEM;
+    }
+
+    for (size_t i = 0; i < SENSOR_HISTORY_LEN; ++i) {
+        size_t idx = (s->history_head + 1U + i) % SENSOR_HISTORY_LEN;
+        written += snprintf(body + written, body_size - (size_t) written, "%s%.3f", i == 0 ? "" : ",", (double) s->pump_current_history_a[1][idx]);
+        if (written <= 0 || (size_t) written >= body_size) {
+            return ESP_ERR_NO_MEM;
+        }
+    }
+
+    written += snprintf(body + written, body_size - (size_t) written, "],[");
+    if (written <= 0 || (size_t) written >= body_size) {
+        return ESP_ERR_NO_MEM;
+    }
+
+    for (size_t i = 0; i < SENSOR_HISTORY_LEN; ++i) {
+        size_t idx = (s->history_head + 1U + i) % SENSOR_HISTORY_LEN;
+        written += snprintf(body + written, body_size - (size_t) written, "%s%.3f", i == 0 ? "" : ",", (double) s->pump_current_history_a[2][idx]);
+        if (written <= 0 || (size_t) written >= body_size) {
+            return ESP_ERR_NO_MEM;
+        }
+    }
+
+    written += snprintf(
+        body + written,
+        body_size - (size_t) written,
+        "]],\"temperature_history_c\":[");
+    if (written <= 0 || (size_t) written >= body_size) {
+        return ESP_ERR_NO_MEM;
+    }
+
+    for (size_t i = 0; i < SENSOR_HISTORY_LEN; ++i) {
+        size_t idx = (s->history_head + 1U + i) % SENSOR_HISTORY_LEN;
+        written += snprintf(body + written, body_size - (size_t) written, "%s%.2f", i == 0 ? "" : ",", (double) s->temperature_history_c[idx]);
+        if (written <= 0 || (size_t) written >= body_size) {
+            return ESP_ERR_NO_MEM;
+        }
+    }
+
+    written += snprintf(body + written, body_size - (size_t) written, "],\"humidity_history_pct\":[");
+    if (written <= 0 || (size_t) written >= body_size) {
+        return ESP_ERR_NO_MEM;
+    }
+
+    for (size_t i = 0; i < SENSOR_HISTORY_LEN; ++i) {
+        size_t idx = (s->history_head + 1U + i) % SENSOR_HISTORY_LEN;
+        written += snprintf(body + written, body_size - (size_t) written, "%s%.2f", i == 0 ? "" : ",", (double) s->humidity_history_pct[idx]);
+        if (written <= 0 || (size_t) written >= body_size) {
+            return ESP_ERR_NO_MEM;
+        }
+    }
+
+    written += snprintf(body + written, body_size - (size_t) written, "],\"water_state_history\":[");
+    if (written <= 0 || (size_t) written >= body_size) {
+        return ESP_ERR_NO_MEM;
+    }
+
+    for (size_t i = 0; i < SENSOR_HISTORY_LEN; ++i) {
+        size_t idx = (s->history_head + 1U + i) % SENSOR_HISTORY_LEN;
+        written += snprintf(body + written, body_size - (size_t) written, "%s%u", i == 0 ? "" : ",", (unsigned) s->water_state_history[idx]);
+        if (written <= 0 || (size_t) written >= body_size) {
+            return ESP_ERR_NO_MEM;
+        }
+    }
+
+    written += snprintf(
+        body + written,
+        body_size - (size_t) written,
+        "]},"
+        "\"pumps\":{\"pump1\":{\"on\":%s,\"auto_enabled\":%s,\"manual_override\":%s,\"timed_out\":%s,\"current\":%.3f},"
+        "\"pump2\":{\"on\":%s,\"auto_enabled\":%s,\"manual_override\":%s,\"timed_out\":%s,\"current\":%.3f}},"
+        "\"engine\":{\"frame_period_ms\":%u,\"fps\":%u,\"core\":%u,\"playlist_id\":\"%s\",\"screen_id\":\"%s\"},"
+        "\"diagnostics\":{\"uptime_ms\":%" PRIu64 ",\"free_heap_bytes\":%u,\"min_free_heap_bytes\":%u,\"largest_free_block_bytes\":%u,"
+        "\"task_core\":[%u,%u,%u,%u],\"task_stack_hwm_words\":[%u,%u,%u,%u]}}",
         p1.output_on ? "true" : "false",
         p1.auto_enabled ? "true" : "false",
         p1.manual_override ? "true" : "false",
@@ -99,8 +195,12 @@ static esp_err_t ws_handler(httpd_req_t *req)
         payload[frame.len < sizeof(payload) ? frame.len : sizeof(payload) - 1] = '\0';
     }
 
-    char body[512];
-    if (ws_snapshot_build(body, sizeof(body)) != ESP_OK) {
+    char *body = calloc(1, WS_BODY_SIZE);
+    if (body == NULL) {
+        return ESP_ERR_NO_MEM;
+    }
+    if (ws_snapshot_build(body, WS_BODY_SIZE) != ESP_OK) {
+        free(body);
         return ESP_FAIL;
     }
 
@@ -109,7 +209,9 @@ static esp_err_t ws_handler(httpd_req_t *req)
         .payload = (uint8_t *) body,
         .len = strlen(body),
     };
-    return httpd_ws_send_frame(req, &response);
+    esp_err_t err = httpd_ws_send_frame(req, &response);
+    free(body);
+    return err;
 }
 
 static void websocket_task(void *arg)
@@ -121,8 +223,8 @@ static void websocket_task(void *arg)
             size_t client_count = 8;
             int client_fds[8] = {0};
             if (httpd_get_client_list(s_server, &client_count, client_fds) == ESP_OK && client_count > 0) {
-                char body[512];
-                if (ws_snapshot_build(body, sizeof(body)) == ESP_OK) {
+                char *body = calloc(1, WS_BODY_SIZE);
+                if (body != NULL && ws_snapshot_build(body, WS_BODY_SIZE) == ESP_OK) {
                     httpd_ws_frame_t frame = {
                         .type = HTTPD_WS_TYPE_TEXT,
                         .payload = (uint8_t *) body,
@@ -134,6 +236,7 @@ static void websocket_task(void *arg)
                         }
                     }
                 }
+                free(body);
             }
         }
         vTaskDelay(pdMS_TO_TICKS(1000));
@@ -149,7 +252,7 @@ esp_err_t websocket_init(void)
     BaseType_t ok = xTaskCreatePinnedToCore(
         websocket_task,
         "ws_broadcast",
-        4096,
+        12288,
         NULL,
         3,
         &s_ws_task,

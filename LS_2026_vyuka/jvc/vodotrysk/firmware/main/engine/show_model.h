@@ -41,6 +41,8 @@ typedef struct {
     uint8_t repeat_count;
     uint8_t gap_columns;
     screen_layout_t layout;
+    uint8_t font_scale;
+    uint8_t line_spacing;
     char text[128];
     uint8_t bitmap_frames;
     char bitmap[SCREEN_BITMAP_HEX_LEN];
