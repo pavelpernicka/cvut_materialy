@@ -1,0 +1,17 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[anchor=east] at (0,2.5) {Povel};
+\node[anchor=east] at (0,1.2) {Polohové servo};
+\node[anchor=east] at (0,-.3) {Kontinuální servo};
+\foreach \x/\label in {2/{kratší pulz},5/{neutrál},8/{delší pulz}} {
+\node at (\x,2.5) {\label};
+\draw[gray!40] (\x-1.4,-.8) rectangle (\x+1.4,2.15);
+}
+\foreach \x/\ang in {2/150,5/90,8/30} {
+\draw[accent,thick] (\x,1) circle(.35);
+\draw[accent,very thick,-{Latex}] (\x,1)--++(\ang:.65);
+}
+\node at (2,-.3) {otáčení A};
+\node at (5,-.3) {zastavení};
+\node at (8,-.3) {otáčení B};
+\node[align=center,font=\scriptsize] at (5,-1.2) {Směr a meze závisí na konkrétním servu.};
+\end{tikzpicture}

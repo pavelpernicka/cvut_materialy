@@ -1,0 +1,11 @@
+\begin{tikzpicture}[node distance=7mm]
+\node[blok,text width=20mm] (vstup) {Povel\\$t_H$};
+\node[blok,right=of vstup,text width=24mm] (reg) {Porovnání\\a regulátor};
+\node[blok,right=of reg,text width=21mm] (motor) {Výkonový\\stupeň, motor};
+\node[blok,right=of motor,text width=22mm] (prevod) {Převodovka\\a hřídel};
+\node[blok,below=12mm of motor,text width=29mm] (snimac) {Snímač polohy};
+\draw[tok] (vstup)--(reg);\draw[tok] (reg)--(motor);\draw[tok] (motor)--(prevod);
+\draw[tok] (prevod.east)--++(9mm,0) node[right] {$\varphi$};
+\draw[tok] (prevod.south)|-(snimac.east);
+\draw[tok] (snimac.west)-|(reg.south) node[pos=.9,left] {$-$};
+\end{tikzpicture}

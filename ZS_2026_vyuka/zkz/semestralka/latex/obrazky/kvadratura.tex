@@ -1,0 +1,28 @@
+\begin{tikzpicture}[x=.9cm,y=.8cm]
+\foreach \shift/\title in {0/{A předbíhá B},8/{B předbíhá A}} {
+ \begin{scope}[xshift=\shift cm]
+ \node[font=\small\bfseries] at (2.7,3.2) {\title};
+ \node[left] at (0,2.2) {A}; \node[left] at (0,.7) {B};
+ \draw[gray!40] (0,1.8)--(5.6,1.8) (0,.3)--(5.6,.3);
+ \draw[->] (0,-.35)--(5.8,-.35) node[right] {$t$};
+ \ifnum\shift=0
+  \def\a{.5}\def\b{1}
+ \else
+  \def\a{1}\def\b{.5}
+ \fi
+ \foreach \base/\start in {1.8/\a,.3/\b} {
+  \draw[accent,thick] (0,\base)--(\start,\base)
+   --(\start,\base+.8)--(\start+1,\base+.8)--(\start+1,\base)
+   --(\start+2,\base)--(\start+2,\base+.8)--(\start+3,\base+.8)
+   --(\start+3,\base)--(\start+4,\base)--(\start+4,\base+.8)--(5.6,\base+.8);
+ }
+ \draw[<->] (.5,2.85)--(1,2.85) node[midway,above,font=\scriptsize] {$T/4$};
+ \ifnum\shift=0
+  \node[below,font=\scriptsize] at (2.8,-.65) {$00\to10\to11\to01\to00$};
+ \else
+  \node[below,font=\scriptsize] at (2.8,-.65) {$00\to01\to11\to10\to00$};
+ \fi
+ \end{scope}
+}
+\node[below,align=center,font=\footnotesize] at (7,-1.3) {Stav je zapsán jako AB. Při vyhodnocení $\times4$ se počítá každá hrana;\\opačné pořadí stavů obrací znaménko přírůstku polohy.};
+\end{tikzpicture}

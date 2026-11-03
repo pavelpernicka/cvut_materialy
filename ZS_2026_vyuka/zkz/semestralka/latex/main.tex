@@ -1,0 +1,19 @@
+\documentclass[11pt,a4paper,oneside]{report}
+\input{styl}
+\begin{document}
+\hypersetup{pageanchor=false}
+\input{titulni-strana}
+\hypersetup{pageanchor=true}
+\pagenumbering{roman}
+{\small\setstretch{1.0}\tableofcontents}
+\clearpage
+\pagenumbering{arabic}
+\input{kapitoly/01-teorie}
+\input{kapitoly/02-servo}
+\input{kapitoly/03-rizeni}
+\input{kapitoly/04-zapojeni}
+\input{kapitoly/05-mikrokontroler}
+\input{kapitoly/06-zaver}
+{\renewcommand*{\bibfont}{\footnotesize}\setlength{\bibitemsep}{0pt}\appto\bibsetup{\interlinepenalty=10000}\setstretch{1.0}\printbibliography[heading=bibintoc,title={Literatura},notkeyword=obrazek]
+\printbibliography[heading=bibintoc,title={Zdroje obrázků},keyword=obrazek]}
+\end{document}

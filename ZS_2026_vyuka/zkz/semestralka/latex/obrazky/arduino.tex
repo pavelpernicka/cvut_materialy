@@ -1,0 +1,27 @@
+\begin{circuitikz}[scale=.95,transform shape]
+\draw[thick,fill=light] (7,1) rectangle (10,5);
+\node[align=center,font=\bfseries] at (8.5,3.3) {Arduino\\Uno R3};
+\node[anchor=west] at (7.1,4.2) {5 V};
+\node[anchor=west] at (7.1,2.5) {A0};
+\node[anchor=west] at (7.1,1.4) {GND};
+\node[anchor=east] at (9.9,2.5) {D9};
+% Tři samostatné kontakty potenciometru.
+\draw (7,4.2)--(2,4.2)--(2,3);
+\draw (1.8,2) rectangle (2.2,3);
+\draw (2,2)--(2,0);
+\node[align=right,anchor=east] at (1.5,2.5) {P2\\10 k$\Omega$ lin.};
+\node[left] at (2,3.35) {A};\node[left] at (2,1.65) {B};
+\draw[-{Latex[length=2mm]}] (3,2.5)--(2.2,2.5);
+\node[above] at (2.7,2.5) {W};
+\draw (3,2.5) to[R,l=R8 1 k$\Omega$] (5,2.5)--(7,2.5);
+\draw (5.5,2.5) to[C,l_=C11 100 nF] (5.5,0);
+\draw (7,1.4)--(6.5,1.4)--(6.5,0);
+\draw (2,0)--(12,0) node[right]{do G0};
+\draw (10,2.5)--(12,2.5) node[right,align=left]{k R6\\a signálu serva};
+\draw (6,4.2)--(6,6);
+\fill (6,4.2) circle(1.7pt);
+\node[above,align=center] at (6,6) {+5 V ze společné větve\\vstup na pin 5V};
+
+\foreach \x/\y in {5.5/2.5,5.5/0,6.5/0} {\fill (\x,\y) circle(1.7pt);}
+\node[font=\footnotesize,anchor=west] at (7,-.55) {Zem potenciometru a filtru zůstává u Arduina.};
+\end{circuitikz}

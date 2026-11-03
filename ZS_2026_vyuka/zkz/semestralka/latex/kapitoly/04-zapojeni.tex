@@ -1,0 +1,116 @@
+\chapter{Schéma zapojení a popis funkce}
+\label{chap:napajeni}
+\section{Společný napájecí a výstupní blok}
+Servo i řízení napájíme z~jednoho stabilizovaného zdroje \SI{5}{V} s~proudovou schopností alespoň \SI{4}{A}. Za pojistkou se společná 5V větev rozdělí na přívod k~servu a přívod k~řídicí části. Servo neodebírá proud přes Arduino. Společná zem poskytuje referenci řídicího signálu; jednotlivé návraty vedeme samostatně do G0.
+
+Bod G0 je společný uzel u~přívodu napájení. Silový návrat serva obchází řídicí desku. Čísla vývodů J2 platí pro toto schéma, fyzické pořadí kontaktů konektoru je nutné ověřit.
+
+Schéma na obr.\ \ref{fig:napajeni} používají obě varianty. Na vstup PWM připojíme \emph{buď} U1.OUT, \emph{nebo} Arduino D9. Tyto dva výstupy nesmějí být propojeny navzájem. Pro změnu varianty slouží přepojení konektoru při vypnutém napájení.
+
+\begin{figure}[htbp]\centering
+\input{obrazky/napajeni}
+\caption{Napájení serva a připojení řídicího signálu.}
+\label{fig:napajeni}
+\end{figure}
+
+F1 je pomalá pojistka T 3,15 A~pro ochranu přívodu při poruše. Její konečný výběr vyžaduje kontrolu vypínací charakteristiky, průřezu vodičů a chování zdroje při zkratu. Zdroj s~proudovým omezením nemusí dodat proud, při kterém pojistka rychle vypne. Pojistka také nemusí ochránit motor, který dlouho stojí v~dorazu a odebírá například \SI{2.5}{A}. Proti takovému stavu slouží především omezení pohybu, správná mechanika a při rozšíření návrhu měření proudu s~vypnutím napájení.
+
+Vstup J1 je polarizovaný konektor. Sériovou ochrannou diodu zde nepoužíváme: její úbytek by při 5V napájení zmenšil rezervu nad minimálním napětím serva 4,8 V. Zapojení proto nemá elektronickou ochranu proti přepólování; polaritu zajišťuje správně zapojený nezáměnný konektor.
+
+Na konektoru serva musí při rozběhu zůstat alespoň 4,8 V. Od jmenovitých 5 V máme rezervu jen 0,2 V pro toleranci zdroje, pojistku, kabely a kontakty. Proto použijeme krátké silové přívody a při realizaci ověříme nejnižší napětí pod zatížením. V~tomto zapojení neuvažujeme katalogový moment při 6 V.
+
+\section{Zapojení generátoru s~jedním NE555}
+Schéma uvádí vývody U1 a tři kontakty potenciometru. Jezdec W je spojen s~koncem B. R1 omezuje proud vývodem 7 i při nastavení P1 na nulu. R2 a D1 jsou zapojeny mezi stejnými dvěma uzly; D1 při nabíjení obchází R2.
+
+\begin{figure}[htbp]\centering
+\input{obrazky/ne555-servo}
+\caption{Generátor povelu s~jedním NE555 a připojeným jezdcem P1.}
+\label{fig:ne555}
+\end{figure}
+
+C5 o~hodnotě 100 nF blokuje napájení těsně u~vývodů 8 a 1. C6 o~hodnotě 10 µF doplňuje místní zásobu energie. C7 o~hodnotě 10 nF filtruje vývod 5 (CONT), RESET na vývodu 4 je spojen s~+5 V.
+
+Výstup 3 vede přes R6 společného výstupního bloku na signál serva. Zem řídicí části se připojí k~G0. Schéma není výkonový regulátor motoru: výstup NE555 neslouží k~napájení serva. Při stavbě zkontrolujeme orientaci diody, polaritu C6 a číslování vývodů pouzdra DIP-8 podle katalogového listu.~\cite{ne555}
+
+\section{Zapojení řídicí části}
+Používáme Arduino Uno R3 s~ATmega328P, napájením logiky \SI{5}{V} a taktem \SI{16}{MHz}. Potenciometr P2 o~hodnotě \SI{10}{k\ohm} připojíme mezi 5 V~a GND desky. Jeho jezdec vede přes R8 o~hodnotě \SI{1}{k\ohm} na A0. C11 o~hodnotě \SI{100}{nF} mezi A0 a GND pomáhá filtrovat rychlé rušení. Arduino napájíme regulovanými 5 V na pin 5V, čímž obcházíme jeho palubní stabilizátor; 5 V nepřipojujeme na VIN. USB při tomto napájení nepřipojujeme. Pro nahrání programu odpojíme externí zdroj i 5V přívod do Arduina a teprve poté připojíme USB. Servo při programování zůstane bez napájení.~\cite{arduinoPower} Výstup D9 vede do R6 společného výstupního bloku.~\cite{uno}
+
+\begin{figure}[htbp]\centering
+\input{obrazky/arduino}
+\caption{Zapojení Arduina a potenciometru.}
+\end{figure}
+
+Potenciometr je napájen stejným napětím, které používá převodník jako referenci. Měření je tak přibližně poměrové: pomalá změna 5V napájení mění napětí jezdce i referenci podobně. To však neodstraňuje rozdíly zemních potenciálů ani rychlé rušení. P2 a jeho kabel proto držíme u~řídicí desky.
+
+\section{Proudové špičky a blokování}
+Motor odebírá při rozběhu nebo zatížení více proudu než naprázdno. Zdroj musí reagovat na změnu odběru, zatímco vedení má odpor a indukčnost. Elektrolytický C9 o~hodnotě \SI{1000}{\micro F} a keramický C10 o~hodnotě \SI{100}{nF} umístíme u~konektoru serva. První pomáhá pokrýt krátké změny odběru, druhý poskytuje místní cestu pro rychlé složky rušení.
+
+Kondenzátor nenahrazuje proudově dostatečný zdroj. Pokud by sám dodával \SI{1}{A} po \SI{1}{ms}, změna napětí by byla
+\begin{equation}
+ \Delta U=\frac{I\Delta t}{C}=\frac{1\cdot0{,}001}{0{,}001}=\SI{1}{V}.
+\end{equation}
+V~reálném obvodu přibude okamžitý úbytek $I\cdot\mathrm{ESR}$. Hodnota 1000 µF je tedy počáteční návrhová volba, která se ověří měřením propadů napětí. Zvětšování kapacity bez kontroly zapínacího proudu a stability zdroje není univerzální řešení.
+
+R6 o~hodnotě \SI{330}{\ohm} omezuje proud při konfliktu nebo krátké špičce na signálové cestě. R7 o~hodnotě \SI{100}{k\ohm} drží signál u~nuly, když není připojen generátor. Nejde o~galvanické oddělení ani zaručenou ochranu proti libovolnému přepětí. Při vypnutém servu neponecháváme zbytečně aktivní signál, který by mohl přes jeho vstupní ochrany způsobovat nežádoucí napájení.
+
+\begin{figure}[htbp]\centering
+\input{obrazky/proud-spicky}
+\caption{Krátká rozběhová špička a trvalý proud při zablokování.}
+\end{figure}
+
+Při rozběhu může kondenzátor pomoci překlenout krátkou změnu odběru. Pokud ale výstup zůstane zablokovaný, vysoký proud trvá: kondenzátor tento stav nevyřeší. Je nutné odstranit překážku nebo vypnout pohon. Proud při držení polohy závisí na zatížení, proto ani stojící servo nemusí mít malý odběr.
+
+\section{Společná zem a společná impedance}
+Značka GND ve schématu označuje referenční síť. Ve skutečnosti mezi jejími body existují odpory, indukčnosti a kontaktní přechody. Pokud proud motoru protéká stejným úsekem zemního vedení jako reference Arduina, objeví se na tomto úseku rušivé napětí:
+\begin{equation}\label{eq:ground}
+ u_\mathrm{GND}(t)=R_\mathrm{spol}i(t)+L_\mathrm{spol}\frac{\mathrm{d}i}{\mathrm{d}t}.
+\end{equation}
+Pro společný odpor \SI{0.1}{\ohm} a proud \SI{2}{A} je odporová složka \SI{0.2}{V}. Pokud by se takový rozdíl celý přenesl na měření potenciometru při referenci \SI{5}{V}, odpovídal by asi 41 krokům desetibitového převodníku. Při přepočtu na 180° je to přibližně 7,2°. Tento příklad ukazuje možnou citlivost vstupu. Skutečná chyba závisí na vedení napájení, reference a země potenciometru.
+
+Na obr.~\ref{fig:zeme} jsou pro přehlednost zakresleny pouze zemní vodiče. Červený úsek v~části a) vytváří společnou impedanci; u~samostatných větví se proud serva vrací mimo řídicí část.
+
+Napájení a návrat serva vedeme přímo mezi zdrojem a výstupním blokem. Arduino připojíme samostatnou zemní větví do G0. Zem potenciometru zůstává na řídicí desce, stejně jako jeho 5V napájení. Proud motoru nesmí téct přes nepájivé pole, pin GND Arduina nebo tenký propojovací vodič určený jen pro signál.
+
+\begin{figure}[htbp]\centering
+\input{obrazky/zeme}
+\caption{Zemní vedení: společný úsek a samostatné větve.}
+\label{fig:zeme}
+\end{figure}
+
+Pro měděný přívod délky \SI{0.5}{m} a průřezu \SI{0.5}{mm^2} uvažujme $\rho=0{,}0175\,\Omega\,\mathrm{mm^2/m}$. Odpor cesty tam i zpět je
+\begin{equation}
+ R=\rho\frac{2l}{S}=0{,}0175\frac{1}{0{,}5}=\SI{0.035}{\ohm}.
+\end{equation}
+Při \SI{2.5}{A} je úbytek přibližně \SI{88}{mV}. Do rozpočtu ale patří také pojistka, konektory, dioda a původní kabel serva. Samotný silnější přívod neodstraní úbytek v~tenkém originálním kabelu.
+
+\section{Zemní smyčka a připojený počítač}
+Zemní smyčka vzniká, když mezi částmi soustavy existují další vodivé cesty, které uzavírají okruh. Typický příklad tvoří Arduino spojené USB s~počítačem, zemní propojení k~laboratornímu zdroji a další spojení obou zařízení přes ochrannou zem nebo měřicí přístroj. Rozdíl potenciálů a elektromagnetická indukce pak mohou vyvolat proud touto smyčkou.
+
+To je jiný jev než úbytek na společném zemním vodiči: společná impedance může rušit i bez druhé paralelní cesty. Proto samotné zmizení problému po odpojení motoru ještě nedokazuje zemní smyčku. Mohlo jen zmizet proudové zatížení zdroje.
+
+Při hledání smyčky nejprve zmapujeme všechna zemní propojení, včetně USB a měřicích přístrojů. Potom posoudíme, zda lze nepotřebnou cestu odstranit nebo oddělit datové rozhraní. Tento postup doporučuje i Osak. Konkrétní provedení zemnění a stínění však závisí na kabeláži a frekvenci rušení.~\cite{osak}
+
+\begin{figure}[htbp]\centering
+\input{obrazky/smycka}
+\caption{Uzavření zemní smyčky přes USB a PE.}
+\end{figure}
+
+Smyčka na obrázku se uzavře jen tehdy, pokud přístroje skutečně vytvářejí znázorněná propojení. Při diagnostice nejprve zjistíme, zda je záporný pól zdroje spojen s~PE a jak je zapojen počítač a osciloskop. Pro samostatný provoz lze odstranit nepotřebné USB propojení a použít vhodný izolovaný napájecí adaptér. Pokud je komunikace s~počítačem nutná a způsobuje problém, lze navrhnout izolované datové rozhraní. \textbf{Ochranný vodič PE se kvůli rušení nikdy neodpojuje.}
+
+\section{Zemní plocha, kabeláž a elektromagnetické rušení}
+Na malé desce nemusí být nejlepší řešení rozřezat zemní plochu na několik izolovaných ostrovů. Krátké vysokofrekvenční návratové cesty potřebují souvislou nízkoimpedanční plochu. Oddělujeme především umístění a trasy výkonové a citlivé části, aby proud motoru netekl místem měření. Signál nevedeme přes mezeru v~referenční ploše. Tím navazujeme na doporučení Analog Devices pro smíšené analogové a digitální obvody.~\cite{mt031}
+
+Materiál TI \emph{Motor Driver EMI Design Tips} klade důraz na malou plochu rychlých proudových smyček, blokování blízko spínacího obvodu a vhodné vedení kabelů. U~hotového RC serva neměníme jeho vnitřní H-můstek. Prakticky tedy zkrátíme napájecí smyčku, přiblížíme C9 a C10 ke konektoru a napájecí vodiče vedeme těsně u~sebe.~\cite{tiemi}
+
+Řídicí signál vedeme blízko jeho zemní reference a mimo svazky s~velkými proudovými změnami. Nízká opakovací frekvence 50 Hz neznamená, že lze ignorovat rychlé hrany. Nepřidáváme však druhý dlouhý zemní vodič „pro jistotu“ bez kontroly vzniklé paralelní cesty. U~delšího kabelu je vhodnější promyslet celé rozhraní, případně použít diferenciální přenos s~přijímačem u~serva.
+
+Stínění omezí vazbu rušení, ale nenahradí návratový vodič signálu. Způsob připojení závisí na frekvenci rušení a na pospojování konstrukce. Jednostranné připojení může omezit nízkofrekvenční vyrovnávací proud; při vysokých frekvencích může být vhodné oboustranné spojení s~kostrou. Malý přípravek s~krátkým kabelem řešíme nejprve správnou topologií a blokováním, ne plošným přidáváním stínění.
+
+\section{Kdy použít galvanické oddělení}
+Galvanické oddělení má smysl, pokud je nutné přerušit vodivou cestu mezi řídicí a výkonovou částí. Samotný oddělený zdroj serva nestačí, pokud jeho GND znovu spojíme s~řídicí deskou. Úplné oddělení vyžaduje přenos povelu přes izolační prvek a oddělené napájecí domény. Výstupní strana izolátoru se vztahuje k~zemi serva.
+
+Pro krátký stolní přípravek izolaci nezařazujeme. Pokud by se doplnila, musí zachovat polaritu, délku pulzu a definovaný klidový stav. Pomalý optočlen může odlišným zpožděním obou hran šířku pulzu změnit. Ani RS-485 není samo o~sobě galvanicky oddělené; izolace je vlastnost konkrétního provedení rozhraní.
+
+\section{Ochrany a mechanické uspořádání}
+Konektory označíme a zajistíme proti záměně, kabelu ponecháme odlehčení tahu. Větší radiální zatížení musí přenášet vlastní uložení mechanismu. Napájecí odpojovač umístíme v~dosahu obsluhy pro případ zablokování.
+

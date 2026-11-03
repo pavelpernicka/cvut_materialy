@@ -1,0 +1,26 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+% Pohled ve směru vodorovné osy hřídele; držák se pohybuje ve svislé rovině.
+\fill[light] (-.7,-.8) rectangle (.7,.65);
+\draw[thick] (-.7,-.8) rectangle (.7,.65);
+\node[below,align=center] at (0,-.85) {MG996R\\pevně uchycené servo};
+\draw[accent!60,dashed] (-3.3,0)--(0,0)--(0,3.3);
+\draw[accent!60,dashed] (3.3,0) arc[start angle=0,end angle=180,radius=3.3];
+\node[left] at (-3.3,0) {$180^\circ$};
+\node[above] at (0,3.3) {$90^\circ$};
+\node[right] at (3.95,0) {$0^\circ$};
+\draw[accent,line width=4pt] (0,0)--(3.3,0);
+\filldraw[fill=light,draw=accent,thick] (2.9,-.35) rectangle (3.7,.35);
+\fill[ink] (3.3,0) circle (1.5pt);
+\node[above right,align=left] at (3.8,.5) {Předmět na držáku\\$m=0{,}2\,\mathrm{kg}$};
+\draw[thin] (3.65,.35)--(3.85,.5);
+\filldraw[fill=white,draw=ink,thick] (0,0) circle (.15);
+\fill[ink] (0,0) circle (1.5pt);
+\draw[tok] (3.3,-.4)--(3.3,-1.65) node[right] {$F_g=mg$};
+\draw[thin] (0,-.15)--(0,-.55);
+\draw[thin] (3.3,-.4)--(3.3,-.55);
+\draw[{Latex[length=1.5mm]}-{Latex[length=1.5mm]}] (0,-.48)--(3.3,-.48)
+ node[midway,below] {$r=50\,\mathrm{mm}$};
+\draw[tok,accent] (130:1.1) arc[start angle=130,end angle=35,radius=1.1];
+\node[above right] at (.9,1.25) {Moment tíhy};
+\node[align=left,anchor=west] at (4.2,2.2) {Rozsah držáku $0$--$180^\circ$\\ve svislé rovině};
+\end{tikzpicture}

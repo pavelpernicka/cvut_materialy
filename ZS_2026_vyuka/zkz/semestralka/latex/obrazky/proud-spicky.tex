@@ -1,0 +1,12 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small]
+\draw[->] (0,0)--(12,0) node[right] {$t$};
+\draw[->] (0,0)--(0,3.1) node[above] {odběr proudu};
+\draw[very thick,accent] (0,.35)--(2,.35)--(2,2.6) .. controls (2.4,1.3) and (3,1.2) .. (4,1.15)--(5,1.15)--(5,.35)--(7,.35)--(7,2.6)--(10.8,2.6);
+\foreach \x in {2,5,7} {\draw[dashed,gray] (\x,0)--(\x,2.9);}
+\node[above,align=center] at (2.7,3) {rozběh};
+\node[below,align=center] at (3.5,-.15) {pohyb};
+\node[below,align=center] at (6,-.15) {klid};
+\node[above,align=center] at (9,3) {zablokovaný výstup};
+\node[align=center,font=\footnotesize] at (9,1.2) {vysoký proud trvá\\a motor se zahřívá};
+\node[anchor=west,font=\footnotesize] at (0,-1.1) {Ilustrační průběh bez měřítka; nejde o měření MG996R.};
+\end{tikzpicture}

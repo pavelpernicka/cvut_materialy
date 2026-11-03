@@ -1,0 +1,25 @@
+\begin{circuitikz}[x=1cm,y=1cm]
+\node[anchor=west,font=\bfseries\small] at (-1.2,2) {a) Proud serva protéká společným úsekem};
+\node[blok,text width=20mm] (s) at (0,1) {Zdroj\\záporný pól};
+\node[blok,text width=23mm] (a) at (5,1) {Arduino\\GND};
+\node[blok,text width=20mm] (m) at (11,1) {Servo\\GND};
+\draw (s.south)--(0,-.3);
+\draw[very thick,red!60!black] (0,-.3) to[R,l=$R_\mathrm{spol}$] (5,-.3);
+\draw[very thick,accent] (5,-.3)--(11,-.3)--(m.south);
+\draw (a.south)--(5,-.3);\fill (5,-.3) circle(2pt);
+\draw[tok,accent] (10,-.85)--node[below]{$I_\mathrm{servo}$}(6,-.85);
+\draw[tok,red!60!black] (4.5,-.85)--node[below]{$\Delta u=R_\mathrm{spol}I_\mathrm{servo}$}(.5,-.85);
+\node[anchor=west,font=\footnotesize] at (-1.2,-1.7) {Úbytek na společném vodiči posouvá zem Arduina vůči zdroji.};
+\begin{scope}[yshift=-5.1cm]
+\node[anchor=west,font=\bfseries\small] at (-1.2,2) {b) Samostatný návrat serva do společného bodu};
+\node[blok,text width=20mm] (s2) at (0,1) {Zdroj\\záporný pól};
+\node[blok,text width=23mm] (a2) at (5,1) {Arduino\\GND};
+\node[blok,text width=20mm] (m2) at (11,1) {Servo\\GND};
+\draw (s2.south)--(0,-1);
+\draw (a2.south)--(5,-.1)--(0,-.1);
+\draw[very thick,accent] (m2.south)--(11,-1)--(0,-1);
+\fill (0,-.1) circle(2pt);\node[left] at (0,-.1) {G0};
+\draw[tok,accent] (9,-1.4)--node[below]{$I_\mathrm{servo}$ mimo zemní větev Arduina}(2,-1.4);
+\node[above,font=\footnotesize] at (3,-.1) {návrat řídicí části};
+\end{scope}
+\end{circuitikz}

@@ -1,0 +1,40 @@
+\begin{circuitikz}[scale=.78,transform shape]
+% U1: všech osm vývodů, číslování DIP-8.
+\draw[thick] (6,2) rectangle (9,6.3);
+\node[font=\bfseries] at (7.5,4.7) {U1 NE555P};
+\draw (6,5.7)--(2,5.7);\node[anchor=west] at (6,5.7) {7 DISCH};
+\draw (6,4)--(5.2,4)--(5.2,3);
+\node[anchor=west] at (6,4) {6 THRES};
+\draw (6,3)--(2,3);\node[anchor=west] at (6,3) {2 TRIG};
+\draw (9,4)--(11,4) node[right,align=left]{3 OUT\\k R6 a signálu serva};
+\draw (6.7,6.3)--(6.7,9)--(8.3,9)--(8.3,6.3);
+\node[anchor=north] at (6.7,6.3) {8};\node[anchor=north] at (8.3,6.3) {4};
+\node[above] at (7.5,9) {+5 V (VCC a RESET)};
+\draw (6.7,2)--(6.7,1) node[ground]{};\node[above] at (6.7,2) {1 GND};
+\draw (8.3,2) to[C,l=C7 10 nF] (8.3,0) node[ground]{};
+\node[above] at (8.3,2) {5 CONT};
+% R1 + třívývodový potenciometr; W je fyzicky připojen na B.
+\draw (2,10) node[above]{+5 V} to[R,l_=R1 3{,}3 k$\Omega$] (2,8.4)--(2,8);
+\draw (1.8,8) rectangle (2.2,6.8);
+\node[left,align=right] at (1.6,7.4) {P1\\25 k$\Omega$ lin.};
+\node[left] at (2,8.15) {A};\node[left] at (2,6.55) {B};
+\draw (2,6.8)--(2,5.7);
+\draw[-{Latex[length=2mm]}] (3.3,7.4)--(2.2,7.4);
+\node[right] at (3.3,7.4) {W};
+\draw (3.3,7.4)--(3.3,6.4)--(2,6.4);
+\fill (2,6.4) circle(2pt);
+% Paralelní větve R2 a D1, katoda D1 u C1.
+\draw (2,5.7) to[R,l_=R2 221 k$\Omega$] (2,3);
+\draw (4,5.7) to[D] (4,3);
+\node[font=\scriptsize,right] at (4.1,5.15) {A};
+\node[font=\scriptsize,align=right,anchor=east] at (3.6,4.35) {D1\\1N4148};
+\node[font=\scriptsize,right] at (4.1,3.55) {K};
+\draw (2,3) to[C,l_=C1 120 nF] (2,.7) node[ground]{};
+\foreach \x/\y in {2/5.7,4/5.7,2/3,4/3,5.2/3} {\fill (\x,\y) circle(2pt);}
+% Lokální blokování napájení.
+\draw (10.5,8.9) node[above]{+5 V} to[C,l_=C5 100 nF] (10.5,6.6) node[ground]{};
+\draw (13,8.9) node[above]{+5 V} to[C,l=C6 10 $\mu$F] (13,6.6) node[ground]{};
+\node at (12.65,8.15) {$+$};
+\node[font=\scriptsize,align=center] at (11.7,5.5) {C5 těsně u vývodů 8 a 1};
+\node[align=left,font=\small] at (12,1.6) {Všechny GND společné.\\Zem řídicí části vede do G0.};
+\end{circuitikz}

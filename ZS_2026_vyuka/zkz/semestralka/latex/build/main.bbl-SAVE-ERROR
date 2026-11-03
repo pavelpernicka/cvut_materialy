@@ -1,0 +1,965 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{omron}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=0016e731842edfca188d15c7c71fde1d}{%
+           family={{OMRON}},
+           familyi={O\bibinitperiod}}}%
+      }
+      \strng{namehash}{0016e731842edfca188d15c7c71fde1d}
+      \strng{fullhash}{0016e731842edfca188d15c7c71fde1d}
+      \strng{fullhashraw}{0016e731842edfca188d15c7c71fde1d}
+      \strng{bibnamehash}{0016e731842edfca188d15c7c71fde1d}
+      \strng{authorbibnamehash}{0016e731842edfca188d15c7c71fde1d}
+      \strng{authornamehash}{0016e731842edfca188d15c7c71fde1d}
+      \strng{authorfullhash}{0016e731842edfca188d15c7c71fde1d}
+      \strng{authorfullhashraw}{0016e731842edfca188d15c7c71fde1d}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{langid}{english}
+      \field{title}{Servomotors / Servo Drivers: Introduction}
+      \field{urlday}{21}
+      \field{urlmonth}{10}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.ia.omron.com/support/guide/14/introduction.html
+      \endverb
+      \verb{url}
+      \verb https://www.ia.omron.com/support/guide/14/introduction.html
+      \endverb
+    \endentry
+    \entry{fotoKotouc}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=c3b24b52109c32475c1944aa0fa3bda0}{%
+           family={{Rrudzik}},
+           familyi={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{c3b24b52109c32475c1944aa0fa3bda0}
+      \strng{fullhash}{c3b24b52109c32475c1944aa0fa3bda0}
+      \strng{fullhashraw}{c3b24b52109c32475c1944aa0fa3bda0}
+      \strng{bibnamehash}{c3b24b52109c32475c1944aa0fa3bda0}
+      \strng{authorbibnamehash}{c3b24b52109c32475c1944aa0fa3bda0}
+      \strng{authornamehash}{c3b24b52109c32475c1944aa0fa3bda0}
+      \strng{authorfullhash}{c3b24b52109c32475c1944aa0fa3bda0}
+      \strng{authorfullhashraw}{c3b24b52109c32475c1944aa0fa3bda0}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{28}
+      \field{langid}{english}
+      \field{month}{3}
+      \field{note}{Fotografie. Bez obsahových úprav. Licence \href{https://creativecommons.org/licenses/by-sa/4.0/}{CC BY-SA 4.0}}
+      \field{title}{Model optického rotačního enkodéru}
+      \field{urlday}{22}
+      \field{urlmonth}{10}
+      \field{urlyear}{2026}
+      \field{year}{2011}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://commons.wikimedia.org/wiki/File:Encoder.jpg
+      \endverb
+      \verb{url}
+      \verb https://commons.wikimedia.org/wiki/File:Encoder.jpg
+      \endverb
+      \keyw{obrazek}
+    \endentry
+    \entry{fotoRozebrane}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=7f70b099c2e0f6258e84896bdf17120c}{%
+           family={{oomlout}},
+           familyi={o\bibinitperiod}}}%
+      }
+      \strng{namehash}{7f70b099c2e0f6258e84896bdf17120c}
+      \strng{fullhash}{7f70b099c2e0f6258e84896bdf17120c}
+      \strng{fullhashraw}{7f70b099c2e0f6258e84896bdf17120c}
+      \strng{bibnamehash}{7f70b099c2e0f6258e84896bdf17120c}
+      \strng{authorbibnamehash}{7f70b099c2e0f6258e84896bdf17120c}
+      \strng{authornamehash}{7f70b099c2e0f6258e84896bdf17120c}
+      \strng{authorfullhash}{7f70b099c2e0f6258e84896bdf17120c}
+      \strng{authorfullhashraw}{7f70b099c2e0f6258e84896bdf17120c}
+      \field{extraname}{1}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{22}
+      \field{langid}{english}
+      \field{month}{4}
+      \field{note}{Fotografie. Wikimedia Commons. Bez obsahových úprav. Licence \href{https://creativecommons.org/licenses/by-sa/2.0/}{CC BY-SA 2.0}}
+      \field{title}{Exploded Servo}
+      \field{urlday}{21}
+      \field{urlmonth}{10}
+      \field{urlyear}{2026}
+      \field{year}{2009}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://commons.wikimedia.org/wiki/File:Exploded_Servo.jpg
+      \endverb
+      \verb{url}
+      \verb https://commons.wikimedia.org/wiki/File:Exploded_Servo.jpg
+      \endverb
+      \keyw{obrazek}
+    \endentry
+    \entry{fotoPotServo}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=558a6b6b9602502465e2139955811620}{%
+           family={{ReAl}},
+           familyi={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{558a6b6b9602502465e2139955811620}
+      \strng{fullhash}{558a6b6b9602502465e2139955811620}
+      \strng{fullhashraw}{558a6b6b9602502465e2139955811620}
+      \strng{bibnamehash}{558a6b6b9602502465e2139955811620}
+      \strng{authorbibnamehash}{558a6b6b9602502465e2139955811620}
+      \strng{authornamehash}{558a6b6b9602502465e2139955811620}
+      \strng{authorfullhash}{558a6b6b9602502465e2139955811620}
+      \strng{authorfullhashraw}{558a6b6b9602502465e2139955811620}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{17}
+      \field{langid}{english}
+      \field{month}{3}
+      \field{note}{Fotografie. Bez obsahových úprav. Licence \href{https://creativecommons.org/licenses/by-sa/3.0/}{CC BY-SA 3.0}}
+      \field{title}{Potenciometr v RC servu}
+      \field{urlday}{22}
+      \field{urlmonth}{10}
+      \field{urlyear}{2026}
+      \field{year}{2014}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://commons.wikimedia.org/wiki/File:%D0%9F%D0%BE%D1%82%D0%B5%D0%BD%D1%86%D1%96%D0%BE%D0%BC%D0%B5%D1%82%D1%80_%D1%83_%D1%81%D0%B5%D1%80%D0%B2%D0%BE%D0%BC%D0%B0%D1%88%D0%B8%D0%BD%D1%86%D1%96.jpg
+      \endverb
+      \verb{url}
+      \verb https://commons.wikimedia.org/wiki/File:%D0%9F%D0%BE%D1%82%D0%B5%D0%BD%D1%86%D1%96%D0%BE%D0%BC%D0%B5%D1%82%D1%80_%D1%83_%D1%81%D0%B5%D1%80%D0%B2%D0%BE%D0%BC%D0%B0%D1%88%D0%B8%D0%BD%D1%86%D1%96.jpg
+      \endverb
+      \keyw{obrazek}
+    \endentry
+    \entry{fotoMicro}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=7f70b099c2e0f6258e84896bdf17120c}{%
+           family={{oomlout}},
+           familyi={o\bibinitperiod}}}%
+      }
+      \strng{namehash}{7f70b099c2e0f6258e84896bdf17120c}
+      \strng{fullhash}{7f70b099c2e0f6258e84896bdf17120c}
+      \strng{fullhashraw}{7f70b099c2e0f6258e84896bdf17120c}
+      \strng{bibnamehash}{7f70b099c2e0f6258e84896bdf17120c}
+      \strng{authorbibnamehash}{7f70b099c2e0f6258e84896bdf17120c}
+      \strng{authornamehash}{7f70b099c2e0f6258e84896bdf17120c}
+      \strng{authorfullhash}{7f70b099c2e0f6258e84896bdf17120c}
+      \strng{authorfullhashraw}{7f70b099c2e0f6258e84896bdf17120c}
+      \field{extraname}{2}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{21}
+      \field{langid}{english}
+      \field{month}{5}
+      \field{note}{Fotografie. Wikimedia Commons. Bez obsahových úprav. Licence \href{https://creativecommons.org/licenses/by-sa/2.0/}{CC BY-SA 2.0}}
+      \field{title}{Micro servo}
+      \field{urlday}{21}
+      \field{urlmonth}{10}
+      \field{urlyear}{2026}
+      \field{year}{2009}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://commons.wikimedia.org/wiki/File:Micro_servo.jpg
+      \endverb
+      \verb{url}
+      \verb https://commons.wikimedia.org/wiki/File:Micro_servo.jpg
+      \endverb
+      \keyw{obrazek}
+    \endentry
+    \entry{fotoEnkoder}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=61cb95cf46a9fbe47803ea559aec6312}{%
+           family={{John Nagle}},
+           familyi={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{61cb95cf46a9fbe47803ea559aec6312}
+      \strng{fullhash}{61cb95cf46a9fbe47803ea559aec6312}
+      \strng{fullhashraw}{61cb95cf46a9fbe47803ea559aec6312}
+      \strng{bibnamehash}{61cb95cf46a9fbe47803ea559aec6312}
+      \strng{authorbibnamehash}{61cb95cf46a9fbe47803ea559aec6312}
+      \strng{authornamehash}{61cb95cf46a9fbe47803ea559aec6312}
+      \strng{authorfullhash}{61cb95cf46a9fbe47803ea559aec6312}
+      \strng{authorfullhashraw}{61cb95cf46a9fbe47803ea559aec6312}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{langid}{english}
+      \field{note}{Fotografie. Bez obsahových úprav. Licence \href{https://creativecommons.org/licenses/by-sa/3.0/}{CC BY-SA 3.0}}
+      \field{title}{Servomotor with encoder}
+      \field{urlday}{21}
+      \field{urlmonth}{10}
+      \field{urlyear}{2026}
+      \field{year}{2003}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://commons.wikimedia.org/wiki/File:Servomotor.jpg
+      \endverb
+      \verb{url}
+      \verb https://commons.wikimedia.org/wiki/File:Servomotor.jpg
+      \endverb
+      \keyw{obrazek}
+    \endentry
+    \entry{fotoPrumysl}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=d0951866fa88a2222c58235f855dc872}{%
+           family={{SEW-EURODRIVE GmbH \& Co KG}},
+           familyi={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{d0951866fa88a2222c58235f855dc872}
+      \strng{fullhash}{d0951866fa88a2222c58235f855dc872}
+      \strng{fullhashraw}{d0951866fa88a2222c58235f855dc872}
+      \strng{bibnamehash}{d0951866fa88a2222c58235f855dc872}
+      \strng{authorbibnamehash}{d0951866fa88a2222c58235f855dc872}
+      \strng{authornamehash}{d0951866fa88a2222c58235f855dc872}
+      \strng{authorfullhash}{d0951866fa88a2222c58235f855dc872}
+      \strng{authorfullhashraw}{d0951866fa88a2222c58235f855dc872}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{7}
+      \field{langid}{english}
+      \field{month}{8}
+      \field{note}{Fotografie. Wikimedia Commons. Bez obsahových úprav. Licence \href{https://creativecommons.org/licenses/by-sa/3.0/}{CC BY-SA 3.0}}
+      \field{title}{3417 09 Servogetriebe}
+      \field{urlday}{21}
+      \field{urlmonth}{10}
+      \field{urlyear}{2026}
+      \field{year}{2009}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://commons.wikimedia.org/wiki/File:3417_09_Servogetriebe.jpg
+      \endverb
+      \verb{url}
+      \verb https://commons.wikimedia.org/wiki/File:3417_09_Servogetriebe.jpg
+      \endverb
+      \keyw{obrazek}
+    \endentry
+    \entry{fotoPrevodDetail}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=7f70b099c2e0f6258e84896bdf17120c}{%
+           family={{oomlout}},
+           familyi={o\bibinitperiod}}}%
+      }
+      \strng{namehash}{7f70b099c2e0f6258e84896bdf17120c}
+      \strng{fullhash}{7f70b099c2e0f6258e84896bdf17120c}
+      \strng{fullhashraw}{7f70b099c2e0f6258e84896bdf17120c}
+      \strng{bibnamehash}{7f70b099c2e0f6258e84896bdf17120c}
+      \strng{authorbibnamehash}{7f70b099c2e0f6258e84896bdf17120c}
+      \strng{authornamehash}{7f70b099c2e0f6258e84896bdf17120c}
+      \strng{authorfullhash}{7f70b099c2e0f6258e84896bdf17120c}
+      \strng{authorfullhashraw}{7f70b099c2e0f6258e84896bdf17120c}
+      \field{extraname}{3}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{10}
+      \field{langid}{english}
+      \field{month}{2}
+      \field{note}{Fotografie. Bez obsahových úprav. Licence \href{https://creativecommons.org/licenses/by-sa/2.0/}{CC BY-SA 2.0}}
+      \field{title}{SERV-05-ST TEARDOWN 04A}
+      \field{urlday}{22}
+      \field{urlmonth}{10}
+      \field{urlyear}{2026}
+      \field{year}{2014}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://commons.wikimedia.org/wiki/File:SERV-05-ST_TEARDOWN_04A_(14315449236).jpg
+      \endverb
+      \verb{url}
+      \verb https://commons.wikimedia.org/wiki/File:SERV-05-ST_TEARDOWN_04A_(14315449236).jpg
+      \endverb
+      \keyw{obrazek}
+    \endentry
+    \entry{fotoFS90R}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=3678370cfc6d979bce75431ad9d69528}{%
+           family={{Joy-IT}},
+           familyi={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{3678370cfc6d979bce75431ad9d69528}
+      \strng{fullhash}{3678370cfc6d979bce75431ad9d69528}
+      \strng{fullhashraw}{3678370cfc6d979bce75431ad9d69528}
+      \strng{bibnamehash}{3678370cfc6d979bce75431ad9d69528}
+      \strng{authorbibnamehash}{3678370cfc6d979bce75431ad9d69528}
+      \strng{authornamehash}{3678370cfc6d979bce75431ad9d69528}
+      \strng{authorfullhash}{3678370cfc6d979bce75431ad9d69528}
+      \strng{authorfullhashraw}{3678370cfc6d979bce75431ad9d69528}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{langid}{english}
+      \field{note}{Produktová fotografie serva s kolem. Bez obsahových úprav}
+      \field{title}{Servo motor FS90R: COM-Motor05}
+      \field{urlday}{2}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.joy-it.net/en/products/COM-Motor05
+      \endverb
+      \verb{url}
+      \verb https://www.joy-it.net/en/products/COM-Motor05
+      \endverb
+      \keyw{obrazek}
+    \endentry
+    \entry{pololu}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=e68564f23e0e939acea76dc3d2bc01bf}{%
+           family={Jan},
+           familyi={J\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {Pololu}%
+      }
+      \strng{namehash}{e68564f23e0e939acea76dc3d2bc01bf}
+      \strng{fullhash}{e68564f23e0e939acea76dc3d2bc01bf}
+      \strng{fullhashraw}{e68564f23e0e939acea76dc3d2bc01bf}
+      \strng{bibnamehash}{e68564f23e0e939acea76dc3d2bc01bf}
+      \strng{authorbibnamehash}{e68564f23e0e939acea76dc3d2bc01bf}
+      \strng{authornamehash}{e68564f23e0e939acea76dc3d2bc01bf}
+      \strng{authorfullhash}{e68564f23e0e939acea76dc3d2bc01bf}
+      \strng{authorfullhashraw}{e68564f23e0e939acea76dc3d2bc01bf}
+      \field{extraname}{1}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{9}
+      \field{langid}{english}
+      \field{month}{2}
+      \field{title}{Servo control interface in detail}
+      \field{urlday}{21}
+      \field{urlmonth}{10}
+      \field{urlyear}{2026}
+      \field{year}{2011}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.pololu.com/blog/17/servo-control-interface-in-detail
+      \endverb
+      \verb{url}
+      \verb https://www.pololu.com/blog/17/servo-control-interface-in-detail
+      \endverb
+    \endentry
+    \entry{laska}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=f8d354fb083fba00c6fb238d738b9547}{%
+           family={{LaskaKit}},
+           familyi={L\bibinitperiod}}}%
+      }
+      \strng{namehash}{f8d354fb083fba00c6fb238d738b9547}
+      \strng{fullhash}{f8d354fb083fba00c6fb238d738b9547}
+      \strng{fullhashraw}{f8d354fb083fba00c6fb238d738b9547}
+      \strng{bibnamehash}{f8d354fb083fba00c6fb238d738b9547}
+      \strng{authorbibnamehash}{f8d354fb083fba00c6fb238d738b9547}
+      \strng{authornamehash}{f8d354fb083fba00c6fb238d738b9547}
+      \strng{authorfullhash}{f8d354fb083fba00c6fb238d738b9547}
+      \strng{authorfullhashraw}{f8d354fb083fba00c6fb238d738b9547}
+      \field{extraname}{1}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{langid}{czech}
+      \field{note}{Produkt LA143023N; dokumentace konkrétní nabízené varianty}
+      \field{title}{Servo MG996 s kovovými převody 180°}
+      \field{urlday}{21}
+      \field{urlmonth}{10}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.laskakit.cz/servo-mg996-s-kovovymi-prevody-180---extra-silne/
+      \endverb
+      \verb{url}
+      \verb https://www.laskakit.cz/servo-mg996-s-kovovymi-prevody-180---extra-silne/
+      \endverb
+    \endentry
+    \entry{fotoMG996}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=f8d354fb083fba00c6fb238d738b9547}{%
+           family={{LaskaKit}},
+           familyi={L\bibinitperiod}}}%
+      }
+      \strng{namehash}{f8d354fb083fba00c6fb238d738b9547}
+      \strng{fullhash}{f8d354fb083fba00c6fb238d738b9547}
+      \strng{fullhashraw}{f8d354fb083fba00c6fb238d738b9547}
+      \strng{bibnamehash}{f8d354fb083fba00c6fb238d738b9547}
+      \strng{authorbibnamehash}{f8d354fb083fba00c6fb238d738b9547}
+      \strng{authornamehash}{f8d354fb083fba00c6fb238d738b9547}
+      \strng{authorfullhash}{f8d354fb083fba00c6fb238d738b9547}
+      \strng{authorfullhashraw}{f8d354fb083fba00c6fb238d738b9547}
+      \field{extraname}{2}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{langid}{czech}
+      \field{note}{Fotografie výrobku LA143023N. Bez obsahových úprav}
+      \field{title}{MG996 s kovovými převody 180°: produktová fotografie}
+      \field{urlday}{2}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.laskakit.cz/servo-mg996-s-kovovymi-prevody-180---extra-silne/
+      \endverb
+      \verb{url}
+      \verb https://www.laskakit.cz/servo-mg996-s-kovovymi-prevody-180---extra-silne/
+      \endverb
+      \keyw{obrazek}
+    \endentry
+    \entry{mgpdf}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=6e3f7446e03319bb599af609fbd8f984}{%
+           family={{Tower Pro}},
+           familyi={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{6e3f7446e03319bb599af609fbd8f984}
+      \strng{fullhash}{6e3f7446e03319bb599af609fbd8f984}
+      \strng{fullhashraw}{6e3f7446e03319bb599af609fbd8f984}
+      \strng{bibnamehash}{6e3f7446e03319bb599af609fbd8f984}
+      \strng{authorbibnamehash}{6e3f7446e03319bb599af609fbd8f984}
+      \strng{authornamehash}{6e3f7446e03319bb599af609fbd8f984}
+      \strng{authorfullhash}{6e3f7446e03319bb599af609fbd8f984}
+      \strng{authorfullhashraw}{6e3f7446e03319bb599af609fbd8f984}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{langid}{english}
+      \field{note}{Katalogový list, kopie u distributora Electronicos Caldas; uvádí rozsah přibližně 120°}
+      \field{title}{MG996R High Torque Metal Gear Dual Ball Bearing Servo}
+      \field{urlday}{21}
+      \field{urlmonth}{10}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.electronicoscaldas.com/datasheet/MG996R_Tower-Pro.pdf
+      \endverb
+      \verb{url}
+      \verb https://www.electronicoscaldas.com/datasheet/MG996R_Tower-Pro.pdf
+      \endverb
+    \endentry
+    \entry{pca}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=70a107d58d4aa1203cc8cde04480d72c}{%
+           family={{NXP Semiconductors}},
+           familyi={N\bibinitperiod}}}%
+      }
+      \strng{namehash}{70a107d58d4aa1203cc8cde04480d72c}
+      \strng{fullhash}{70a107d58d4aa1203cc8cde04480d72c}
+      \strng{fullhashraw}{70a107d58d4aa1203cc8cde04480d72c}
+      \strng{bibnamehash}{70a107d58d4aa1203cc8cde04480d72c}
+      \strng{authorbibnamehash}{70a107d58d4aa1203cc8cde04480d72c}
+      \strng{authornamehash}{70a107d58d4aa1203cc8cde04480d72c}
+      \strng{authorfullhash}{70a107d58d4aa1203cc8cde04480d72c}
+      \strng{authorfullhashraw}{70a107d58d4aa1203cc8cde04480d72c}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{langid}{english}
+      \field{note}{Katalogový list}
+      \field{title}{PCA9685: 16-channel, 12-bit PWM Fm+ I2C-bus LED controller}
+      \field{urlday}{21}
+      \field{urlmonth}{10}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.nxp.com/docs/en/data-sheet/PCA9685.pdf
+      \endverb
+      \verb{url}
+      \verb https://www.nxp.com/docs/en/data-sheet/PCA9685.pdf
+      \endverb
+    \endentry
+    \entry{servo555prakticky}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=c74648bfc5c5a67f0b0c1e3bf008f2b3}{%
+           family={{Lars Ivar}},
+           familyi={L\bibinitperiod}}}%
+      }
+      \strng{namehash}{c74648bfc5c5a67f0b0c1e3bf008f2b3}
+      \strng{fullhash}{c74648bfc5c5a67f0b0c1e3bf008f2b3}
+      \strng{fullhashraw}{c74648bfc5c5a67f0b0c1e3bf008f2b3}
+      \strng{bibnamehash}{c74648bfc5c5a67f0b0c1e3bf008f2b3}
+      \strng{authorbibnamehash}{c74648bfc5c5a67f0b0c1e3bf008f2b3}
+      \strng{authornamehash}{c74648bfc5c5a67f0b0c1e3bf008f2b3}
+      \strng{authorfullhash}{c74648bfc5c5a67f0b0c1e3bf008f2b3}
+      \strng{authorfullhashraw}{c74648bfc5c5a67f0b0c1e3bf008f2b3}
+      \field{extraname}{1}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{16}
+      \field{langid}{english}
+      \field{month}{5}
+      \field{note}{Praktická realizace jednočasovačového testeru s diodou}
+      \field{title}{Servo tester by 555 timer}
+      \field{urlday}{2}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{year}{2012}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://larsivar.com/wp/?p=83
+      \endverb
+      \verb{url}
+      \verb https://larsivar.com/wp/?p=83
+      \endverb
+    \endentry
+    \entry{ne555}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=67e54b1ee931f3f4bddfefa5fbde5fd8}{%
+           family={{Texas Instruments}},
+           familyi={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{67e54b1ee931f3f4bddfefa5fbde5fd8}
+      \strng{fullhash}{67e54b1ee931f3f4bddfefa5fbde5fd8}
+      \strng{fullhashraw}{67e54b1ee931f3f4bddfefa5fbde5fd8}
+      \strng{bibnamehash}{67e54b1ee931f3f4bddfefa5fbde5fd8}
+      \strng{authorbibnamehash}{67e54b1ee931f3f4bddfefa5fbde5fd8}
+      \strng{authornamehash}{67e54b1ee931f3f4bddfefa5fbde5fd8}
+      \strng{authorfullhash}{67e54b1ee931f3f4bddfefa5fbde5fd8}
+      \strng{authorfullhashraw}{67e54b1ee931f3f4bddfefa5fbde5fd8}
+      \field{extraname}{1}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{langid}{english}
+      \field{month}{3}
+      \field{note}{Katalogový list SLFS022K}
+      \field{title}{xx555 Precision Timers}
+      \field{urlday}{21}
+      \field{urlmonth}{10}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.ti.com/lit/ds/symlink/ne555.pdf
+      \endverb
+      \verb{url}
+      \verb https://www.ti.com/lit/ds/symlink/ne555.pdf
+      \endverb
+    \endentry
+    \entry{tlc555}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=67e54b1ee931f3f4bddfefa5fbde5fd8}{%
+           family={{Texas Instruments}},
+           familyi={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{67e54b1ee931f3f4bddfefa5fbde5fd8}
+      \strng{fullhash}{67e54b1ee931f3f4bddfefa5fbde5fd8}
+      \strng{fullhashraw}{67e54b1ee931f3f4bddfefa5fbde5fd8}
+      \strng{bibnamehash}{67e54b1ee931f3f4bddfefa5fbde5fd8}
+      \strng{authorbibnamehash}{67e54b1ee931f3f4bddfefa5fbde5fd8}
+      \strng{authornamehash}{67e54b1ee931f3f4bddfefa5fbde5fd8}
+      \strng{authorfullhash}{67e54b1ee931f3f4bddfefa5fbde5fd8}
+      \strng{authorfullhashraw}{67e54b1ee931f3f4bddfefa5fbde5fd8}
+      \field{extraname}{2}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{langid}{english}
+      \field{note}{Katalogový list, revize K}
+      \field{title}{TLC555 CMOS Timer}
+      \field{urlday}{21}
+      \field{urlmonth}{10}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.ti.com/lit/ds/symlink/tlc555.pdf
+      \endverb
+      \verb{url}
+      \verb https://www.ti.com/lit/ds/symlink/tlc555.pdf
+      \endverb
+    \endentry
+    \entry{fotoTester555}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=c74648bfc5c5a67f0b0c1e3bf008f2b3}{%
+           family={{Lars Ivar}},
+           familyi={L\bibinitperiod}}}%
+      }
+      \strng{namehash}{c74648bfc5c5a67f0b0c1e3bf008f2b3}
+      \strng{fullhash}{c74648bfc5c5a67f0b0c1e3bf008f2b3}
+      \strng{fullhashraw}{c74648bfc5c5a67f0b0c1e3bf008f2b3}
+      \strng{bibnamehash}{c74648bfc5c5a67f0b0c1e3bf008f2b3}
+      \strng{authorbibnamehash}{c74648bfc5c5a67f0b0c1e3bf008f2b3}
+      \strng{authornamehash}{c74648bfc5c5a67f0b0c1e3bf008f2b3}
+      \strng{authorfullhash}{c74648bfc5c5a67f0b0c1e3bf008f2b3}
+      \strng{authorfullhashraw}{c74648bfc5c5a67f0b0c1e3bf008f2b3}
+      \field{extraname}{2}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{16}
+      \field{langid}{english}
+      \field{month}{5}
+      \field{note}{Fotografie sestaveného testeru. Bez obsahových úprav}
+      \field{title}{Servo Tester Finished}
+      \field{urlday}{2}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{year}{2012}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://larsivar.com/wp/?p=83
+      \endverb
+      \verb{url}
+      \verb https://larsivar.com/wp/?p=83
+      \endverb
+      \keyw{obrazek}
+    \endentry
+    \entry{diode}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=abc702b31918875862a32487ee85ee7e}{%
+           family={{Vishay General Semiconductor}},
+           familyi={V\bibinitperiod}}}%
+      }
+      \strng{namehash}{abc702b31918875862a32487ee85ee7e}
+      \strng{fullhash}{abc702b31918875862a32487ee85ee7e}
+      \strng{fullhashraw}{abc702b31918875862a32487ee85ee7e}
+      \strng{bibnamehash}{abc702b31918875862a32487ee85ee7e}
+      \strng{authorbibnamehash}{abc702b31918875862a32487ee85ee7e}
+      \strng{authornamehash}{abc702b31918875862a32487ee85ee7e}
+      \strng{authorfullhash}{abc702b31918875862a32487ee85ee7e}
+      \strng{authorfullhashraw}{abc702b31918875862a32487ee85ee7e}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{5}
+      \field{langid}{english}
+      \field{month}{4}
+      \field{note}{Katalogový list, dokument 88526}
+      \field{title}{1N5820, 1N5821, 1N5822: Schottky Barrier Plastic Rectifier}
+      \field{urlday}{21}
+      \field{urlmonth}{10}
+      \field{urlyear}{2026}
+      \field{year}{2019}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.vishay.com/docs/88526/1n5820.pdf
+      \endverb
+      \verb{url}
+      \verb https://www.vishay.com/docs/88526/1n5820.pdf
+      \endverb
+    \endentry
+    \entry{uno}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=ee5bced252ab77ec8d633c1afda7c5da}{%
+           family={{Arduino}},
+           familyi={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{ee5bced252ab77ec8d633c1afda7c5da}
+      \strng{fullhash}{ee5bced252ab77ec8d633c1afda7c5da}
+      \strng{fullhashraw}{ee5bced252ab77ec8d633c1afda7c5da}
+      \strng{bibnamehash}{ee5bced252ab77ec8d633c1afda7c5da}
+      \strng{authorbibnamehash}{ee5bced252ab77ec8d633c1afda7c5da}
+      \strng{authornamehash}{ee5bced252ab77ec8d633c1afda7c5da}
+      \strng{authorfullhash}{ee5bced252ab77ec8d633c1afda7c5da}
+      \strng{authorfullhashraw}{ee5bced252ab77ec8d633c1afda7c5da}
+      \field{extraname}{1}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{langid}{english}
+      \field{note}{Dokumentace desky A000066}
+      \field{title}{UNO R3}
+      \field{urlday}{21}
+      \field{urlmonth}{10}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://docs.arduino.cc/hardware/uno-rev3/
+      \endverb
+      \verb{url}
+      \verb https://docs.arduino.cc/hardware/uno-rev3/
+      \endverb
+    \endentry
+    \entry{fotoProudServa}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=e68564f23e0e939acea76dc3d2bc01bf}{%
+           family={Jan},
+           familyi={J\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {Pololu}%
+      }
+      \strng{namehash}{e68564f23e0e939acea76dc3d2bc01bf}
+      \strng{fullhash}{e68564f23e0e939acea76dc3d2bc01bf}
+      \strng{fullhashraw}{e68564f23e0e939acea76dc3d2bc01bf}
+      \strng{bibnamehash}{e68564f23e0e939acea76dc3d2bc01bf}
+      \strng{authorbibnamehash}{e68564f23e0e939acea76dc3d2bc01bf}
+      \strng{authornamehash}{e68564f23e0e939acea76dc3d2bc01bf}
+      \strng{authorfullhash}{e68564f23e0e939acea76dc3d2bc01bf}
+      \strng{authorfullhashraw}{e68564f23e0e939acea76dc3d2bc01bf}
+      \field{extraname}{2}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{9}
+      \field{langid}{english}
+      \field{month}{2}
+      \field{note}{Převzatý oscilogram řídicího signálu a proudu serva. Bez obsahových úprav}
+      \field{title}{Servo control interface in detail: S148 servo moving}
+      \field{urlday}{2}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{year}{2011}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.pololu.com/blog/17/servo-control-interface-in-detail
+      \endverb
+      \verb{url}
+      \verb https://www.pololu.com/blog/17/servo-control-interface-in-detail
+      \endverb
+      \keyw{obrazek}
+    \endentry
+    \entry{osak}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=4d52753f3c46d9d43bdcac7bb85e6d17}{%
+           family={Osak},
+           familyi={O\bibinitperiod},
+           given={Warren},
+           giveni={W\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {LinkedIn}%
+      }
+      \strng{namehash}{4d52753f3c46d9d43bdcac7bb85e6d17}
+      \strng{fullhash}{4d52753f3c46d9d43bdcac7bb85e6d17}
+      \strng{fullhashraw}{4d52753f3c46d9d43bdcac7bb85e6d17}
+      \strng{bibnamehash}{4d52753f3c46d9d43bdcac7bb85e6d17}
+      \strng{authorbibnamehash}{4d52753f3c46d9d43bdcac7bb85e6d17}
+      \strng{authornamehash}{4d52753f3c46d9d43bdcac7bb85e6d17}
+      \strng{authorfullhash}{4d52753f3c46d9d43bdcac7bb85e6d17}
+      \strng{authorfullhashraw}{4d52753f3c46d9d43bdcac7bb85e6d17}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{8}
+      \field{langid}{english}
+      \field{month}{5}
+      \field{title}{Comprehensive Strategies for Ground Loop Elimination in Servo Systems: A Technical Guide for Expert Engineers}
+      \field{urlday}{21}
+      \field{urlmonth}{10}
+      \field{urlyear}{2026}
+      \field{year}{2023}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.linkedin.com/pulse/comprehensive-strategies-ground-loop-elimination-servo-warren-osak/
+      \endverb
+      \verb{url}
+      \verb https://www.linkedin.com/pulse/comprehensive-strategies-ground-loop-elimination-servo-warren-osak/
+      \endverb
+    \endentry
+    \entry{mt031}{online}{}{}
+      \name{author}{3}{}{%
+        {{hash=74e5edea01b62f365ffc161e9d509c4d}{%
+           family={Kester},
+           familyi={K\bibinitperiod},
+           given={Walt},
+           giveni={W\bibinitperiod}}}%
+        {{hash=af388ae4fc20d7168d59cd47cf2ca9b6}{%
+           family={Bryant},
+           familyi={B\bibinitperiod},
+           given={James},
+           giveni={J\bibinitperiod}}}%
+        {{hash=238095c37764297d99f2bcfd13933af6}{%
+           family={Byrne},
+           familyi={B\bibinitperiod},
+           given={Mike},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {Analog Devices}%
+      }
+      \strng{namehash}{9256e28489a015e5305b141e56aa8968}
+      \strng{fullhash}{9256e28489a015e5305b141e56aa8968}
+      \strng{fullhashraw}{9256e28489a015e5305b141e56aa8968}
+      \strng{bibnamehash}{9256e28489a015e5305b141e56aa8968}
+      \strng{authorbibnamehash}{9256e28489a015e5305b141e56aa8968}
+      \strng{authornamehash}{9256e28489a015e5305b141e56aa8968}
+      \strng{authorfullhash}{9256e28489a015e5305b141e56aa8968}
+      \strng{authorfullhashraw}{9256e28489a015e5305b141e56aa8968}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{langid}{english}
+      \field{month}{10}
+      \field{note}{Technický výukový materiál, revize A}
+      \field{title}{MT-031: Grounding Data Converters and Solving the Mystery of AGND and DGND}
+      \field{urlday}{21}
+      \field{urlmonth}{10}
+      \field{urlyear}{2026}
+      \field{year}{2008}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.analog.com/media/en/training-seminars/tutorials/MT-031.pdf
+      \endverb
+      \verb{url}
+      \verb https://www.analog.com/media/en/training-seminars/tutorials/MT-031.pdf
+      \endverb
+    \endentry
+    \entry{tiemi}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=67e54b1ee931f3f4bddfefa5fbde5fd8}{%
+           family={{Texas Instruments}},
+           familyi={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{67e54b1ee931f3f4bddfefa5fbde5fd8}
+      \strng{fullhash}{67e54b1ee931f3f4bddfefa5fbde5fd8}
+      \strng{fullhashraw}{67e54b1ee931f3f4bddfefa5fbde5fd8}
+      \strng{bibnamehash}{67e54b1ee931f3f4bddfefa5fbde5fd8}
+      \strng{authorbibnamehash}{67e54b1ee931f3f4bddfefa5fbde5fd8}
+      \strng{authornamehash}{67e54b1ee931f3f4bddfefa5fbde5fd8}
+      \strng{authorfullhash}{67e54b1ee931f3f4bddfefa5fbde5fd8}
+      \strng{authorfullhashraw}{67e54b1ee931f3f4bddfefa5fbde5fd8}
+      \field{extraname}{3}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{14}
+      \field{langid}{english}
+      \field{month}{2}
+      \field{note}{Video, 8 min 34 s, a připojená prezentace TI Precision Labs, autor prezentace Wang Li}
+      \field{title}{Motor Driver EMI Design Tips}
+      \field{urlday}{21}
+      \field{urlmonth}{10}
+      \field{urlyear}{2026}
+      \field{year}{2022}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.ti.com/video/6297547663001
+      \endverb
+      \verb{url}
+      \verb https://www.ti.com/video/6297547663001
+      \endverb
+    \endentry
+    \entry{servoimpl}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=ee5bced252ab77ec8d633c1afda7c5da}{%
+           family={{Arduino}},
+           familyi={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{ee5bced252ab77ec8d633c1afda7c5da}
+      \strng{fullhash}{ee5bced252ab77ec8d633c1afda7c5da}
+      \strng{fullhashraw}{ee5bced252ab77ec8d633c1afda7c5da}
+      \strng{bibnamehash}{ee5bced252ab77ec8d633c1afda7c5da}
+      \strng{authorbibnamehash}{ee5bced252ab77ec8d633c1afda7c5da}
+      \strng{authornamehash}{ee5bced252ab77ec8d633c1afda7c5da}
+      \strng{authorfullhash}{ee5bced252ab77ec8d633c1afda7c5da}
+      \strng{authorfullhashraw}{ee5bced252ab77ec8d633c1afda7c5da}
+      \field{extraname}{2}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{langid}{english}
+      \field{note}{Zdrojový kód knihovny}
+      \field{title}{Servo: AVR implementation, Servo.cpp}
+      \field{urlday}{21}
+      \field{urlmonth}{10}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://github.com/arduino-libraries/Servo/blob/master/src/avr/Servo.cpp
+      \endverb
+      \verb{url}
+      \verb https://github.com/arduino-libraries/Servo/blob/master/src/avr/Servo.cpp
+      \endverb
+    \endentry
+    \entry{servoapi}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=ee5bced252ab77ec8d633c1afda7c5da}{%
+           family={{Arduino}},
+           familyi={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{ee5bced252ab77ec8d633c1afda7c5da}
+      \strng{fullhash}{ee5bced252ab77ec8d633c1afda7c5da}
+      \strng{fullhashraw}{ee5bced252ab77ec8d633c1afda7c5da}
+      \strng{bibnamehash}{ee5bced252ab77ec8d633c1afda7c5da}
+      \strng{authorbibnamehash}{ee5bced252ab77ec8d633c1afda7c5da}
+      \strng{authornamehash}{ee5bced252ab77ec8d633c1afda7c5da}
+      \strng{authorfullhash}{ee5bced252ab77ec8d633c1afda7c5da}
+      \strng{authorfullhashraw}{ee5bced252ab77ec8d633c1afda7c5da}
+      \field{extraname}{3}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{langid}{english}
+      \field{title}{Servo library: API documentation}
+      \field{urlday}{21}
+      \field{urlmonth}{10}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://github.com/arduino-libraries/Servo/blob/master/docs/api.md
+      \endverb
+      \verb{url}
+      \verb https://github.com/arduino-libraries/Servo/blob/master/docs/api.md
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

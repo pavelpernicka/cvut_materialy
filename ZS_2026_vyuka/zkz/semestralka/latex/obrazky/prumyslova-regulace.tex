@@ -1,0 +1,14 @@
+\begin{tikzpicture}[font=\footnotesize,x=1cm,y=1cm]
+\node[blok,text width=19mm] (p) at (1,2) {Regulátor\\polohy};
+\node[blok,text width=19mm] (v) at (4,2) {Regulátor\\rychlosti};
+\node[blok,text width=19mm] (i) at (7,2) {Regulátor\\proudu};
+\node[blok,text width=22mm] (m) at (10.5,2) {Měnič\\a motor};
+\draw[tok] (-1,2)--node[above]{$\varphi^*$}(p);
+\draw[tok] (p)--node[above]{$\omega^*$}(v);
+\draw[tok] (v)--node[above]{$i^*$}(i);
+\draw[tok] (i)--node[above]{buzení}(m);
+\draw[tok] (m.south)--(10.5,.8)--node[below]{měřený proud}(7,.8)--(i.south);
+\draw[tok,accent] (m.east)--(12.3,2)--(12.3,-.3)--node[below]{rychlost z odměřování}(4,-.3)--(v.south);
+\draw[tok,accent] (12.3,-.3)--(12.3,-1.4)--node[below]{poloha z enkodéru / resolveru}(1,-1.4)--(p.south);
+\fill[accent] (12.3,-.3) circle(1.5pt);
+\end{tikzpicture}

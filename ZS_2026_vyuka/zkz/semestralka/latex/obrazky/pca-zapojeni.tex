@@ -1,0 +1,17 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[blok,text width=26mm,minimum height=15mm] (m) at (0,2) {Mikrokontrolér\\\footnotesize zadání poloh};
+\node[blok,text width=30mm,minimum height=15mm] (p) at (5,2) {PWM expandér\\\footnotesize časování výstupů};
+\node[blok,text width=21mm] (s1) at (10,3.2) {Servo 1};
+\node[blok,text width=21mm] (sn) at (10,.8) {Servo $n$};
+\draw[tok] (m)--node[above]{I\textsuperscript{2}C}(p);
+\draw[tok] ([yshift=3mm]p.east)--++(.6,0)|-(s1.west);
+\node[font=\footnotesize] at (8,3.55) {pulzy 1};
+\draw[tok] ([yshift=-3mm]p.east)--++(.6,0)|-(sn.west);
+\node[font=\footnotesize] at (8,.45) {pulzy $n$};
+\node at (10,2) {$\vdots$};
+\node[blok,text width=32mm] (zd) at (5,-1.3) {Výkonový zdroj\\a rozvod napájení};
+\draw[thick,accent] (zd.east)--(12,-1.3)--(12,3.2)--(s1.east);
+\draw[thick,accent] (12,.8)--(sn.east);\fill[accent] (12,.8) circle(1.6pt);
+\node[above,font=\footnotesize] at (9,-1.3) {napájení serv};
+\node[anchor=west,font=\footnotesize,align=left] at (-1.4,-1.2) {Logika má vlastní napájení.\\GND je společná.};
+\end{tikzpicture}

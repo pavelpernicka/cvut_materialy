@@ -1,0 +1,13 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small]
+\node[blok,text width=29mm] (pc) at (0,3.4) {Stolní počítač\\USB GND};
+\node[blok,text width=29mm] (uno) at (6.5,3.4) {Arduino\\GND};
+\node[blok,text width=29mm] (src) at (6.5,0) {Laboratorní zdroj\\záporný pól};
+\node[blok,text width=29mm] (pe) at (0,0) {Společný PE\\ochranný vodič};
+\draw[thick] (pc.east)--node[above]{zem kabelu USB}(uno.west);
+\draw[thick] (uno.south)--node[right]{přes G0}(src.north);
+\draw[thick,dashed,accent] (src.south)--(6.5,-1.1)--node[below,align=center]{spojení záporného pólu s PE\\pouze pokud je ve zdroji přítomné}(0,-1.1)--(pe.south);
+\draw[thick,dashed,accent] (pe.north)--node[left,align=right,font=\footnotesize]{vazba USB GND\\na kostru / PE}(pc.south);
+\draw[tok,red!60!black] (1.9,2.6)--(4.8,2.6)--(4.8,.8)--(1.9,.8)--(1.9,2.2);
+\node[align=center,font=\footnotesize] at (3.35,1.7) {možný proud\\zemní smyčkou};
+\node[anchor=north west,text width=35mm,align=left,font=\footnotesize] at (8.5,3) {Plné čáry: zemní propojení zařízení.\\[3mm]Čárkovaně: další vazby na PE, které je nutné ověřit.};
+\end{tikzpicture}

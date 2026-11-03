@@ -1,0 +1,35 @@
+\chapter{Řízení pomocí mikrokontroléru}
+
+
+Pro řízení využíváme jeden analogový vstup A0 a jeden digitální výstup D9. Arduino i servo napájí společný stabilizovaný 5V zdroj. K~servu vede samostatný silový přívod; jeho proud neprochází deskou Arduina. USB slouží pouze k~programování po odpojení externího zdroje a 5V přívodu do desky podle kapitoly~4.
+
+\section{Jak se vytváří signál}
+Knihovna Servo na klasickém Uno používá časovač Timer1 a přerušení, ve kterém přepíná výstupní pin. Nejde o~přímý hardwarový PWM výstup OC1A, přestože v~příkladu používáme D9. Signál běží i během čekání v~hlavním programu. Dlouhé blokování přerušení však může časování narušit. Běžné \texttt{analogWrite()} pro tento účel nepoužíváme.~\cite{servoimpl}
+
+Funkce \texttt{attach(pin,min,max)} přiřadí výstup a krajní šířky pulzů. \texttt{writeMicroseconds()} nastavuje čas přímo; \texttt{write()} lze použít pro požadovaný úhel. Hodnota vracená \texttt{read()} je poslední povel, nikoli měření skutečného natočení. Použití knihovny na Uno také zabírá Timer1, takže se musí zohlednit souběh s~dalšími knihovnami a běžným PWM na D9/D10.~\cite{servoapi}
+
+\begin{figure}[htbp]\centering
+\resizebox{\textwidth}{!}{\input{obrazky/arduino-sestava}}
+\caption{Úplné zapojení Arduina, potenciometru a serva.}
+\label{fig:knob-priklad}
+\end{figure}
+
+Potenciometr zadává napětí pro vstup A0, program je převádí na délku pulzu na D9. Výstupní blok obsahuje sériový rezistor signálu, ochrany a blokování napájení podle kapitoly~4. Servo odebírá proud ze společného 5V zdroje; jeho návrat vede přímo do G0, mimo Arduino. Zem potenciometru se připojuje u~Arduina. Kladné přívody se spojují za pojistkou, zemní návraty v~G0.
+
+\section{Algoritmus řízení potenciometrem}
+Program načte napětí z~potenciometru na vstupu A0. Desetibitový převodník vrací hodnotu 0--1023, kterou funkce \texttt{map()} převede na pulz 500--2500 µs. Nastavenou hodnotu předá knihovně Servo a po 20 ms měření zopakuje. Generování samotných pulzů zajišťuje knihovna na pozadí; příkaz \texttt{delay(20)} určuje interval aktualizace požadavku.
+
+Po kalibraci přiřadíme krajním hodnotám polohy 0° a 180°, středu přibližně 90°. Kód záměrně zachovává jen základní postup. Rychlá změna potenciometru vyvolá skok požadované polohy; rychlost pohybu pak určuje servo se zátěží. Kondenzátor C11 omezuje rychlé rušení vstupu, případnou pomalejší filtraci nebo omezení rychlosti povelu lze doplnit podle použití.
+
+\begin{figure}[htbp]\centering
+\input{obrazky/algoritmus}
+\caption{Postup ovládání serva potenciometrem.}
+\end{figure}
+
+\noindent\begin{minipage}{\textwidth}
+\lstinputlisting[caption={Základní řízení polohy potenciometrem.},label={lst:pot}]{kod/servo_potenciometr/servo_potenciometr.ino}
+\end{minipage}
+
+Při inicializaci se krátce zadá střední poloha a hlavní smyčka ji hned nahradí hodnotou potenciometru. S~pohybem serva proto počítáme už při zapnutí.
+
+Konstanty 500 a 2500 µs jsou ukázkové meze generátoru. Před provozem je upravíme podle kalibrace konkrétního kusu a mechanismu; samy o~sobě nezaručují rozsah 180°. Funkce \texttt{constrain()} pouze omezí číslo na tyto meze. Program skutečnou polohu nesnímá; pokud má automat potvrdit dosažení cíle, potřebuje další snímač nebo servo se zpřístupněnou zpětnou vazbou.
