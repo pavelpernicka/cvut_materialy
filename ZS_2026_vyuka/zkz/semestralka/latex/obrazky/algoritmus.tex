@@ -1,8 +1,0 @@
-\begin{tikzpicture}[font=\small]
-\node[blok,text width=30mm] (a) at (0,1.5) {Načtení A0\\0--1023};
-\node[blok,text width=30mm] (b) at (4.5,1.5) {Přepočet na\\500--2500 µs};
-\node[blok,text width=30mm] (c) at (9,1.5) {Omezení na\\krajní hodnoty};
-\node[blok,text width=30mm] (d) at (9,-.2) {Předání pulzu\\knihovně Servo};
-\node[blok,text width=30mm] (e) at (0,-.2) {Čekání 20 ms};
-\draw[tok] (a)--(b);\draw[tok] (b)--(c);\draw[tok] (c)--(d);\draw[tok] (d)--(e);\draw[tok] (e)--(a);
-\end{tikzpicture}

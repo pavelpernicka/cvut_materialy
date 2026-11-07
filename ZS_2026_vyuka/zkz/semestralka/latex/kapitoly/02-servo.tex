@@ -14,7 +14,7 @@ Navrhujeme lehký polohovací držák s~rozsahem 0--180°. Příklad zatížení
 \end{equation}
 Výpočet vychází z~modelové zátěže. Při realizaci přičteme hmotnost páky, tření a dynamický moment $J\alpha$. Změna mechanismu proto vyžaduje nový výpočet zatížení.
 
-Katalogy RC serv často udávají moment v~\emph{kgf\,cm}, někdy nepřesně psaný jako kg/cm. Převod je $1\,\mathrm{kgf\,cm}=\SI{0.0980665}{N.m}$. Údaj \emph{stall torque} označuje moment při zablokovaném výstupu. Není to povolený moment pro libovolně dlouhé držení. Bez tepelné charakteristiky výrobce nemůžeme spolehlivě určit trvalou zatížitelnost jen procentem z~této hodnoty.
+Moment se uvádí v~kgf\,cm, kde $1\,\mathrm{kgf\,cm}=\SI{0.0980665}{N.m}$. Katalogový moment při zablokování není dovolené trvalé zatížení; to bez tepelné charakteristiky nelze spolehlivě odvodit.
 
 \section{Běžné modelářské servomotory}
 Pro malé přípravky se často používají mikroserva SG90 a MG90S nebo větší MG996R. Liší se hlavně rozměry, převody a momentem. Tabulka porovnává katalogové údaje konkrétních provedení při stejném napětí 4,8 V; nejde o~dovolené trvalé zatížení.~\cite{sg90,mg90s,mg180}
@@ -58,5 +58,4 @@ Převody & Kovové\\\bottomrule
 \section{Napájení a ověření rozsahu}
 Samostatný katalogový list MG996R uvádí proud při zablokování 2,5 A~při 6 V, ale také jiné provedení s~rozsahem přibližně 120°. Proud proto použijeme jako předběžný návrhový odhad; údaje o~rozsahu nepřenášíme mezi variantami. Pro společné napájení serva a řízení volíme stabilizovaný zdroj 5 V / alespoň 4 A~a při realizaci ověříme skutečný odběr i napětí na konektoru.~\cite{mgpdf}
 
-Pro řídicí obvod uvažujeme nastavitelné pulzy 0,5--2,5 ms. To je návrhový rozsah generátoru, nikoli doložená univerzální specifikace MG996R. Krajní pulzy pro 0° a 180° je nutné určit u~konkrétního 180° kusu bez zatížení a bez tlačení do dorazů. Pokud daný kus celý požadovaný úhel nedosáhne, nelze jej získat pouhým dalším prodlužováním pulzu.
-
+Pulzy 0,5--2,5 ms jsou návrhové meze generátoru, nikoli univerzální specifikace MG996R. Koncové polohy ověříme na konkrétním 180° kusu bez zatížení a bez tlačení do dorazů.

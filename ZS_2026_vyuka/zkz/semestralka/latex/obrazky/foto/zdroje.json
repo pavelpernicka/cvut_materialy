@@ -23,45 +23,10 @@
     "changes": "Výřez obrázku 1; bez obsahových úprav."
   },
   {
-    "file": "potenciometr-servo.jpg",
-    "source": "https://commons.wikimedia.org/wiki/File:%D0%9F%D0%BE%D1%82%D0%B5%D0%BD%D1%86%D1%96%D0%BE%D0%BC%D0%B5%D1%82%D1%80_%D1%83_%D1%81%D0%B5%D1%80%D0%B2%D0%BE%D0%BC%D0%B0%D1%88%D0%B8%D0%BD%D1%86%D1%96.jpg",
-    "author": "ReAl",
-    "license": "https://creativecommons.org/licenses/by-sa/3.0/",
-    "changes": "Bez obsahových úprav; pouze velikost při sazbě."
-  },
-  {
-    "file": "prevody-detail.jpg",
-    "source": "https://commons.wikimedia.org/wiki/File:SERV-05-ST_TEARDOWN_04A_(14315449236).jpg",
-    "author": "oomlout",
-    "license": "https://creativecommons.org/licenses/by-sa/2.0/",
-    "changes": "Bez obsahových úprav; pouze velikost při sazbě."
-  },
-  {
-    "file": "rc-fs90.jpg",
-    "source": "https://www.pololu.com/product/2818",
-    "author": "Pololu",
-    "license": "Volná licence není uvedena; citovaná produktová fotografie.",
-    "changes": "Pouze velikost při sazbě."
-  },
-  {
-    "file": "fs90r.jpg",
-    "source": "https://www.pololu.com/product/2820",
-    "author": "Pololu",
-    "license": "Volná licence není uvedena; citovaná produktová fotografie.",
-    "changes": "Pouze velikost při sazbě."
-  },
-  {
     "file": "motor-odmerovani.png",
     "source": "https://www.heidenhain.us/wp-content/uploads/2022/11/PR_Encoders_for_Servo_Drives_ID208922_en.pdf",
     "author": "HEIDENHAIN",
     "changes": "Výřez ilustrace ze strany 6; bez obsahových úprav",
-    "license": "Volná licence neuvedena; citovaná ilustrace."
-  },
-  {
-    "file": "magneticky-enkoder.jpg",
-    "source": "https://www.pololu.com/product/3499",
-    "author": "Pololu",
-    "changes": "Produktová fotografie; bez obsahových úprav",
     "license": "Volná licence neuvedena; citovaná ilustrace."
   },
   {
@@ -84,5 +49,19 @@
     "author": "Tower Pro",
     "license": "Volná licence neuvedena; citovaná fotografie.",
     "changes": "Vyjmuto z katalogového listu; při sazbě oříznut rozměrový náčrt."
+  },
+  {
+    "file": "prevody-detail.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:SERV-05-ST_TEARDOWN_04A_(14315449236).jpg",
+    "author": "oomlout",
+    "license": "https://creativecommons.org/licenses/by-sa/2.0/",
+    "changes": "Bez obsahových úprav; pouze velikost při sazbě."
+  },
+  {
+    "file": "fs90r.jpg",
+    "source": "https://www.pololu.com/product/2820",
+    "author": "Pololu",
+    "license": "Volná licence není uvedena; citovaná produktová fotografie.",
+    "changes": "Pouze velikost při sazbě."
   }
 ]

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2025/dev/Debian) (preloaded format=pdflatex 2025.12.26)  2 NOV 2026 23:46
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2025/dev/Debian) (preloaded format=pdflatex 2025.12.26)  3 NOV 2026 15:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1516,7 +1516,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 2
-9.
+5.
 
 (/usr/share/texmf/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
@@ -1531,121 +1531,91 @@ File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 {/usr/share/texmf/fonts/enc/dvips/lm/lm-ts1.enc}] (./kapitoly/01-teorie.tex
 Kapitola 1.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10.95> on input line 12.
+(Font)              <10.95> on input line 5.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 12.
+(Font)              <8> on input line 5.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 12.
+(Font)              <6> on input line 5.
 (./obrazky/prumyslova-regulace.tex)
+<obrazky/foto/motor-odmerovani.png, id=160, 251.13824pt x 157.18726pt>
+File: obrazky/foto/motor-odmerovani.png Graphic file (type png)
+<use obrazky/foto/motor-odmerovani.png>
+Package pdftex.def Info: obrazky/foto/motor-odmerovani.png  used on input line 
+18.
+(pdftex.def)             Requested size: 159.1108pt x 99.58733pt.
+
 
 [1
 
 
 {/usr/share/texmf/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/share/texmf/fonts/enc/
-dvips/lm/lm-rm.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathsy.enc}]
-<obrazky/foto/motor-odmerovani.png, id=216, 251.13824pt x 157.18726pt>
-File: obrazky/foto/motor-odmerovani.png Graphic file (type png)
-<use obrazky/foto/motor-odmerovani.png>
-Package pdftex.def Info: obrazky/foto/motor-odmerovani.png  used on input line 
-31.
-(pdftex.def)             Requested size: 231.86238pt x 145.1225pt.
-
-
-[2 <./obrazky/foto/motor-odmerovani.png (PNG copy)>]
-<obrazky/foto/potenciometr-servo.jpg, id=231, 963.6pt x 963.6pt>
-File: obrazky/foto/potenciometr-servo.jpg Graphic file (type jpg)
-<use obrazky/foto/potenciometr-servo.jpg>
-Package pdftex.def Info: obrazky/foto/potenciometr-servo.jpg  used on input lin
-e 48.
-(pdftex.def)             Requested size: 119.49399pt x 119.49399pt.
-<obrazky/foto/opticky-princip.png, id=237, 792.9625pt x 481.8pt>
+dvips/lm/lm-rm.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathsy.enc} <./obraz
+ky/foto/motor-odmerovani.png (PNG copy)>]
+<obrazky/foto/opticky-princip.png, id=181, 792.9625pt x 481.8pt>
 File: obrazky/foto/opticky-princip.png Graphic file (type png)
 <use obrazky/foto/opticky-princip.png>
-Package pdftex.def Info: obrazky/foto/opticky-princip.png  used on input line 6
-0.
-(pdftex.def)             Requested size: 227.62206pt x 138.29955pt.
-
-
-[3 <./obrazky/foto/potenciometr-servo.jpg> <./obrazky/foto/opticky-princip.png 
-(PNG copy)>] (./obrazky/kvadratura.tex
+Package pdftex.def Info: obrazky/foto/opticky-princip.png  used on input line 3
+2.
+(pdftex.def)             Requested size: 218.51521pt x 132.76373pt.
+ (./obrazky/kvadratura.tex
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <9> on input line 27.
 )
-<obrazky/foto/magneticky-enkoder.jpg, id=255, 466.25807pt x 386.2171pt>
-File: obrazky/foto/magneticky-enkoder.jpg Graphic file (type jpg)
-<use obrazky/foto/magneticky-enkoder.jpg>
-Package pdftex.def Info: obrazky/foto/magneticky-enkoder.jpg  used on input lin
-e 80.
-(pdftex.def)             Requested size: 147.69734pt x 122.34264pt.
 
-
-[4 <./obrazky/foto/magneticky-enkoder.jpg>]
-<obrazky/foto/resolver-princip.jpg, id=274, 963.6pt x 405.515pt>
+[2 <./obrazky/foto/opticky-princip.png (PNG copy)>]
+<obrazky/foto/resolver-princip.jpg, id=207, 963.6pt x 405.515pt>
 File: obrazky/foto/resolver-princip.jpg Graphic file (type jpg)
 <use obrazky/foto/resolver-princip.jpg>
 Package pdftex.def Info: obrazky/foto/resolver-princip.jpg  used on input line 
-91.
-(pdftex.def)             Requested size: 341.43307pt x 143.68347pt.
-<obrazky/foto/indukcni-princip.png, id=279, 1055.945pt x 294.09875pt>
+50.
+(pdftex.def)             Requested size: 309.56265pt x 130.26865pt.
+<obrazky/foto/indukcni-princip.png, id=211, 1055.945pt x 294.09875pt>
 File: obrazky/foto/indukcni-princip.png Graphic file (type png)
 <use obrazky/foto/indukcni-princip.png>
 Package pdftex.def Info: obrazky/foto/indukcni-princip.png  used on input line 
-101.
-(pdftex.def)             Requested size: 455.24411pt x 126.79207pt.
+58.
+(pdftex.def)             Requested size: 400.61703pt x 111.57918pt.
 
 
-[5 <./obrazky/foto/resolver-princip.jpg> <./obrazky/foto/indukcni-princip.png (
+[3 <./obrazky/foto/resolver-princip.jpg> <./obrazky/foto/indukcni-princip.png (
 PNG copy)>]
-<obrazky/foto/rozebrane-servo.jpg, id=297, 1284.8pt x 857.2025pt>
+<obrazky/foto/rozebrane-servo.jpg, id=226, 1284.8pt x 857.2025pt>
 File: obrazky/foto/rozebrane-servo.jpg Graphic file (type jpg)
 <use obrazky/foto/rozebrane-servo.jpg>
-Package pdftex.def Info: obrazky/foto/rozebrane-servo.jpg  used on input line 1
-11.
-(pdftex.def)             Requested size: 191.9079pt x 128.03854pt.
- (./obrazky/regulace.tex)
-
-[6 <./obrazky/foto/rozebrane-servo.jpg>]
-<obrazky/foto/rc-fs90.jpg, id=308, 466.25807pt x 373.00645pt>
-File: obrazky/foto/rc-fs90.jpg Graphic file (type jpg)
-<use obrazky/foto/rc-fs90.jpg>
-Package pdftex.def Info: obrazky/foto/rc-fs90.jpg  used on input line 144.
-(pdftex.def)             Requested size: 170.7128pt x 136.57323pt.
-<obrazky/foto/prumyslove-pohony.jpg, id=312, 963.6pt x 705.63625pt>
+Package pdftex.def Info: obrazky/foto/rozebrane-servo.jpg  used on input line 7
+5.
+(pdftex.def)             Requested size: 127.91899pt x 85.34595pt.
+<obrazky/foto/prumyslove-pohony.jpg, id=229, 963.6pt x 705.63625pt>
 File: obrazky/foto/prumyslove-pohony.jpg Graphic file (type jpg)
 <use obrazky/foto/prumyslove-pohony.jpg>
 Package pdftex.def Info: obrazky/foto/prumyslove-pohony.jpg  used on input line
- 153.
-(pdftex.def)             Requested size: 202.0385pt x 147.9511pt.
-
-
-[7 <./obrazky/foto/rc-fs90.jpg> <./obrazky/foto/prumyslove-pohony.jpg>]
-<obrazky/foto/fs90r.jpg, id=325, 466.25807pt x 373.00645pt>
+ 87.
+(pdftex.def)             Requested size: 116.55331pt x 85.35101pt.
+<obrazky/foto/fs90r.jpg, id=231, 466.25807pt x 373.00645pt>
 File: obrazky/foto/fs90r.jpg Graphic file (type jpg)
 <use obrazky/foto/fs90r.jpg>
-Package pdftex.def Info: obrazky/foto/fs90r.jpg  used on input line 165.
-(pdftex.def)             Requested size: 170.7128pt x 136.57323pt.
+Package pdftex.def Info: obrazky/foto/fs90r.jpg  used on input line 99.
+(pdftex.def)             Requested size: 106.6964pt x 85.35712pt.
 
-(./obrazky/poloha-otaceni.tex)
 
-[8 <./obrazky/foto/fs90r.jpg>]
-<obrazky/foto/prevody-detail.jpg, id=338, 963.6pt x 642.4pt>
+[4 <./obrazky/foto/rozebrane-servo.jpg> <./obrazky/foto/prumyslove-pohony.jpg> 
+<./obrazky/foto/fs90r.jpg>]
+<obrazky/foto/prevody-detail.jpg, id=246, 963.6pt x 642.4pt>
 File: obrazky/foto/prevody-detail.jpg Graphic file (type jpg)
 <use obrazky/foto/prevody-detail.jpg>
-Package pdftex.def Info: obrazky/foto/prevody-detail.jpg  used on input line 18
-7.
-(pdftex.def)             Requested size: 204.86154pt x 136.57436pt.
+Package pdftex.def Info: obrazky/foto/prevody-detail.jpg  used on input line 11
+1.
+(pdftex.def)             Requested size: 128.03662pt x 85.35774pt.
+) (./kapitoly/02-servo.tex
 
-
-[9 <./obrazky/foto/prevody-detail.jpg>]) (./kapitoly/02-servo.tex
-
-[10]
+[5 <./obrazky/foto/prevody-detail.jpg>]
 Kapitola 2.
 (./obrazky/drzak.tex)
 
-[11
+[6
 
 ]
-<obrazky/foto/mg996r-datasheet.jpg, id=373, 643.40375pt x 393.47pt>
+<obrazky/foto/mg996r-datasheet.jpg, id=276, 643.40375pt x 393.47pt>
 File: obrazky/foto/mg996r-datasheet.jpg Graphic file (type jpg)
 <use obrazky/foto/mg996r-datasheet.jpg>
 Package pdftex.def Info: obrazky/foto/mg996r-datasheet.jpg  used on input line 
@@ -1653,18 +1623,11 @@ Package pdftex.def Info: obrazky/foto/mg996r-datasheet.jpg  used on input line
 (pdftex.def)             Requested size: 132.01773pt x 171.92654pt.
 ) (./kapitoly/03-rizeni.tex
 
-[12 <./obrazky/foto/mg996r-datasheet.jpg>]
-
-[13]
+[7 <./obrazky/foto/mg996r-datasheet.jpg>]
 Kapitola 3.
-(./obrazky/pca-zapojeni.tex)
-
-[14
-
-]
 LaTeX Font Info:    Trying to load font information for TS1+lmss on input line 
-32.
- (/usr/share/texmf/tex/latex/lm/ts1lmss.fd
+20.
+(/usr/share/texmf/tex/latex/lm/ts1lmss.fd
 File: ts1lmss.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 Package microtype Info: Loading generic protrusion settings for font family
@@ -1673,28 +1636,21 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             See the microtype manual for details.
  (./obrazky/pulzy.tex)
 
-[15]
+[8
 
-[16{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathex.enc}]
-(./obrazky/casovani-555.tex)) (./kapitoly/04-zapojeni.tex
+]) (./kapitoly/04-zapojeni.tex
 
-[17]
+[9{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathex.enc}]
 Kapitola 4.
-(./obrazky/napajeni.tex)
+(./obrazky/ne555-servo.tex)
 
-[18
+[10
 
-] (./obrazky/ne555-servo.tex) (./obrazky/arduino.tex)
+] (./obrazky/zeme.tex)
 
-[19] (./obrazky/proud-spicky.tex)
+[11] (./obrazky/smycka.tex)) (./kapitoly/05-mikrokontroler.tex
 
-[20] (./obrazky/zeme.tex)
-
-[21] (./obrazky/smycka.tex)
-
-[22]) (./kapitoly/05-mikrokontroler.tex
-
-[23]
+[12]
 Kapitola 5.
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 7
 .
@@ -1707,30 +1663,30 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             See the microtype manual for details.
  (./obrazky/arduino-sestava.tex)
 
-[24
+[13
 
-] (./obrazky/algoritmus.tex)
+]
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 30.
-
-(./kod/servo_potenciometr/servo_potenciometr.ino
+nput line 25.
+ (./kod/servo_potenciometr/servo_potenciometr.ino
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <9> not available
 (Font)              Font shape `T1/lmtt/b/n' tried instead on input line 1.
-)) (./kapitoly/06-zaver.tex
+))
+(./kapitoly/06-zaver.tex
 
-[25]
+[14]
 Kapitola 6.
 )
 
-[26
+[15
 
 ]
 
-[27
+[16
 
 ]
 
-[28
+[17
 
 ] (build/main.aux)
  ***********
@@ -1738,39 +1694,38 @@ LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 4F47A9E10CDED17967DE76103C70C8FA;7616.
+(rerunfilecheck)             Checksum: CF787F531A7FD2E02F5BF5CFC4F64990;5306.
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 61602 strings out of 473197
- 1413909 string characters out of 5718604
- 2547234 words of memory out of 5000000
- 83573 multiletter control sequences out of 15000+600000
- 668436 words of font info for 274 fonts, out of 8000000 for 9000
+ 61042 strings out of 473197
+ 1400600 string characters out of 5718604
+ 2541542 words of memory out of 5000000
+ 83150 multiletter control sequences out of 15000+600000
+ 657360 words of font info for 237 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  89i,13n,90p,1197b,4817s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf/fonts/ty
 pe1/public/lm/lmbx12.pfb></usr/share/texmf/fonts/type1/public/lm/lmex10.pfb></u
 sr/share/texmf/fonts/type1/public/lm/lmmi10.pfb></usr/share/texmf/fonts/type1/p
 ublic/lm/lmmi7.pfb></usr/share/texmf/fonts/type1/public/lm/lmmi8.pfb></usr/shar
-e/texmf/fonts/type1/public/lm/lmmi9.pfb></usr/share/texmf/fonts/type1/public/lm
-/lmr10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf/
-fonts/type1/public/lm/lmr6.pfb></usr/share/texmf/fonts/type1/public/lm/lmr7.pfb
-></usr/share/texmf/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf/fonts/type1
-/public/lm/lmr9.pfb></usr/share/texmf/fonts/type1/public/lm/lmri10.pfb></usr/sh
-are/texmf/fonts/type1/public/lm/lmri9.pfb></usr/share/texmf/fonts/type1/public/
-lm/lmss10.pfb></usr/share/texmf/fonts/type1/public/lm/lmssbx10.pfb></usr/share/
-texmf/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/public/lm/
-lmsy7.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy8.pfb></usr/share/texmf/f
-onts/type1/public/lm/lmsy9.pfb></usr/share/texmf/fonts/type1/public/lm/lmtk10.p
-fb></usr/share/texmf/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf/fonts/t
-ype1/public/lm/lmtt9.pfb>
-Output written on build/main.pdf (30 pages, 1544003 bytes).
+e/texmf/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf/fonts/type1/public/lm
+/lmr12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr6.pfb></usr/share/texmf/f
+onts/type1/public/lm/lmr7.pfb></usr/share/texmf/fonts/type1/public/lm/lmr8.pfb>
+</usr/share/texmf/fonts/type1/public/lm/lmr9.pfb></usr/share/texmf/fonts/type1/
+public/lm/lmri9.pfb></usr/share/texmf/fonts/type1/public/lm/lmss10.pfb></usr/sh
+are/texmf/fonts/type1/public/lm/lmssbx10.pfb></usr/share/texmf/fonts/type1/publ
+ic/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy7.pfb></usr/share/
+texmf/fonts/type1/public/lm/lmsy8.pfb></usr/share/texmf/fonts/type1/public/lm/l
+msy9.pfb></usr/share/texmf/fonts/type1/public/lm/lmtk10.pfb></usr/share/texmf/f
+onts/type1/public/lm/lmtt10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt9.p
+fb>
+Output written on build/main.pdf (19 pages, 1159953 bytes).
 PDF statistics:
- 765 PDF objects out of 1000 (max. 8388607)
- 643 compressed objects within 7 object streams
- 178 named destinations out of 1000 (max. 500000)
- 75631 words of extra memory for PDF output out of 89155 (max. 10000000)
+ 605 PDF objects out of 1000 (max. 8388607)
+ 510 compressed objects within 6 object streams
+ 135 named destinations out of 1000 (max. 500000)
+ 67352 words of extra memory for PDF output out of 74296 (max. 10000000)
 

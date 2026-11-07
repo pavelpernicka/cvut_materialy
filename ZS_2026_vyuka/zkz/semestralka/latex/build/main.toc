@@ -1,51 +1,41 @@
 \babel@toc {czech}{}\relax 
 \contentsline {chapter}{\numberline {1}Teoretická část -- princip servomotoru}{1}{chapter.1}%
-\contentsline {section}{\numberline {1.1}Servomotor jako součást regulačního systému}{1}{section.1.1}%
-\contentsline {section}{\numberline {1.2}Zpětná vazba a polohová regulace}{1}{section.1.2}%
-\contentsline {subsection}{\numberline {1.2.1}Obecný princip regulace}{1}{subsection.1.2.1}%
-\contentsline {subsection}{\numberline {1.2.2}Umístění odměřování}{2}{subsection.1.2.2}%
-\contentsline {section}{\numberline {1.3}Snímače zpětné vazby}{2}{section.1.3}%
-\contentsline {subsection}{\numberline {1.3.1}Potenciometr}{3}{subsection.1.3.1}%
-\contentsline {subsection}{\numberline {1.3.2}Optický enkodér}{3}{subsection.1.3.2}%
-\contentsline {subsection}{\numberline {1.3.3}Magnetický snímač}{4}{subsection.1.3.3}%
-\contentsline {subsection}{\numberline {1.3.4}Resolver}{5}{subsection.1.3.4}%
-\contentsline {subsection}{\numberline {1.3.5}Indukční enkodér}{5}{subsection.1.3.5}%
-\contentsline {section}{\numberline {1.4}Co je uvnitř RC serva}{6}{section.1.4}%
-\contentsline {section}{\numberline {1.5}Základní rozdělení servomotorů}{6}{section.1.5}%
-\contentsline {subsection}{\numberline {1.5.1}Podle použití: modelářská a průmyslová serva}{7}{subsection.1.5.1}%
-\contentsline {subsection}{\numberline {1.5.2}Podle pohybu: polohová a kontinuální serva}{8}{subsection.1.5.2}%
-\contentsline {subsection}{\numberline {1.5.3}Podle konstrukce: převodovka a přímý pohon}{8}{subsection.1.5.3}%
-\contentsline {subsection}{\numberline {1.5.4}Další vlastnosti: motor a elektronika}{9}{subsection.1.5.4}%
-\contentsline {section}{\numberline {1.6}Řídicí pulz a jeho význam}{9}{section.1.6}%
-\contentsline {section}{\numberline {1.7}Rozlišení není přesnost}{10}{section.1.7}%
-\contentsline {chapter}{\numberline {2}Výběr konkrétního servomotoru}{11}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Požadavky na pohon}{11}{section.2.1}%
-\contentsline {section}{\numberline {2.2}Běžné modelářské servomotory}{11}{section.2.2}%
-\contentsline {section}{\numberline {2.3}Zvolený model MG996R}{12}{section.2.3}%
-\contentsline {section}{\numberline {2.4}Napájení a ověření rozsahu}{12}{section.2.4}%
-\contentsline {chapter}{\numberline {3}Výběr driveru nebo řídicího systému}{14}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Co v~této práci znamená driver}{14}{section.3.1}%
-\contentsline {subsection}{\numberline {3.1.1}PWM expandér pro více serv}{14}{subsection.3.1.1}%
-\contentsline {section}{\numberline {3.2}Požadovaný signál pro MG996R 180°}{15}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Řízení jedním NE555}{16}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Nabíjení, vybíjení a šířka pulzu}{16}{section.3.4}%
-\contentsline {section}{\numberline {3.5}Volba součástek a opakovací perioda}{16}{section.3.5}%
-\contentsline {section}{\numberline {3.6}Kalibrace a praktické provedení}{17}{section.3.6}%
-\contentsline {chapter}{\numberline {4}Schéma zapojení a popis funkce}{18}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Společný napájecí a výstupní blok}{18}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Zapojení generátoru s~jedním NE555}{19}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Zapojení řídicí části}{19}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Proudové špičky a blokování}{20}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Společná zem a společná impedance}{21}{section.4.5}%
-\contentsline {section}{\numberline {4.6}Zemní smyčka a připojený počítač}{21}{section.4.6}%
-\contentsline {section}{\numberline {4.7}Zemní plocha, kabeláž a elektromagnetické rušení}{23}{section.4.7}%
-\contentsline {section}{\numberline {4.8}Kdy použít galvanické oddělení}{23}{section.4.8}%
-\contentsline {section}{\numberline {4.9}Ochrany a mechanické uspořádání}{23}{section.4.9}%
-\contentsline {chapter}{\numberline {5}Řízení pomocí mikrokontroléru}{24}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Jak se vytváří signál}{24}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Algoritmus řízení potenciometrem}{25}{section.5.2}%
-\contentsline {chapter}{\numberline {6}Závěr}{26}{chapter.6}%
-\contentsline {chapter}{Literatura}{27}{chapter*.17}%
+\contentsline {section}{\numberline {1.1}Zpětná vazba a polohová regulace}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Snímače zpětné vazby}{1}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Potenciometr}{2}{subsection.1.2.1}%
+\contentsline {subsection}{\numberline {1.2.2}Optický enkodér}{2}{subsection.1.2.2}%
+\contentsline {subsection}{\numberline {1.2.3}Magnetický snímač}{2}{subsection.1.2.3}%
+\contentsline {subsection}{\numberline {1.2.4}Resolver}{3}{subsection.1.2.4}%
+\contentsline {subsection}{\numberline {1.2.5}Indukční enkodér}{3}{subsection.1.2.5}%
+\contentsline {section}{\numberline {1.3}Druhy servomotorů a jejich konstrukce}{4}{section.1.3}%
+\contentsline {subsection}{\numberline {1.3.1}Modelářská polohová serva}{4}{subsection.1.3.1}%
+\contentsline {subsection}{\numberline {1.3.2}Průmyslové servopohony}{4}{subsection.1.3.2}%
+\contentsline {subsection}{\numberline {1.3.3}Kontinuální RC serva}{4}{subsection.1.3.3}%
+\contentsline {subsection}{\numberline {1.3.4}Serva s~převodovkou}{5}{subsection.1.3.4}%
+\contentsline {subsection}{\numberline {1.3.5}Přímé servopohony}{5}{subsection.1.3.5}%
+\contentsline {subsection}{\numberline {1.3.6}Lineární servopohony}{5}{subsection.1.3.6}%
+\contentsline {section}{\numberline {1.4}Význam PWM signálu}{5}{section.1.4}%
+\contentsline {chapter}{\numberline {2}Výběr konkrétního servomotoru}{6}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Požadavky na pohon}{6}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Běžné modelářské servomotory}{6}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Zvolený model MG996R}{7}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Napájení a ověření rozsahu}{7}{section.2.4}%
+\contentsline {chapter}{\numberline {3}Výběr driveru nebo řídicího systému}{8}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Co v~této práci znamená driver}{8}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Požadovaný signál pro MG996R 180°}{8}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Řízení jedním NE555}{9}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Časování a volba součástek}{9}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Kalibrace a praktické provedení}{9}{section.3.5}%
+\contentsline {chapter}{\numberline {4}Schéma zapojení a popis funkce}{10}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Společné napájení a výstup k~servu}{10}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Zapojení s~jedním NE555}{10}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Společná zem a návrat proudu}{11}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Zemní smyčka a rušení}{12}{section.4.4}%
+\contentsline {chapter}{\numberline {5}Řízení pomocí mikrokontroléru}{13}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Jak se vytváří signál}{13}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Algoritmus řízení potenciometrem}{14}{section.5.2}%
+\contentsline {chapter}{\numberline {6}Závěr}{15}{chapter.6}%
+\contentsline {chapter}{Literatura}{16}{chapter*.6}%
 \babel@toc {english}{}\relax 
 \babel@toc {czech}{}\relax 
 \babel@toc {english}{}\relax 
@@ -70,19 +60,19 @@
 \babel@toc {czech}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {czech}{}\relax 
+\babel@toc {english}{}\relax 
 \babel@toc {czech}{}\relax 
+\babel@toc {english}{}\relax 
 \babel@toc {czech}{}\relax 
+\babel@toc {english}{}\relax 
 \babel@toc {czech}{}\relax 
+\babel@toc {english}{}\relax 
 \babel@toc {czech}{}\relax 
 \babel@toc {czech}{}\relax 
 \babel@toc {czech}{}\relax 
-\babel@toc {english}{}\relax 
 \babel@toc {czech}{}\relax 
-\babel@toc {english}{}\relax 
 \babel@toc {czech}{}\relax 
-\babel@toc {english}{}\relax 
 \babel@toc {czech}{}\relax 
-\babel@toc {english}{}\relax 
 \babel@toc {czech}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {czech}{}\relax 
@@ -171,12 +161,6 @@
 \babel@toc {english}{}\relax 
 \babel@toc {czech}{}\relax 
 \babel@toc {english}{}\relax 
-\babel@toc {czech}{}\relax 
-\babel@toc {czech}{}\relax 
-\babel@toc {czech}{}\relax 
-\babel@toc {czech}{}\relax 
-\babel@toc {czech}{}\relax 
-\babel@toc {czech}{}\relax 
 \babel@toc {czech}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {czech}{}\relax 
@@ -226,20 +210,13 @@
 \babel@toc {czech}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {czech}{}\relax 
-\contentsline {chapter}{Zdroje obrázků}{28}{chapter*.18}%
 \babel@toc {czech}{}\relax 
 \babel@toc {czech}{}\relax 
 \babel@toc {czech}{}\relax 
 \babel@toc {czech}{}\relax 
 \babel@toc {czech}{}\relax 
 \babel@toc {czech}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {czech}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {czech}{}\relax 
-\babel@toc {english}{}\relax 
-\babel@toc {czech}{}\relax 
-\babel@toc {english}{}\relax 
+\contentsline {chapter}{Zdroje obrázků}{17}{chapter*.7}%
 \babel@toc {czech}{}\relax 
 \babel@toc {czech}{}\relax 
 \babel@toc {czech}{}\relax 
@@ -264,7 +241,6 @@
 \babel@toc {czech}{}\relax 
 \babel@toc {czech}{}\relax 
 \babel@toc {czech}{}\relax 
-\babel@toc {czech}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {czech}{}\relax 
 \babel@toc {english}{}\relax 
@@ -272,12 +248,6 @@
 \babel@toc {english}{}\relax 
 \babel@toc {czech}{}\relax 
 \babel@toc {english}{}\relax 
-\babel@toc {czech}{}\relax 
-\babel@toc {czech}{}\relax 
-\babel@toc {czech}{}\relax 
-\babel@toc {czech}{}\relax 
-\babel@toc {czech}{}\relax 
-\babel@toc {czech}{}\relax 
 \babel@toc {czech}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {czech}{}\relax 

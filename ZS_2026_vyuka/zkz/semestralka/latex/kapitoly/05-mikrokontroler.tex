@@ -1,12 +1,12 @@
 \chapter{Řízení pomocí mikrokontroléru}
 
 
-Pro řízení využíváme jeden analogový vstup A0 a jeden digitální výstup D9. Arduino i servo napájí společný stabilizovaný 5V zdroj. K~servu vede samostatný silový přívod; jeho proud neprochází deskou Arduina. USB slouží pouze k~programování po odpojení externího zdroje a 5V přívodu do desky podle kapitoly~4.
+Pro řízení využíváme jeden analogový vstup A0 a jeden digitální výstup D9. Arduino i servo napájí společný stabilizovaný 5V zdroj. K~servu vede samostatný silový přívod; jeho proud neprochází deskou Arduina. USB používáme pouze při programování; postup přepojení je uveden pod schématem.
 
 \section{Jak se vytváří signál}
 Knihovna Servo na klasickém Uno používá časovač Timer1 a přerušení, ve kterém přepíná výstupní pin. Nejde o~přímý hardwarový PWM výstup OC1A, přestože v~příkladu používáme D9. Signál běží i během čekání v~hlavním programu. Dlouhé blokování přerušení však může časování narušit. Běžné \texttt{analogWrite()} pro tento účel nepoužíváme.~\cite{servoimpl}
 
-Funkce \texttt{attach(pin,min,max)} přiřadí výstup a krajní šířky pulzů. \texttt{writeMicroseconds()} nastavuje čas přímo; \texttt{write()} lze použít pro požadovaný úhel. Hodnota vracená \texttt{read()} je poslední povel, nikoli měření skutečného natočení. Použití knihovny na Uno také zabírá Timer1, takže se musí zohlednit souběh s~dalšími knihovnami a běžným PWM na D9/D10.~\cite{servoapi}
+Funkce \texttt{writeMicroseconds()} nastavuje délku pulzu, \texttt{write()} požadovaný úhel. Hodnota \texttt{read()} je poslední povel, nikoli změřená poloha. Knihovna zabírá Timer1 a ovlivní běžné PWM na D9/D10.~\cite{servoapi}
 
 \begin{figure}[htbp]\centering
 \resizebox{\textwidth}{!}{\input{obrazky/arduino-sestava}}
@@ -14,17 +14,12 @@ Funkce \texttt{attach(pin,min,max)} přiřadí výstup a krajní šířky pulzů
 \label{fig:knob-priklad}
 \end{figure}
 
-Potenciometr zadává napětí pro vstup A0, program je převádí na délku pulzu na D9. Výstupní blok obsahuje sériový rezistor signálu, ochrany a blokování napájení podle kapitoly~4. Servo odebírá proud ze společného 5V zdroje; jeho návrat vede přímo do G0, mimo Arduino. Zem potenciometru se připojuje u~Arduina. Kladné přívody se spojují za pojistkou, zemní návraty v~G0.
+P2 = 10 k$\Omega$ je připojen mezi 5 V a GND Arduina. Jezdec vede přes R8 = 1 k$\Omega$ na A0; C11 = 100 nF filtruje vstup. Arduino napájíme na pin 5V, nikoli VIN. Před připojením USB odpojíme externí zdroj i jeho 5V přívod do desky.~\cite{uno,arduinoPower} Výstupní blok obsahuje sériový rezistor signálu, ochrany a blokování napájení podle kapitoly~4. Servo odebírá proud ze společného 5V zdroje; jeho návrat vede přímo do G0, mimo Arduino. Zem potenciometru se připojuje u~Arduina. Kladné přívody se spojují za pojistkou, zemní návraty v~G0.
 
 \section{Algoritmus řízení potenciometrem}
 Program načte napětí z~potenciometru na vstupu A0. Desetibitový převodník vrací hodnotu 0--1023, kterou funkce \texttt{map()} převede na pulz 500--2500 µs. Nastavenou hodnotu předá knihovně Servo a po 20 ms měření zopakuje. Generování samotných pulzů zajišťuje knihovna na pozadí; příkaz \texttt{delay(20)} určuje interval aktualizace požadavku.
 
-Po kalibraci přiřadíme krajním hodnotám polohy 0° a 180°, středu přibližně 90°. Kód záměrně zachovává jen základní postup. Rychlá změna potenciometru vyvolá skok požadované polohy; rychlost pohybu pak určuje servo se zátěží. Kondenzátor C11 omezuje rychlé rušení vstupu, případnou pomalejší filtraci nebo omezení rychlosti povelu lze doplnit podle použití.
-
-\begin{figure}[htbp]\centering
-\input{obrazky/algoritmus}
-\caption{Postup ovládání serva potenciometrem.}
-\end{figure}
+Po kalibraci přiřadíme krajním hodnotám polohy 0° a 180°, středu přibližně 90°. Kód záměrně zachovává jen základní postup. Rychlá změna potenciometru vyvolá skok požadované polohy; rychlost pohybu pak určuje servo se zátěží. C11 omezuje rychlé rušení vstupu.
 
 \noindent\begin{minipage}{\textwidth}
 \lstinputlisting[caption={Základní řízení polohy potenciometrem.},label={lst:pot}]{kod/servo_potenciometr/servo_potenciometr.ino}

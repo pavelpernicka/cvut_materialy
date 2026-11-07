@@ -1,6 +1,6 @@
 \chapter{Výběr driveru nebo řídicího systému}
 \section{Co v~této práci znamená driver}
-Zvolené MG996R má výkonový stupeň uvnitř. Nepotřebuje externí H-můstek, který by se zapojoval do jeho napájení a určoval směr. Zvolený řídicí obvod vytváří pouze polohový povel. Řízení napájení a vytváření pulzů jsou samostatné funkce.
+MG996R má výkonový stupeň uvnitř. Vnější řídicí obvod vytváří pouze polohový povel; motor nenapájí.
 
 \begin{table}[htbp]\centering\small
 \caption{Porovnání způsobů řízení serva.}
@@ -15,19 +15,7 @@ Zvolené MG996R má výkonový stupeň uvnitř. Nepotřebuje externí H-můstek,
 
 Pro jeden držák rozpracujeme dvě možnosti: ruční ovladač s~NE555 a Arduino Uno R3. NE555 vystačí s~potenciometrem a několika součástkami. Arduino umožní nastavit meze v~programu a později doplnit automatický pohyb.
 
-\subsection{PWM expandér pro více serv}
-PWM expandér rozšiřuje počet výstupů mikrokontroléru. Po sběrnici přijme nastavení jednotlivých kanálů a pulzy potom generuje samostatně. Mikrokontrolér tak nemusí časovat každou hranu. Běžný GPIO expandér tuto funkci automaticky nemá; pro servo potřebujeme obvod s~vlastním generátorem PWM.
-
-Příkladem je PCA9685 s~16 kanály a 12bitovým rozlišením. Šířku pulzu lze nastavit pro každý kanál zvlášť, opakovací frekvence je společná. Při 50 Hz odpovídá jeden krok přibližně $20\,000/4096=4{,}88$ µs. Řadič musí po zapnutí nastavit frekvenci a požadované pulzy; samotné připojení sběrnice nestačí.~\cite{pca}
-
-\noindent\begin{minipage}{\textwidth}\centering
-\input{obrazky/pca-zapojeni}
-\captionsetup{hypcap=false}\captionof{figure}{Rozšíření řízení pomocí PWM expandéru.}
-\label{fig:pca-priklad}
-\end{minipage}
-\medskip
-
-Expandér vytváří řídicí signály, nenapájí motory. Logika má vlastní napájení a serva výkonovou větev dimenzovanou na jejich společný odběr. V~neodděleném zapojení mají obě části společnou zem. Způsob rozvodu napájení, blokování a připojení konektorů je součástí návrhu zařízení, nikoli vlastností samotného PWM čipu. Pro jeden pohon je přímé řízení z~Arduina jednodušší; expandér má smysl při rozšíření na více os.
+PWM expandér, například PCA9685, vytváří pulzy samostatně podle příkazů z~mikrokontroléru. Nabízí 16 kanálů s~12bitovým rozlišením a společnou frekvencí. Při 50 Hz odpovídá krok přibližně 4,88 µs. Expandér nenapájí motory; pro jeden pohon je přímé řízení z~Arduina jednodušší.~\cite{pca}
 
 \section{Požadovaný signál pro MG996R 180°}
 Zvolenému servu zadáváme polohu kladnými pulzy 0,5--2,5 ms. Jako výchozí volíme periodu přibližně 20 ms, běžnou pro RC rozhraní; u~jednočasovačového generátoru se s~polohou ovladače mírně mění. Rozsah pulzů je návrhový; skutečné krajní polohy určíme kalibrací konkrétního kusu podle kapitoly~2. Opakovací perioda vychází z~obvyklého RC řízení.~\cite{pololu}
@@ -42,44 +30,22 @@ Diagram ukazuje referenční periodu 20 ms; časová osa je zkrácená. Pro line
 \begin{equation}\label{eq:map}
  t_H(\varphi)=t_\mathrm{min}+\frac{\varphi}{180^\circ}(t_\mathrm{max}-t_\mathrm{min}).
 \end{equation}
-Při ukázkových mezích \SI{500}{\micro s} a \SI{2500}{\micro s} odpovídá \uhel{45} pulzu \SI{1000}{\micro s}. Jeden stupeň znamená změnu přibližně \SI{11.1}{\micro s}. Střída ve středu je $D=t_H/T=1{,}5/20=7{,}5\,\%$. Pro servo je rozhodující délka \SI{1.5}{ms}; samotná informace o~střídě bez periody nestačí.
+Pro ukázkové meze 500--2500 µs odpovídá 45° pulzu 1000 µs. Skutečné krajní polohy vyžadují kalibraci.
 
 \section{Řízení jedním NE555}
-Pro ruční ovladač použijeme jeden NE555P v~astabilním zapojení s~diodou D1. Běžné zapojení bez diody vytváří kladný pulz delší než polovinu periody. Dioda umožní nabíjet časovací kondenzátor jinou cestou, než kterou se vybíjí, a tím získat krátký kladný pulz a dlouhou mezeru. Takto lze postavit jednoduchý servo tester bez programu; praktickou realizaci stejného principu popisuje Lars Ivar.~\cite{servo555prakticky}
+Ruční ovladač používá jeden NE555P v~astabilním zapojení. Dioda odděluje nabíjecí a vybíjecí cestu, takže vznikne krátký kladný pulz a dlouhá mezera. Praktický tester stejného principu popisuje Lars Ivar.~\cite{servo555prakticky}
 
-NE555 je bipolární časovač. TLC555 je jeho CMOS alternativa se stejnými vývody, menším odběrem a výstupem, který se při malé zátěži přibližuje napájecím úrovním. TLC555 se proto hodí zejména pro bateriové nebo citlivé obvody. Zde volíme přímo NE555P napájený stabilizovanými 5 V. Jeho výstup není ideální 5V zdroj; skutečnou vysokou úroveň je nutné ověřit se vstupem zvoleného serva.~\cite{ne555,tlc555}
+Volíme bipolární NE555P s~napájením 5 V. CMOS alternativa TLC555 má menší odběr a výstup bližší napájecím úrovním. U~NE555 je proto zvlášť nutné ověřit dostatečnou vysokou úroveň signálu pro servo.~\cite{ne555,tlc555}
 
+\section{Časování a volba součástek}
+C1 se nabíjí přes R1, potenciometr P1 a diodu D1 mezi přibližně třetinou a dvěma třetinami napájení. Při dosažení horního prahu výstup klesne a vývod 7 vybíjí C1 přes R2. Dioda při nabíjení obchází R2; při vybíjení je zavřená.~\cite{ne555}
 
-
-\section{Nabíjení, vybíjení a šířka pulzu}
-Vývody 2 (TRIG) a 6 (THRES) jsou spojeny s~kondenzátorem C1. Při poklesu jeho napětí pod přibližně třetinu napájení přejde OUT do vysoké úrovně a vybíjecí tranzistor na vývodu 7 se vypne. C1 se nabíjí přes R1, nastavenou část P1 a diodu D1. Po dosažení přibližně dvou třetin napájení výstup klesne. Vývod 7 se připojí k~zemi přes vnitřní tranzistor a C1 se vybíjí přes R2. D1 je při vybíjení zavřená.~\cite{ne555}
-
-Dioda je paralelně k~R2: anoda vede na vývod 7, katoda na společný uzel vývodů 2 a 6. Potenciometr P1 pracuje jako proměnný odpor. Jeho jezdec W je vodičem spojen s~koncem B; do časovací cesty vstupuje odpor mezi A a spojenými B/W. Při ztrátě kontaktu jezdce zůstane v~cestě celý odpor dráhy. Pulz se tím prodlouží mimo nastavenou mez, takže toto spojení nenahrazuje ochranu proti dorazu.
-
-Při zanedbání úbytků platí přibližně
+Pro odhad s~konstantním úbytkem diody $U_D$ platí
 \begin{align}
- t_H&\approx\ln(2)(R_1+R_P)C_1,\\
- t_L&\approx\ln(2)R_2C_1,\\
- T&=t_H+t_L,\qquad f=1/T,
+ t_H&\approx(R_1+R_P)C_1\ln\!\left(\frac{2U_{CC}/3-U_D}{U_{CC}/3-U_D}\right),\\
+ t_L&\approx\ln(2)R_2C_1,\qquad T=t_H+t_L,\qquad f=1/T.
 \end{align}
-kde $R_P$ je právě nastavený odpor P1. Diodu však u~5V obvodu nelze považovat za ideální. Pro odhad s~konstantním úbytkem $U_D$ a ideálními prahy dostaneme
-\begin{equation}
- t_H\approx(R_1+R_P)C_1
- \ln\!\left(\frac{2U_{CC}/3-U_D}{U_{CC}/3-U_D}\right).
-\end{equation}
-Tento vztah vychází z~nabíjení C1 směrem k~napětí $U_{CC}-U_D$. Úbytek diody se mění s~proudem a teplotou, proto je výsledek pouze přibližný.
-
-\section{Volba součástek a opakovací perioda}
-Volíme $R_1=\SI{3.3}{k\ohm}$, lineární $P_1=\SI{25}{k\ohm}$, $R_2=\SI{221}{k\ohm}$, fóliový $C_1=\SI{120}{nF}$ a $D_1=\text{1N4148}$. Při odhadu $U_D=\SI{0.6}{V}$ vychází násobitel nabíjení přibližně 0,941 a rozsah $t_H$ asi 0,37--3,20 ms. Rezerva umožňuje doladění požadovaných 0,5--2,5 ms. Pro tyto meze vychází odhad nastavení $R_P$ přibližně 1,13 a 18,84 k\si{\ohm}.
-
-Mezera vychází při zanedbání saturačního napětí vývodu 7 přibližně $t_L=\SI{18.38}{ms}$. Po kalibraci pulzu na 0,5--2,5 ms se tedy perioda pohybuje přibližně mezi 18,88 a 20,88 ms, což odpovídá 53,0--47,9 Hz. Saturační napětí, vstupní proudy a tolerance skutečné časy dále posunou. \textbf{Perioda tohoto zapojení není konstantní.} Polohu zadává šířka pulzu, ale přípustnou frekvenci je třeba ověřit u~konkrétního serva; pro zvolený výrobek není celé tolerované rozmezí doložené.
-
-\begin{figure}[htbp]\centering
-\input{obrazky/casovani-555}
-\caption{Změna délky pulzu při přibližně stejné mezeře.}
-\end{figure}
+Volíme R1 = 3,3 k\si{\ohm}, P1 = 25 k\si{\ohm}, R2 = 221 k\si{\ohm}, C1 = 120 nF a D1 = 1N4148. Při $U_D=0{,}6$ V a napájení 5 V vychází rozsah pulzu přibližně 0,37--3,20 ms a mezera 18,38 ms. Po kalibraci pulzu na 0,5--2,5 ms se perioda mění přibližně od 18,88 do 20,88 ms (53,0--47,9 Hz). \textbf{Perioda s~jedním NE555 není konstantní.} Tolerance a skutečné úbytky časy dále posunou; kompatibilitu celého rozsahu je nutné ověřit u~konkrétního serva.
 
 \section{Kalibrace a praktické provedení}
-R1 a R2 volíme s~tolerancí 1\,\%, C1 s~tolerancí 5\,\%. Odchylku pulzu ovlivní také potenciometr, prahy časovače a dioda. Samotný výpočet proto nezaručuje dosažení přesných koncových poloh. Nejprve bez serva změříme osciloskopem šířku pulzu i periodu a vyznačíme nastavení 0,5; 1,5 a 2,5 ms. Pokud rozsah nevyjde, upravíme časovací součástky podle měření.
-
-\textbf{Celý chod P1 není určen pro připojené servo.} Ovladač mechanicky omezíme na ověřené meze a při prvním připojení začneme u~1,5 ms bez mechanické zátěže. První pulz při zapnutí může být delší, protože C1 se nabíjí od nuly, nikoli od třetiny napájení. Zapnutí proto patří ke kontrole průběhu. Tento jednoduchý tester nemá zaručenou ochranu proti poruše jezdce ani proti chybnému povelu při rozběhu.
+R1 a R2 volíme s~tolerancí 1\,\%, C1 s~tolerancí 5\,\%. Nejprve bez serva změříme pulzy i periodu osciloskopem a vyznačíme nastavení 0,5; 1,5 a 2,5 ms. Celý chod P1 není použitelný: ovladač omezíme na ověřené meze a servo poprvé připojíme bez zátěže při 1,5 ms. Zkontrolujeme i zapnutí, protože první pulz může být delší při nabíjení C1 od nuly. Tester nemá zaručenou ochranu proti poruše jezdce ani chybnému povelu.

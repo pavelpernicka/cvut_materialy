@@ -29,3 +29,7 @@ Práce obsahuje návrh, nikoli vlastní měření hardwaru. Zdrojové dokumenty 
 v části Literatura, převzaté fotografie v části Zdroje obrázků.
 Vlastní schémata nepotřebují externí obrazový zdroj. Původní `seminarka.pdf`
 nebyla změněna.
+
+## Zkrácená verze
+
+Text byl zkrácen obsahově: opakované popisy, vedlejší rozbory a duplicitní ilustrace byly odstraněny. Zachováno je šest kapitol zadání, snímače včetně kvadratury, společné 5V napájení, návrh s jedním NE555 a Arduino s programem. Velikost písma ani základní okraje nebyly kvůli rozsahu zmenšeny.
