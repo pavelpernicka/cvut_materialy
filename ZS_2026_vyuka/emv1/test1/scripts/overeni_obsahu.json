@@ -1,0 +1,814 @@
+{
+  "method": "Ruční porovnání všech 66 odpovědí s textem a relevantními obrázky dodaných prezentací; nejde o automatický důkaz věcné správnosti.",
+  "source_policy": "Výhradně P1–P7; bez doplňujících externích zdrojů.",
+  "question_texts_match_otazky_md": true,
+  "external_sources": [],
+  "sources": [
+    {
+      "file": "Přednáška 1_Izolanty a dielektrika_základní mechanismy.pdf",
+      "sha256": "f6ac366e0ee7b9ff8c688671f66e0fda05632742cb144be262c62ca4faaa80a4"
+    },
+    {
+      "file": "Přednáška 2_Izolanty a dielektrika.pdf",
+      "sha256": "995d395760556fe14acce5efe4862c1423c2d399dfb131c7d55ac95fb613c6ec"
+    },
+    {
+      "file": "Přednáška 3_Vodivost izolantů.pdf",
+      "sha256": "39db33aa2e9c303189acd1202300cee8d38c8caa0538440541cf41e874112de7"
+    },
+    {
+      "file": "Přednáška 4_Anorganické materiály.pdf",
+      "sha256": "d46e5a6988809a5fd3c37ae3f6993dd4ee9ffac3e40a8112ea9870d7ac3bf221"
+    },
+    {
+      "file": "Přednáška 5_Vodivé a odporové materiály.pdf",
+      "sha256": "cdd213a49edc09302c6bb6f0771a08148cdb51b27c905df097a384aed576ae94"
+    },
+    {
+      "file": "Přednáška 6_Makromolekulární látky-plasty.pdf",
+      "sha256": "bfdc587c01e4ed22dda74942d095e622ab47d22158b711b87c20e31ad02fcc30"
+    },
+    {
+      "file": "Přednáška 7_Magnetické materiály.pdf",
+      "sha256": "60a90fe01191a3c2963e5204a3c779f3ab40b70849d889608906cfbd15a0c211"
+    }
+  ],
+  "questions": [
+    {
+      "n": 1,
+      "question": "Popište čtyři kvantová čísla - jakých hodnot nabývají a které vlastnosti na úrovni atomu určují",
+      "required_parts": [
+        "Čtyři čísla",
+        "povolené hodnoty",
+        "určené vlastnosti atomu"
+      ],
+      "refs": "P1: 7–13",
+      "answer_sha256": "9f0107342359c7debb3a4172e9251d50fcbe25b7d7650e919cd6917d9bf22432",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 2,
+      "question": "Vysvětlete pravidla podle kterých se obsazuje (vystavuje) atomový obal elektrony",
+      "required_parts": [
+        "Minimální energie",
+        "n+l",
+        "Pauli",
+        "Hund"
+      ],
+      "refs": "P1: 14–17",
+      "answer_sha256": "d7e792c18521300f17dc8bcddbc561f7eb335982c7183ea7ded8ec9d5a7a8165",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 3,
+      "question": "Popište tři základní typy vazeb, která veličina má rozhodující vliv na povahu vazby?",
+      "required_parts": [
+        "Kovová, iontová a kovalentní vazba",
+        "elektronegativita"
+      ],
+      "refs": "P1: 22–33",
+      "answer_sha256": "c6b058bf6b248b7fccf6a4d718e492b40488767c5620f114b409a648fc558913",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 4,
+      "question": "Vysvětlete pojmy - ionizační energie, elektronová afinita a elektronegativita.",
+      "required_parts": [
+        "Ionizační energie",
+        "elektronová afinita",
+        "elektronegativita"
+      ],
+      "refs": "P1: 18–20",
+      "answer_sha256": "90e520e09cf6625847ab5d7cbaf69410785f6daa65451a73cea66db30f70e30f",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 5,
+      "question": "Vysvětlete proč molekula složená z prvků se silnou iontovou či kovalentní polární vazbou (např. molekula plynu fluoridu sírového - SF6) může být navenek nepolární.",
+      "required_parts": [
+        "Polarita vazeb",
+        "symetrie SF6",
+        "vyrušení dipólových momentů"
+      ],
+      "refs": "P1: 33, 39–40",
+      "answer_sha256": "db37844d16418549e0d25450b9990fbc2893c47153b9db1c134baee363ef1a35",
+      "review": "Porovnáno s uvedenými stranami.",
+      "source_limit_or_interpretation": "Součet momentů je slovní/matematické vyjádření symetrie molekuly z obrázku P1/39 a definice polarity P1/33."
+    },
+    {
+      "n": 6,
+      "question": "Co je to polarizace? Popište čtyři vybrané typy polarizačních mechanismů a seřaďte je podle jejich rychlosti.",
+      "required_parts": [
+        "Definice polarizace",
+        "čtyři mechanismy",
+        "pořadí rychlostí"
+      ],
+      "refs": "P1: 41–46; P2: 35–36",
+      "answer_sha256": "d620c5aab5139c44ff7835ddfbb53acf74ac4bb05c864cf0198423a10d40607c",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 7,
+      "question": "Načtrtněte a popište mezivrstvou polarizaci.",
+      "required_parts": [
+        "Náčrt",
+        "hromadění nábojů na nehomogenitách"
+      ],
+      "refs": "P1: 46; P2: 35–36",
+      "answer_sha256": "e74e73a531b159dbdd50ab40f74f4bed3899faea5bd41ae9405bac1e8d9b1223",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 8,
+      "question": "Jaké veličiny popisují dielektrické materiály a jaké mají jednotky?",
+      "required_parts": [
+        "Veličiny dielektrik",
+        "jednotky"
+      ],
+      "refs": "P1: 38; P2: 5–14",
+      "answer_sha256": "b348f7228527b2faa327fd1e5e837341c4367886f7867e9b8eb92031b66230a0",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 9,
+      "question": "Jaké jsou typické hodnoty relativní permitivity pro epoxidovou pryskyřici, Polypropylen, PTFE, vodu, slídu, sklo a titaničitatan barnatý?",
+      "required_parts": [
+        "Hodnoty všech sedmi zadaných materiálů"
+      ],
+      "refs": "P2: 40; P4: 75–78",
+      "answer_sha256": "5e9900531a6d763fed75978c04d716dc56ea1ddb2fd3cf375be31ec52561506f",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 10,
+      "question": "Co vyjadřuje Clausiova-Mossotiho rovnice?",
+      "required_parts": [
+        "Význam Clausiovy–Mossottiho rovnice",
+        "veličiny"
+      ],
+      "refs": "P2: 5, 8–10",
+      "answer_sha256": "871a56197e31a1b1479c7e42e9f5f02bb0efadf276911d6da0e46b88cb63f990",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 11,
+      "question": "Napište Debayeovu rovnici a vysvětlete jednotlivé veličiny.",
+      "required_parts": [
+        "Debyeova rovnice",
+        "význam všech značek"
+      ],
+      "refs": "P2: 17–21",
+      "answer_sha256": "31472dfca3e87f37efda121e484ebf47546ccfcac7718dd6eeef4c7515b7f7a8",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 12,
+      "question": "Načrtněte a popište frekvenční závislost relativní permitivity, ztrátového čísla a ztrátového činitele v případě jednoho polarizačního mechanismu. Vyznačte bod mezní frekvence a napište jak souvisí s relaxační dobou daného polarizačního mechanismu.",
+      "required_parts": [
+        "Tři frekvenční průběhy",
+        "mezní frekvence",
+        "vztah k relaxační době"
+      ],
+      "refs": "P2: 18–20",
+      "answer_sha256": "d69fda4f0aa706cdbd01f735b75bda72dc6422a383c7167e5145058fb76c05e2",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 13,
+      "question": "Jak se od sebe liší Cole-Coleho a Havriliak-Negamiho diagram a který lépe reprezentuje reálné dielektrikum a proč.",
+      "required_parts": [
+        "Cole–Cole",
+        "Havriliak–Negami",
+        "reprezentace reálného dielektrika"
+      ],
+      "refs": "P2: 22–33",
+      "answer_sha256": "233649f6a24767cb0837567e8e813e2ad93c010aab6a55dbdbd61600971671d2",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 14,
+      "question": "Jaké jsou příčiny ztrát v dielektriku a jaké máme kategorie?",
+      "required_parts": [
+        "Vodivostní, polarizační a ionizační příčiny ztrát"
+      ],
+      "refs": "P2: 49–53; P3: 6–13",
+      "answer_sha256": "e22fb16f66c00ac96181354a08ea3b4dda2c36fa0b6d2f962f43d1ced7b2b5c6",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 15,
+      "question": "Jaký je vliv teploty na frekvenční závislost celkových ztrát v polárním dielektriku?",
+      "required_parts": [
+        "Teplotní posun polarizačního maxima",
+        "vodivostní větev"
+      ],
+      "refs": "P2: 53–55; P3: 7–8",
+      "answer_sha256": "3832e100faf434af569797803c5d75f61c2dd527ec1886796f6afa67bfbd3ac8",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 16,
+      "question": "Vysvětlete na jakých veličinách závisí konduktivita materiálu a jak ovlivňuje vodivostní ztráty.",
+      "required_parts": [
+        "Koncentrace, náboj a pohyblivost",
+        "vliv na vodivostní ztráty"
+      ],
+      "refs": "P3: 15–19; P2: 52",
+      "answer_sha256": "d3c1bcbd11a189feaf55967f4102b4dc3b222e9b778cc091556c47e8227e9bc4",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 17,
+      "question": "Načrtněte a popište model dvojité potenciálové jámy bez a s přítomností elektrického pole. Jak se liší pravděpodobnosti přeskoku? K čemu je tento model používán?",
+      "required_parts": [
+        "Dvě jámy bez pole a v poli",
+        "pravděpodobnosti",
+        "použití modelu"
+      ],
+      "refs": "P3: 20–23",
+      "answer_sha256": "5b14d1b677e35c548ae6a88b7eba0bebeb11b476559691065f5274b9f9ee13d3",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 18,
+      "question": "Popište mechanismy vodivosti u elektroizolačních kapalin, iontových krystalů a sklených amorfních látek, co je to vlastní a nevlastní vodivost kapalin?",
+      "required_parts": [
+        "Kapaliny, iontové krystaly a skla",
+        "vlastní a nevlastní vodivost"
+      ],
+      "refs": "P3: 24, 28–31, 36–37",
+      "answer_sha256": "d7bfc57bcc03c05fffa598bf561a0d9c187768ad196e29a10c8a949f58f123b8",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 19,
+      "question": "Čím je dána teplotní závislost vodivost u kapalných a u pevných látek?",
+      "required_parts": [
+        "Kapaliny – pohyblivost",
+        "pevné izolanty – koncentrace",
+        "teplotní vztah"
+      ],
+      "refs": "P3: 25, 27, 31–37",
+      "answer_sha256": "da7990764f7e25d50b42fe55c727aa9ea330ad54f8abf459e0bf80038ce0744a",
+      "review": "Porovnáno s uvedenými stranami.",
+      "source_limit_or_interpretation": "Pevné látky vyloženy v kontextu přednášky 3 jako pevné izolanty."
+    },
+    {
+      "n": 20,
+      "question": "Co je to ionizace, jaké znáte druhy (zdroje) ionizace a jaké jsou podmínky vniku ionizace?",
+      "required_parts": [
+        "Ionizace",
+        "tři mechanismy a energetické podmínky",
+        "objemové a povrchové zdroje"
+      ],
+      "refs": "P3: 38–44",
+      "answer_sha256": "03b3c0ef33e4528e5e6cbe13cab44f15e68931c2c2d87b9beaf4513bac0fa758",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 21,
+      "question": "Nakreslete VA-charakteristiku plynové výbojky a detailně popište všechny 4 oblasti.",
+      "required_parts": [
+        "Náčrt",
+        "ohmická, přechodová, nasycená a ionizační oblast"
+      ],
+      "refs": "P3: 46–61",
+      "answer_sha256": "5912a1f910534e0e79478d5902237962bba097e3b94bf2afa19e6c0b9c03cb6f",
+      "review": "Porovnáno s uvedenými stranami.",
+      "source_limit_or_interpretation": "Převod J(E) na I(U) při pevné geometrii; zdrojové schéma používá J a E."
+    },
+    {
+      "n": 22,
+      "question": "Vysvětlete pojem rekombinace a neutralizace a jmenujte jednotlivé typy výbojů.",
+      "required_parts": [
+        "Rekombinace",
+        "neutralizace",
+        "typy výbojů uvedené v prezentaci"
+      ],
+      "refs": "P3: 46–50, 60–62",
+      "answer_sha256": "b680b2c1273c71734a9f7fafeb0cc37b8c2ce08f5afaa46a796a190f31126f95",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 23,
+      "question": "Vysvětlete slovně Townsendovu podmínku samostatného výboje.",
+      "required_parts": [
+        "Slovní podmínka obnovy laviny",
+        "nezávislost na vnějším ionizátoru"
+      ],
+      "refs": "P3: 54–59",
+      "answer_sha256": "0b495f0e7681c1ba0c6b48b91dd668dbc6984e9a91bd948589b18c72c5ccdc85",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 24,
+      "question": "Co vyjadřují Townsendovy ionizační součinitelé α, β a γ ?",
+      "required_parts": [
+        "Význam alfa, beta, gama"
+      ],
+      "refs": "P3: 52–59",
+      "answer_sha256": "6ca907f3066ab79757c43bfe6e8decb25cc9f490fcf381319575c9cb5378b66b",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 25,
+      "question": "Vysvětlete Paschenovu křivku, co platí pro body na této křivce a k čemu ji lze využít?",
+      "required_parts": [
+        "Uz=f(pd)",
+        "Townsendova mez",
+        "minimum",
+        "použití k určení podmínek zapálení"
+      ],
+      "refs": "P3: 63–67",
+      "answer_sha256": "34efee095f88f288b41b7820af954ee479e1e458b744e7f0bc986dd47c9b9428",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 26,
+      "question": "Popište strukturu azbestu a jeho vlastnosti či související rizika a jmenujte možné oblasti použití.",
+      "required_parts": [
+        "Struktura azbestu",
+        "vlastnosti",
+        "rizika",
+        "použití podle délky vláken"
+      ],
+      "refs": "P4: 10, 12–15",
+      "answer_sha256": "05964800da69e3d949fef62fe09799624d0469c55a3731224b1e6792e9052d9d",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 27,
+      "question": "Popište vnitřní strukturu slídy, vypište její význačné vlastnosti a příklady použití.",
+      "required_parts": [
+        "Struktura slídy",
+        "vlastnosti",
+        "použití"
+      ],
+      "refs": "P4: 16–18, 20–24",
+      "answer_sha256": "8ba9bd12922edae1242163e1ff1a13bff72d60e26c13583f4781e674024dc9d7",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 28,
+      "question": "Jmenujte obchodní druhy slíd a vysvětlete pojmy mikanit, mikalex a mikafólium.",
+      "required_parts": [
+        "Obchodní formy",
+        "mikanit",
+        "mikalex",
+        "mikafólium"
+      ],
+      "refs": "P4: 19–21",
+      "answer_sha256": "b38e5876d5714bf566f4005eb95842cf2307f07216651baa1b3eca1161341ed9",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 29,
+      "question": "Popište skelný stav látek a zakreslete strukturu křemenného a křemičitého skla, v čem se liší jednotlivé formy z pohledu permitivity, ztrát a propustnosti pro různé typy záření.",
+      "required_parts": [
+        "Skelný stav",
+        "dvě struktury",
+        "permitivita",
+        "ztráty",
+        "viditelné, UV a IR záření"
+      ],
+      "refs": "P4: 26–30, 44–47, 51; P2: 40",
+      "answer_sha256": "ea749db8038bf8ab58e12658f614eeedb06b102e6743d28819969ec238b38914",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 30,
+      "question": "Jmenujte různé skupiny látek přidávaných do sklářského kmene a vysvětlete jejich funkci.",
+      "required_parts": [
+        "Pět skupin přísad",
+        "jejich funkce a příklady"
+      ],
+      "refs": "P4: 34–35",
+      "answer_sha256": "73b713d6724b04752cec1522d06e5e2ea32548a4df875840e460aee65b52a454",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 31,
+      "question": "Jaké způsoby čeření skloviny znáte? Popište.",
+      "required_parts": [
+        "Chemické a fyzikální čeření",
+        "princip"
+      ],
+      "refs": "P4: 35–40",
+      "answer_sha256": "a360e3f8f96b07a09fa6e79425e0a29bad91980e169cc4afcaadaf4bac8c2185",
+      "review": "Porovnáno s uvedenými stranami.",
+      "source_limit_or_interpretation": "Popis fyzikálního čeření propojuje pomalé stoupání bublin z P4/36 s poklesem viskozity při ohřevu P4/40. Vakuové čeření odstraněno, v podkladech není."
+    },
+    {
+      "n": 32,
+      "question": "Načrtněte závislost logaritmu viskozity na teplotě a jmenujte a popište alespoň čtyři technologicky důležité body.",
+      "required_parts": [
+        "Křivka",
+        "šest technologických bodů",
+        "hodnoty viskozity a význam"
+      ],
+      "refs": "P4: 26–27, 40–42",
+      "answer_sha256": "158cec0bc379b8461851a30adb60d104df2231875c709c442bfa7e591e8b280e",
+      "review": "Porovnáno s uvedenými stranami.",
+      "source_limit_or_interpretation": "Rozpor názvů tvarovacích bodů mezi P4/40 a P4/41 řešen podle tabulky P4/40. Náčrt má relativní teplotní osu, není měřenou křivkou konkrétního skla."
+    },
+    {
+      "n": 33,
+      "question": "Popište proces výroby skleněných vláken pro optiku a konstrukčních vláken.",
+      "required_parts": [
+        "Optická vlákna",
+        "konstrukční vlákna",
+        "hlavní výrobní kroky"
+      ],
+      "refs": "P4: 52–53",
+      "answer_sha256": "b53f6ade3b76fd36ae6a49c892f65ffd60046434fbcfd04de8cae84ec4b64245",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 34,
+      "question": "Co jsou to skelně krystalické látky a vysvětlete pojmy krystalizace a nukleace.",
+      "required_parts": [
+        "Sklokeramika",
+        "nukleace",
+        "krystalizace"
+      ],
+      "refs": "P4: 26, 31–32",
+      "answer_sha256": "5d5c84962271440170c9f333378fcff4b300473b047b17d752a3c1e92133cd5b",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 35,
+      "question": "Popište skelný stav a keramický sloh, čím se od sebe liší?",
+      "required_parts": [
+        "Skelný stav",
+        "tři fáze keramického slohu",
+        "rozdíl"
+      ],
+      "refs": "P4: 11, 26–28, 61, 69–70",
+      "answer_sha256": "aa95f4db6a75312e77f273ee42e2b1e4d9c0abf929d1f63d849f73760d326877",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 36,
+      "question": "V čem jsou význačné materiály jako - steatit, forsterit, kordierit či pyrostat",
+      "required_parts": [
+        "Steatit",
+        "forsterit",
+        "kordierit",
+        "pyrostat"
+      ],
+      "refs": "P4: 58–59, 74",
+      "answer_sha256": "d79007a96ae4f93fec57fdf2474525958121e60397b24ac0b87a8970017bb199",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 37,
+      "question": "Popište základní kroky při výrobě keramických materiálů.",
+      "required_parts": [
+        "Osm výrobních operací keramiky"
+      ],
+      "refs": "P4: 61–73",
+      "answer_sha256": "f8b2f23d4d8f6ef000cb781d39a3a554a49b6043f6bc2c9d97e5d294adebced4",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 38,
+      "question": "Co je to a k čemu slouží glazování keramik.",
+      "required_parts": [
+        "Definice glazování",
+        "účel"
+      ],
+      "refs": "P4: 72",
+      "answer_sha256": "d4d6c0e3c24ba91dbca808834b66d1be5ac66b3357d92732989d6458edde6860",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 39,
+      "question": "Popište typy kondenzátorových keramik a vysvětlete jak se liší.",
+      "required_parts": [
+        "Typy I, II a III",
+        "rozdíly"
+      ],
+      "refs": "P4: 75–79",
+      "answer_sha256": "31088b40423a8ba107b5973897c410ce68df743407b230af51e6a1be2b923d87",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 40,
+      "question": "Nakreslete a popište hysterezní smyčku feroelektrika a vysvětlete pojem Curieova teplota Tc",
+      "required_parts": [
+        "Náčrt hystereze",
+        "remanence",
+        "koercivita",
+        "nasycení",
+        "Curieova teplota"
+      ],
+      "refs": "P4: 77–78",
+      "answer_sha256": "5a56e9fbf8afd05a3d7ae3eb4658c5de2f4d192cd4d5fd7d7d72d5a1f148a76c",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 41,
+      "question": "Vysvětlete pojem pohyblivost, co udává a na čem závisí?",
+      "required_parts": [
+        "Definice a jednotka pohyblivosti",
+        "vlivy rozptylu a viskozity"
+      ],
+      "refs": "P5: 7, 9–11, 15; P3: 27",
+      "answer_sha256": "84bf6fd3a576daf51f541ed3c777afe167e57c3243c74b18f4230e9624d4c16c",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 42,
+      "question": "Popište vliv nečistot na rezistivitu kovu při nízkých teplotách.",
+      "required_parts": [
+        "Nečistoty a rozptyl",
+        "zbytková rezistivita za nízkých teplot"
+      ],
+      "refs": "P5: 9–12",
+      "answer_sha256": "ad8e0f382d0f51f7c5a777388d1dbda12c4f532800ec57ce2df1e2ce3e49fab6",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 43,
+      "question": "Vyjmenujte různé aplikace použití kovů v elektrotechnice a pro tři aplikační oblasti vyjmenujte požadavky na tyto materiály.",
+      "required_parts": [
+        "Aplikace",
+        "požadavky pro právě tři oblasti"
+      ],
+      "refs": "P5: 14, 23–36",
+      "answer_sha256": "93e90198e19b095fc2b018b7fd7fd80e7dfb62057c6c62ca38445748dc6ba8b2",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 44,
+      "question": "Stručně popište 4 vybrané jevy spojené s průchodem kovů ve vodičích a představte oblasti ve kterých dochází k jejich uplatnění",
+      "required_parts": [
+        "Právě čtyři jevy",
+        "projevy a oblasti použití"
+      ],
+      "refs": "P5: 15",
+      "answer_sha256": "b2fcd0209b49e7022634dcab1ff65586393412ffe467e18578480102bf072c7d",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 45,
+      "question": "Vyjmenujte základní materiály a typy slitin pro pájky a vyjmenujte složky tavidla podporujícího pájecí proces.",
+      "required_parts": [
+        "Měkké/tvrdé pájky",
+        "olovnaté/bezolovnaté",
+        "složky tavidla"
+      ],
+      "refs": "P5: 29–30",
+      "answer_sha256": "6cb444bcd36e0df1a78f048818a609434f16961bd8c21753ceaedb8331f6f9c7",
+      "review": "Porovnáno s uvedenými stranami.",
+      "source_limit_or_interpretation": "Neuvádí se sporné teplotní hodnoty z P5/29, zadání je nepožaduje. Externí slitiny tvrdých pájek odstraněny."
+    },
+    {
+      "n": 46,
+      "question": "Jmenujte zástupce odporových materiálů pro přesné rezistory a pro odporová tělesa určená pro ohřev.",
+      "required_parts": [
+        "Zástupci pro přesné rezistory",
+        "zástupci pro ohřev"
+      ],
+      "refs": "P5: 33–36",
+      "answer_sha256": "6e0debf817facb247d8caa8b71bbb3533c723a2958aed91361f491229281934f",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 47,
+      "question": "Popište supravodivý stav pomocí BCS teorie, pro které supravodiče platí a jaké faktory mohou způsobit zánik supravodivosti?",
+      "required_parts": [
+        "Cooperovy páry",
+        "BCS kondenzát",
+        "rozsah výkladu prezentace",
+        "kritická teplota a pole"
+      ],
+      "refs": "P5: 16–18, 22",
+      "answer_sha256": "bd017e35469fbfe7cf338f161d33edc2ba026f17772cb1e996f44c43d3791f4d",
+      "review": "Porovnáno s uvedenými stranami.",
+      "source_limit_or_interpretation": "Prezentace uvádí BCS při výkladu supravodičů I. třídy; není z toho vyvozena výhradní platnost teorie jen pro tuto třídu. Obecnější rozsah teorie není ze zdrojů doplňován."
+    },
+    {
+      "n": 48,
+      "question": "Načrtněte průběh rezistivity u supravodivého a u běžného kovu, jmenujte zástupce supravodivých materiálů a jmenujte aplikace ve kterých se využívá supravodivosti.",
+      "required_parts": [
+        "Průběhy",
+        "zástupci z prezentace",
+        "kabely a magnety pro plazma"
+      ],
+      "refs": "P5: 9, 16, 19, 21–22",
+      "answer_sha256": "b82c9435cb70c45f301055b70d28349d21aa29e2f5c8eb7b063f54d06b18131b",
+      "review": "Porovnáno s uvedenými stranami.",
+      "source_limit_or_interpretation": "Zdrojový obrázek R(T) interpretován pro rho(T) při neměnné geometrii."
+    },
+    {
+      "n": 49,
+      "question": "Jaké jsou požadavky na materiály na doteky, jaké materiály se používají a jmenujte konkrétní aplikace. ",
+      "required_parts": [
+        "Požadavky",
+        "tři kategorie zatížení",
+        "materiály",
+        "aplikace"
+      ],
+      "refs": "P5: 31–32",
+      "answer_sha256": "c8e5160e9484472218119d034715901e21e24af520165c4c43967ccb8a99e2dc",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 50,
+      "question": "Popište rozdíly a jmenujte zástupce termoplastů a reaktoplastů.",
+      "required_parts": [
+        "Rozdíl termoplastů a reaktoplastů",
+        "zástupci"
+      ],
+      "refs": "P6: 5–7, 10, 21–22",
+      "answer_sha256": "cbd0c2c7c7e77b52c87f6a45916bd0a10f7b2743a9678a0a106474d266054f10",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 51,
+      "question": "Vysvětlete pojmy: stupeň krystalinity, polymerační stupeň makromolekuly, ataktický, syndiotakticky a izotaktický polymer, vulkanizace.",
+      "required_parts": [
+        "Všech šest pojmů ze zadání"
+      ],
+      "refs": "P6: 4, 6–8, 35",
+      "answer_sha256": "df0734b02efbec2b8259f457c59a08d3439aa20f5980866667b8e06958d5ec96",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 52,
+      "question": "Popište základní tři způsoby syntézy makromolekulárních látek – polymeraci, polyadici a polykondenzaci. V čem se jednotlivé syntézy liší?",
+      "required_parts": [
+        "Polymerace, polyadice, polykondenzace",
+        "rozdíly a příklady"
+      ],
+      "refs": "P6: 12–17",
+      "answer_sha256": "6fa15cff3af5b8603c7c98c1436ba224d90b3b3acb23a081c952c9499e13144b",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 53,
+      "question": "Jaké znáte technologické procesy polymerace a jaké mají výhody či nevýhody, popište jeden vybraný proces?",
+      "required_parts": [
+        "Čtyři technologie",
+        "uvedené výhody/nevýhody",
+        "emulzní proces"
+      ],
+      "refs": "P6: 14–15",
+      "answer_sha256": "fb6cd20ca6604344bbd54441b01bfb59f5b239fafccedf44c4fda344f14b6403",
+      "review": "Porovnáno s uvedenými stranami.",
+      "source_limit_or_interpretation": "Uvedeny pouze výhody a nevýhody vyjmenované v P6/14; chybějící protějšky se nedoplňují z externí znalosti."
+    },
+    {
+      "n": 54,
+      "question": "Popište amorfní a semikrystalický stav organických makromolekulárních látek.",
+      "required_parts": [
+        "Amorfní a semikrystalický stav",
+        "lamely a sférolity"
+      ],
+      "refs": "P6: 8–9",
+      "answer_sha256": "5c39dbf1b15088a79336e51223516edb86fc43f351c17c849ecbed421fbf358b",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 55,
+      "question": "Uveďte čtyři zástupce ze skupiny termoplastů a tři ze skupiny reaktoplastů a detailněji popište vlastnosti jednoho zástupce z každé kategorie.",
+      "required_parts": [
+        "Čtyři termoplasty",
+        "tři reaktoplasty",
+        "podrobněji PE a EP"
+      ],
+      "refs": "P6: 21–24, 28–29",
+      "answer_sha256": "4d5622e4f14a05fa3637c75a83289083dd302b430172e76d4946e143fe87445b",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 56,
+      "question": "Jak lze zvýšit stabilitu plastů? Jmenujte zástupce plastů se zvýšenou tepelnou odolností.",
+      "required_parts": [
+        "Stabilizace přísadami a strukturou",
+        "teplotně odolné plasty"
+      ],
+      "refs": "P6: 20, 22, 30–32",
+      "answer_sha256": "10079b2e4a4e533a0810b4f21cbc7853cd3aa81b32677bd3917088f82e89ea99",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 57,
+      "question": "Popište proces výroby pryže a vysvětlete pojem vulkanizace.",
+      "required_parts": [
+        "Příprava kaučuku a směsi",
+        "zpracování",
+        "vulkanizace"
+      ],
+      "refs": "P6: 7, 33–36",
+      "answer_sha256": "ce698ffe1f902a495441e73f741c06496b873383690625c131e7d3c7d78e9b8b",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 58,
+      "question": "Popište dia-, para- a feromagnetismus a jak se tyto látky projevují po vložení do magnetického pole?",
+      "required_parts": [
+        "Dia-, para-, fero-",
+        "reakce na pole",
+        "zástupci"
+      ],
+      "refs": "P7: 4–5, 9–20",
+      "answer_sha256": "cd57a93dcf3f6176d2f527534939107591d885e972833870f5301d18fcb02b75",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 59,
+      "question": "Jaká je podstata vzniku feromagnetika a jaké jsou rozdíly mezi fero-, antifero- a ferimagnetika.",
+      "required_parts": [
+        "Předpoklady feromagnetismu",
+        "rozdíl orientace a kompenzace podmřížek"
+      ],
+      "refs": "P7: 14–21, 27–33",
+      "answer_sha256": "066b4233c588d16eb9ae6738b67cda8936fe71d73972ad27ecdb7237a37a8a4b",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 60,
+      "question": "Nakreslete křivku prvotní magnetizace a popište jednotlivé fáze křivky s ohledem na děje v materiálu.",
+      "required_parts": [
+        "Křivka prvotní magnetizace",
+        "čtyři oblasti a děje"
+      ],
+      "refs": "P7: 34–37",
+      "answer_sha256": "bf163971c3e687504a3534e4560ad9ddfb1e7b74cba969bc0ad22d0ddb44c55f",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 61,
+      "question": "Nakreslete a popište hysterezní smyčku a uveďte čím se liší od magnetizační smyčky.",
+      "required_parts": [
+        "Hysterezní smyčka",
+        "charakteristické body",
+        "srovnání s prvotní magnetizací"
+      ],
+      "refs": "P7: 34–40",
+      "answer_sha256": "b157ef5803d65e83c3c8425e417cb9c9a300848b2ac956f68c1f40f38040f3a1",
+      "review": "Porovnáno s uvedenými stranami.",
+      "source_limit_or_interpretation": "Nejasný výraz zadání „magnetizační smyčka“ interpretován podle P7/34–40 jako křivka prvotní magnetizace. Samostatně definovaná odlišná „magnetizační smyčka“ v podkladech není."
+    },
+    {
+      "n": 62,
+      "question": "Co je to komutační křivka a dynamická hysterezní smyčka a k čemu se používají?",
+      "required_parts": [
+        "Komutační křivka",
+        "dynamická smyčka",
+        "praktický význam"
+      ],
+      "refs": "P7: 41–42, 47–50",
+      "answer_sha256": "cedeed73f6d80d4c333f3c8fb94d1ebcb97faa42181ff54a4df1c4f98a1d0dd7",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 63,
+      "question": "Jaká teplota shora omezuje tzv. feromagnetický stav a jakým jiným způsobem lze docílit „odmagnetování“?",
+      "required_parts": [
+        "Curieova teplota",
+        "odmagnetování střídavým polem"
+      ],
+      "refs": "P7: 28, 34, 64",
+      "answer_sha256": "9611fbd24fd4f19b67f9ab1c16f53a0da8f4eaa63d5e7f8e859a84f5fe7ba442",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 64,
+      "question": "Jmenujte významné magneticky měkké a magneticky tvrdé materiály a v jakých aplikacích je lze použít.",
+      "required_parts": [
+        "Měkké a tvrdé materiály",
+        "aplikace"
+      ],
+      "refs": "P7: 54–60, 66",
+      "answer_sha256": "ddbd926265757e12394c34c40ca993c182ccd6bb544b59551a52919b7d7d32a1",
+      "review": "Porovnáno s uvedenými stranami."
+    },
+    {
+      "n": 65,
+      "question": "Jaké znáte typy ztrát v magnetických materiálech a jaká je jejich závislost na kmitočtu magnetického pole.",
+      "required_parts": [
+        "Tři složky ztrát",
+        "f a f²",
+        "explicitní mez podkladů pro Pz"
+      ],
+      "refs": "P7: 47–52",
+      "answer_sha256": "ae20818c8000c859bd2f58ea489b8ad6d31b44c80dce7fbc3fc0e21c23994a0e",
+      "review": "Porovnáno s uvedenými stranami.",
+      "source_limit_or_interpretation": "P7/52 neuvádí konkrétní kmitočtovou závislost Pz. Omezení je uvedeno přímo v odpovědi místo vymyšleného exponentu."
+    },
+    {
+      "n": 66,
+      "question": "Jaké znáte zástupce feritů a stručně popište jejich vlastnosti.",
+      "required_parts": [
+        "Spinelové, smíšené, magnetoplumbitové a granátové ferity",
+        "vlastnosti"
+      ],
+      "refs": "P7: 30, 60–63",
+      "answer_sha256": "0fbfe9d038b07bed6ba1b65d02e72cd2562e5fdb6d4a6559201b97cd534cc93a",
+      "review": "Porovnáno s uvedenými stranami."
+    }
+  ]
+}

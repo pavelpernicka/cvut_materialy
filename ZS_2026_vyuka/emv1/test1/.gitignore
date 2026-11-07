@@ -1,0 +1,24 @@
+# Sestavené dokumenty, exporty a výsledky kontrol
+/output/
+/anki/*.apkg
+/anki/*.tsv
+
+# Pracovní data a místní prostředí
+/tmp/
+/video/
+/.venv/
+/.codex/
+/.agents/
+__pycache__/
+*.py[cod]
+.DS_Store
+
+# Vedlejší soubory TeXu; zdrojové a obrázkové PDF zůstávají verzované
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+/latex/emv1_otazky.pdf

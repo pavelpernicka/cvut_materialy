@@ -1,0 +1,696 @@
+{
+  "1:13": {
+    "name": "emv1_p1_s13",
+    "caption": "Tvary a kapacity orbitalů s, p, d, f.",
+    "source": "Přednáška 1_Izolanty a dielektrika_základní mechanismy.pdf",
+    "page": 13,
+    "crop": [
+      0.03,
+      0.265,
+      1,
+      0.94
+    ]
+  },
+  "1:15": {
+    "name": "emv1_p1_s15",
+    "caption": "Pořadí obsazování podslupek a energetické hladiny.",
+    "source": "Přednáška 1_Izolanty a dielektrika_základní mechanismy.pdf",
+    "page": 15,
+    "crop": [
+      0.04,
+      0.23,
+      0.97,
+      0.89
+    ]
+  },
+  "1:26": {
+    "name": "emv1_p1_s26",
+    "caption": "Vznik iontové vazby přenosem elektronů.",
+    "source": "Přednáška 1_Izolanty a dielektrika_základní mechanismy.pdf",
+    "page": 26,
+    "crop": [
+      0.21,
+      0.18,
+      0.76,
+      0.875
+    ]
+  },
+  "1:30": {
+    "name": "emv1_p1_s30",
+    "caption": "Sdílení elektronů v kovalentní vazbě.",
+    "source": "Přednáška 1_Izolanty a dielektrika_základní mechanismy.pdf",
+    "page": 30,
+    "crop": [
+      0.1,
+      0.235,
+      0.9,
+      0.92
+    ]
+  },
+  "1:39": {
+    "name": "emv1_p1_s39",
+    "caption": "Symetrické prostorové uspořádání SF₆.",
+    "source": "Přednáška 1_Izolanty a dielektrika_základní mechanismy.pdf",
+    "page": 39,
+    "crop": [
+      0.645,
+      0.685,
+      0.852,
+      0.96
+    ]
+  },
+  "1:46": {
+    "name": "emv1_p1_s46",
+    "caption": "Hromadění nábojů na nehomogenitách po přiložení pole.",
+    "source": "Přednáška 1_Izolanty a dielektrika_základní mechanismy.pdf",
+    "page": 46,
+    "crop": [
+      0.2,
+      0.44,
+      0.74,
+      0.875
+    ]
+  },
+  "2:9": {
+    "name": "emv1_p2_s09",
+    "caption": "Lokální pole a vztah mezi permitivitou a polarizovatelností.",
+    "source": "Přednáška 2_Izolanty a dielektrika.pdf",
+    "page": 9,
+    "crop": [
+      0.04,
+      0.28,
+      0.98,
+      0.93
+    ]
+  },
+  "2:20": {
+    "name": "emv1_p2_s20",
+    "caption": "Permitivita, ztrátové číslo a ztrátový činitel jedné relaxace.",
+    "source": "Přednáška 2_Izolanty a dielektrika.pdf",
+    "page": 20,
+    "crop": [
+      0,
+      0.208,
+      1,
+      0.88
+    ]
+  },
+  "2:29": {
+    "name": "emv1_p2_s29",
+    "caption": "Vliv šířky rozdělení relaxačních dob.",
+    "source": "Přednáška 2_Izolanty a dielektrika.pdf",
+    "page": 29,
+    "crop": [
+      0,
+      0.22,
+      1,
+      0.915
+    ]
+  },
+  "2:33": {
+    "name": "emv1_p2_s33",
+    "caption": "Porovnání Debyeova, Coleových a HN modelu.",
+    "source": "Přednáška 2_Izolanty a dielektrika.pdf",
+    "page": 33,
+    "crop": [
+      0,
+      0.118,
+      1,
+      0.91
+    ]
+  },
+  "2:36": {
+    "name": "emv1_p2_s36",
+    "caption": "Frekvenční oblasti polarizačních mechanismů.",
+    "source": "Přednáška 2_Izolanty a dielektrika.pdf",
+    "page": 36,
+    "crop": [
+      0.245,
+      0.195,
+      0.785,
+      0.87
+    ],
+    "removed_surrounding_text": [
+      "Komplexní permitivita:"
+    ]
+  },
+  "2:53": {
+    "name": "emv1_p2_s53",
+    "caption": "Součet vodivostního a polarizačního příspěvku.",
+    "source": "Přednáška 2_Izolanty a dielektrika.pdf",
+    "page": 53,
+    "crop": [
+      0.001,
+      0.22,
+      0.999,
+      0.88
+    ]
+  },
+  "2:54": {
+    "name": "emv1_p2_s54",
+    "caption": "Posun relaxačních maxim při růstu teploty.",
+    "source": "Přednáška 2_Izolanty a dielektrika.pdf",
+    "page": 54,
+    "crop": [
+      0.001,
+      0.22,
+      0.999,
+      0.88
+    ]
+  },
+  "3:21": {
+    "name": "emv1_p3_s21",
+    "caption": "Dvě rovnocenné polohy bez vnějšího pole.",
+    "source": "Přednáška 3_Vodivost izolantů.pdf",
+    "page": 21,
+    "crop": [
+      0.001,
+      0.23,
+      0.999,
+      0.9
+    ]
+  },
+  "3:23": {
+    "name": "emv1_p3_s23",
+    "caption": "Elektrické pole sníží bariéru ve směru driftu.",
+    "source": "Přednáška 3_Vodivost izolantů.pdf",
+    "page": 23,
+    "crop": [
+      0,
+      0.218,
+      1,
+      0.9
+    ]
+  },
+  "3:30": {
+    "name": "emv1_p3_s30",
+    "caption": "Frenkelova a Schottkyho porucha krystalové mřížky.",
+    "source": "Přednáška 3_Vodivost izolantů.pdf",
+    "page": 30,
+    "crop": [
+      0.05,
+      0.33,
+      0.97,
+      0.86
+    ]
+  },
+  "3:34": {
+    "name": "emv1_p3_s34",
+    "caption": "Arrheniův graf; směrnice křivky je záporná.",
+    "source": "Přednáška 3_Vodivost izolantů.pdf",
+    "page": 34,
+    "crop": [
+      0,
+      0.212,
+      1,
+      0.89
+    ]
+  },
+  "3:41": {
+    "name": "emv1_p3_s41",
+    "caption": "Nárazový, fotoelektrický a tepelný ionizační mechanismus.",
+    "source": "Přednáška 3_Vodivost izolantů.pdf",
+    "page": 41,
+    "crop": [
+      0.04,
+      0.3,
+      0.99,
+      0.9
+    ]
+  },
+  "3:53": {
+    "name": "emv1_p3_s53",
+    "caption": "Násobení elektronů při průchodu plynem.",
+    "source": "Přednáška 3_Vodivost izolantů.pdf",
+    "page": 53,
+    "crop": [
+      0.04,
+      0.24,
+      0.96,
+      0.97
+    ]
+  },
+  "3:57": {
+    "name": "emv1_p3_s57",
+    "caption": "Zpětná vazba přes kladné ionty a katodu.",
+    "source": "Přednáška 3_Vodivost izolantů.pdf",
+    "page": 57,
+    "crop": [
+      0.05,
+      0.44,
+      0.51,
+      0.98
+    ],
+    "removed_surrounding_text": [
+      "elektronů vyražených dopadem",
+      "•",
+      "Celý proces emise",
+      "zpětnovazební mechanismus"
+    ],
+    "adaptation": "Odstranění okolního odstavce a obnova překrytého popisku E nad šipkou."
+  },
+  "3:61": {
+    "name": "emv1_p3_s61",
+    "caption": "Čtyři oblasti vodivosti plynu podle přednášky.",
+    "source": "Přednáška 3_Vodivost izolantů.pdf",
+    "page": 61,
+    "crop": [
+      0.001,
+      0.25,
+      0.999,
+      0.9
+    ]
+  },
+  "3:62": {
+    "name": "emv1_p3_s62",
+    "caption": "Nesamostatný, doutnavý a obloukový průběh.",
+    "source": "Přednáška 3_Vodivost izolantů.pdf",
+    "page": 62,
+    "crop": [
+      0.001,
+      0.24,
+      0.999,
+      0.9
+    ]
+  },
+  "3:66": {
+    "name": "emv1_p3_s66",
+    "caption": "Paschenova křivka – schematicky překresleno podle přednášky.",
+    "source": "Přednáška 3_Vodivost izolantů.pdf",
+    "page": 66,
+    "crop": [
+      0.001,
+      0.23,
+      0.999,
+      0.88
+    ],
+    "adaptation": "Vektorové překreslení pro čitelnost; bez číselného měřítka."
+  },
+  "4:13": {
+    "name": "emv1_p4_s13",
+    "caption": "Vláknitá struktura azbestu.",
+    "source": "Přednáška 4_Anorganické materiály.pdf",
+    "page": 13,
+    "crop": [
+      0.065,
+      0.275,
+      0.87,
+      0.84
+    ]
+  },
+  "4:16": {
+    "name": "emv1_p4_s16",
+    "caption": "Vrstvy slídy a jejich propojení draselnými ionty.",
+    "source": "Přednáška 4_Anorganické materiály.pdf",
+    "page": 16,
+    "crop": [
+      0.14,
+      0.55,
+      0.98,
+      0.9
+    ]
+  },
+  "4:29": {
+    "name": "emv1_p4_s29",
+    "caption": "Křemenná síť a síť modifikovaná ionty.",
+    "source": "Přednáška 4_Anorganické materiály.pdf",
+    "page": 29,
+    "crop": [
+      0.05,
+      0.29,
+      0.96,
+      0.9
+    ],
+    "removed_surrounding_text": [
+      "Sktruktura oxidových skel",
+      "•"
+    ]
+  },
+  "4:31": {
+    "name": "emv1_p4_s31",
+    "caption": "Teplotní oblasti nukleace a růstu krystalů.",
+    "source": "Přednáška 4_Anorganické materiály.pdf",
+    "page": 31,
+    "crop": [
+      0.54,
+      0.3,
+      0.99,
+      0.98
+    ]
+  },
+  "4:38": {
+    "name": "emv1_p4_s38",
+    "caption": "Tavicí a čeřicí část vanové pece.",
+    "source": "Přednáška 4_Anorganické materiály.pdf",
+    "page": 38,
+    "crop": [
+      0.175,
+      0.285,
+      0.84,
+      0.855
+    ]
+  },
+  "4:41": {
+    "name": "emv1_p4_s41",
+    "caption": "Viskozitní křivka; schematicky podle s. 40–41, názvy bodů podle s. 40.",
+    "source": "Přednáška 4_Anorganické materiály.pdf",
+    "page": 41,
+    "crop": [
+      0.001,
+      0.21,
+      0.999,
+      0.89
+    ],
+    "adaptation": "Vektorové schéma podle P4, s. 40–41; názvy teplot tvarování sjednoceny s tabulkou na s. 40. Osa teploty bez číselného měřítka."
+  },
+  "4:52": {
+    "name": "emv1_p4_s52",
+    "caption": "Zvlákňovací tryska a nanášení apretury.",
+    "source": "Přednáška 4_Anorganické materiály.pdf",
+    "page": 52,
+    "crop": [
+      0.65,
+      0.16,
+      0.96,
+      0.955
+    ]
+  },
+  "4:53": {
+    "name": "emv1_p4_s53",
+    "caption": "Tažení optického vlákna a jeho ochranné vrstvy.",
+    "source": "Přednáška 4_Anorganické materiály.pdf",
+    "page": 53,
+    "crop": [
+      0.02,
+      0.18,
+      0.94,
+      0.97
+    ],
+    "removed_surrounding_text": [
+      "B. Skleněná vlákna",
+      "vlnovody",
+      "Ochrana optického kabelu",
+      "mechanickým, klimatickým",
+      "vlivům při instalaci"
+    ]
+  },
+  "4:59": {
+    "name": "emv1_p4_s59",
+    "caption": "Příklady výrobků ze speciálních silikátových keramik.",
+    "source": "Přednáška 4_Anorganické materiály.pdf",
+    "page": 59,
+    "crop": [
+      0.07,
+      0.29,
+      0.655,
+      0.92
+    ],
+    "removed_surrounding_text": [
+      "Steatit –",
+      "Forsterit –",
+      "vysokých teplot",
+      "Kordierit –",
+      "teplotních šocích",
+      "Pyrostat – Hráz",
+      "tepla díky"
+    ]
+  },
+  "4:70": {
+    "name": "emv1_p4_s70",
+    "caption": "Vznik krčků, zhutňování a uzavírání pórů při slinování.",
+    "source": "Přednáška 4_Anorganické materiály.pdf",
+    "page": 70,
+    "crop": [
+      0.1,
+      0.29,
+      0.9,
+      0.74
+    ]
+  },
+  "4:77": {
+    "name": "emv1_p4_s77",
+    "caption": "Feroelektrická hysterezní smyčka P(E).",
+    "source": "Přednáška 4_Anorganické materiály.pdf",
+    "page": 77,
+    "crop": [
+      0.04,
+      0.36,
+      0.43,
+      0.87
+    ]
+  },
+  "4:79": {
+    "name": "emv1_p4_s79",
+    "caption": "Teplotní závislosti kapacit keramických hmot.",
+    "source": "Přednáška 4_Anorganické materiály.pdf",
+    "page": 79,
+    "crop": [
+      0.07,
+      0.235,
+      0.91,
+      0.92
+    ]
+  },
+  "5:11": {
+    "name": "emv1_p5_s11",
+    "caption": "Vliv čistoty kovu na zbytkovou rezistivitu.",
+    "source": "Přednáška 5_Vodivé a odporové materiály.pdf",
+    "page": 11,
+    "crop": [
+      0.24,
+      0.43,
+      0.83,
+      0.9
+    ]
+  },
+  "5:16": {
+    "name": "emv1_p5_s16",
+    "caption": "Odpor při přechodu do supravodivého stavu.",
+    "source": "Přednáška 5_Vodivé a odporové materiály.pdf",
+    "page": 16,
+    "crop": [
+      0.03,
+      0.52,
+      0.35,
+      0.91
+    ]
+  },
+  "5:22": {
+    "name": "emv1_p5_s22",
+    "caption": "Kritická mez magnetického pole a teploty.",
+    "source": "Přednáška 5_Vodivé a odporové materiály.pdf",
+    "page": 22,
+    "crop": [
+      0.2,
+      0.18,
+      0.79,
+      0.835
+    ]
+  },
+  "5:31": {
+    "name": "emv1_p5_s31",
+    "caption": "Kontakt v konstrukci spínacího přístroje.",
+    "source": "Přednáška 5_Vodivé a odporové materiály.pdf",
+    "page": 31,
+    "crop": [
+      0.64,
+      0.33,
+      0.96,
+      0.73
+    ]
+  },
+  "6:5": {
+    "name": "emv1_p6_s05",
+    "caption": "Lineární řetězec (vlevo) a prostorová síť (vpravo).",
+    "source": "Přednáška 6_Makromolekulární látky-plasty.pdf",
+    "page": 5,
+    "crop": [
+      0.49,
+      0.25,
+      0.8,
+      0.88
+    ],
+    "removed_surrounding_text": [
+      "Podle tvaru a uspořádání"
+    ]
+  },
+  "6:6": {
+    "name": "emv1_p6_s06",
+    "caption": "Izotaktické, syndiotaktické a ataktické uspořádání.",
+    "source": "Přednáška 6_Makromolekulární látky-plasty.pdf",
+    "page": 6,
+    "crop": [
+      0.125,
+      0.635,
+      0.91,
+      0.9
+    ]
+  },
+  "6:7": {
+    "name": "emv1_p6_s07",
+    "caption": "Příčné propojení makromolekulárních řetězců.",
+    "source": "Přednáška 6_Makromolekulární látky-plasty.pdf",
+    "page": 7,
+    "crop": [
+      0.65,
+      0.178,
+      0.998,
+      0.28
+    ],
+    "removed_surrounding_text": [
+      "Makromolekulární látky"
+    ]
+  },
+  "6:8": {
+    "name": "emv1_p6_s08",
+    "caption": "Od řetězce přes lamelu a sférolit ke struktuře polymeru.",
+    "source": "Přednáška 6_Makromolekulární látky-plasty.pdf",
+    "page": 8,
+    "crop": [
+      0.035,
+      0.605,
+      0.95,
+      1
+    ],
+    "removed_surrounding_text": [
+      "Makromolekuly jsou střídavě",
+      "seskupují do tzv. sférolitů"
+    ]
+  },
+  "6:15": {
+    "name": "emv1_p6_s15",
+    "caption": "Částice a jednotlivé fáze emulzní polymerace.",
+    "source": "Přednáška 6_Makromolekulární látky-plasty.pdf",
+    "page": 15,
+    "crop": [
+      0.085,
+      0.45,
+      0.9,
+      0.925
+    ]
+  },
+  "6:16": {
+    "name": "emv1_p6_s16",
+    "caption": "Polyadiční vznik urethanové vazby.",
+    "source": "Přednáška 6_Makromolekulární látky-plasty.pdf",
+    "page": 16,
+    "crop": [
+      0.15,
+      0.62,
+      0.81,
+      0.88
+    ]
+  },
+  "6:32": {
+    "name": "emv1_p6_s32",
+    "caption": "Páteřní řetězec silikonů s vazbami Si–O.",
+    "source": "Přednáška 6_Makromolekulární látky-plasty.pdf",
+    "page": 32,
+    "crop": [
+      0.575,
+      0.32,
+      0.825,
+      0.495
+    ]
+  },
+  "7:11": {
+    "name": "emv1_p7_s11",
+    "caption": "Diamagnetická odezva proti působícímu poli.",
+    "source": "Přednáška 7_Magnetické materiály.pdf",
+    "page": 11,
+    "crop": [
+      0.18,
+      0.53,
+      0.79,
+      0.925
+    ],
+    "removed_surrounding_text": [
+      "Inertní plyny",
+      "•"
+    ]
+  },
+  "7:13": {
+    "name": "emv1_p7_s13",
+    "caption": "Částečné souhlasné uspořádání paramagnetických momentů.",
+    "source": "Přednáška 7_Magnetické materiály.pdf",
+    "page": 13,
+    "crop": [
+      0.205,
+      0.6,
+      0.69,
+      0.925
+    ]
+  },
+  "7:37": {
+    "name": "emv1_p7_s37",
+    "caption": "Čtyři oblasti prvotní magnetizace.",
+    "source": "Přednáška 7_Magnetické materiály.pdf",
+    "page": 37,
+    "crop": [
+      0.02,
+      0.37,
+      0.545,
+      0.855
+    ]
+  },
+  "7:39": {
+    "name": "emv1_p7_s39",
+    "caption": "Smyčky magneticky tvrdého a měkkého materiálu.",
+    "source": "Přednáška 7_Magnetické materiály.pdf",
+    "page": 39,
+    "crop": [
+      0.1,
+      0.25,
+      0.9,
+      0.88
+    ]
+  },
+  "7:42": {
+    "name": "emv1_p7_s42",
+    "caption": "Komutační křivka spojující vrcholy smyček.",
+    "source": "Přednáška 7_Magnetické materiály.pdf",
+    "page": 42,
+    "crop": [
+      0.3,
+      0.24,
+      0.765,
+      0.85
+    ]
+  },
+  "7:48": {
+    "name": "emv1_p7_s48",
+    "caption": "Statická a dynamická smyčka při různých frekvencích.",
+    "source": "Přednáška 7_Magnetické materiály.pdf",
+    "page": 48,
+    "crop": [
+      0.08,
+      0.275,
+      0.97,
+      0.795
+    ]
+  },
+  "7:62": {
+    "name": "emv1_p7_s62",
+    "caption": "Magnetit a jeho spinelová struktura.",
+    "source": "Přednáška 7_Magnetické materiály.pdf",
+    "page": 62,
+    "crop": [
+      0.11,
+      0.25,
+      0.86,
+      0.87
+    ]
+  },
+  "7:64": {
+    "name": "emv1_p7_s64",
+    "caption": "Uspořádání momentů a teplotní zánik uspořádaného stavu.",
+    "source": "Přednáška 7_Magnetické materiály.pdf",
+    "page": 64,
+    "crop": [
+      0.115,
+      0.2,
+      0.85,
+      0.86
+    ]
+  }
+}
