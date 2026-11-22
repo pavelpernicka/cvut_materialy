@@ -1,0 +1,11 @@
+\chapter{Závěr}
+
+Cílem práce bylo přiblížit princip fungování servomotorů, jejich konstrukci a možnosti řízení. V~teoretické části jsme se zaměřili především na zpětnou vazbu, snímače polohy a rozdíly mezi modelářskými a průmyslovými servopohony. Dále jsme vysvětlili způsob ovládání modelářských serv pomocí řídicích pulzů.
+
+Na modelovém příkladu otočného držáku jsme stanovili požadavky na pohon a porovnali několik běžně dostupných servomotorů. Jako vhodné řešení jsme zvolili polohové servo MG996R s rozsahem 180°, které oproti menším modelům nabízí dostatečnou momentovou rezervu. Při jeho použití je však nutné počítat s vyšším proudovým odběrem a mechanickými vůlemi převodovky.
+
+Pro řízení servomotoru jsme navrhli dvě varianty. První využívá časovač NE555, který umožňuje jednoduše nastavovat polohu potenciometrem bez použití programu. Druhá varianta je založena na mikrokontroléru Arduino Uno, který generuje řídicí pulzy programově. Obě řešení umožňují ovládání zvoleného serva, mikrokontrolér však poskytuje větší možnosti nastavení, omezení rozsahu pohybu a případného dalšího rozšíření.
+
+Součástí práce byl také návrh napájení a zásad elektrického zapojení. Pozornost jsme věnovali zejména správnému vedení zemních spojů, omezení rušení a problematice zemních smyček. Ukázali jsme, že pro spolehlivé řízení nestačí pouze správně generovat řídicí signál, ale je nutné zajistit také dostatečně dimenzované napájení a vhodné uspořádání celého obvodu, obzvlášť, pokud v~systému budou některé citlivé součásti, např. senzory. 
+
+Výsledkem práce je teoretický návrh dvou způsobů řízení modelářského servomotoru, které lze využít při realizaci jednoduchého polohovacího mechanismu.

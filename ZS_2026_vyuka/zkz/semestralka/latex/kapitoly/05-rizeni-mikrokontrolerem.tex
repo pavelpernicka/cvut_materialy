@@ -1,0 +1,40 @@
+
+\chapter{Řízení servomotoru pomocí mikrokontroléru}
+\label{chap:mikrokontroler}
+
+\section{Princip programového řízení}
+
+Druhou možností je řízení pomocí mikrokontroléru, konkrétně Arduino Uno R3. Pro demonstraci požadovanou polohu nastavujeme potenciometrem na analogovém vstupu A0 a řídicí pulzy generujeme na digitálním výstupu D9. Oproti NE555 určuje délku pulzů program, což umožňuje snadno nastavit krajní polohy nebo v reálné aplikaci automatizovat pohyb.
+
+Knihovna Servo využívá časovač Timer1 a přerušení, pomocí kterých vytváří řídicí pulzy nezávisle na hlavní smyčce programu. Nejde tedy o typické PWM generované funkcí \texttt{analogWrite()}. Knihovna umožňuje zadávat úhel funkcí \texttt{write()} nebo přímo délku pulzu funkcí \texttt{writeMicroseconds()}. Timer1 je hardwarový šasovač a dle specifikací Atmegy se dá použít na PWM pinech D9 a D10.~\cite{servoimpl,servoapi}
+
+\section{Schéma zapojení}
+
+Zapojení Arduina, potenciometru a servomotoru je znázorněno na obrázku~\ref{fig:knob-priklad}. Obě zařízení napájíme stabilizovanými 5 V, přičemž servo má vlastní silové přívody, aby jeho proud neprocházel deskou Arduina.
+
+\begin{figure}[htbp]\centering
+\resizebox{\textwidth}{!}{\input{obrazky/arduino-sestava}}
+\caption{Zapojení Arduina, potenciometru a servomotoru.}
+\label{fig:knob-priklad}
+\end{figure}
+
+Potenciometr P2 = 10~k\si{\ohm} je zapojen mezi 5 V a GND. Jeho jezdec vede přes R8 = 1~k\si{\ohm} na vstup A0, kde C11 = 100 nF filtruje část případného rušení. Výstup D9 je přes R6 = 330~\si{\ohm} připojen k~signálovému vstupu serva a pulldown R7 = 100~k\si{\ohm} zajišťuje definovanou nízkou úroveň.
+
+Při samostatném provozu napájíme Arduino regulovanými 5 V přes pin 5V, nikoli VIN (ten vede k regulátoru, který by v tomto případě způsobil úbytek napětí pod hranici stabilního fungování mikrokontroléru).~\cite{uno,arduinoPower} Zásady vedení zemí a napájení jsou popsány v kapitole~\ref{chap:layout}.
+
+\section{Program pro ovládání potenciometrem}
+
+Program čte desetibitovým A/D převodníkem hodnotu potenciometru v rozsahu 0--1023. Funkce \texttt{map()} ji převádí na délku pulzu 500--2500~\si{\micro\second}, kterou následně předává knihovně Servo pomocí \texttt{writeMicroseconds()}.
+
+\vspace{15px}
+\noindent\begin{minipage}{\textwidth}
+\lstinputlisting[caption={Řízení polohy potenciometrem.},label={lst:pot}]{kod/servo_potenciometr/servo_potenciometr.ino}
+\end{minipage}
+
+Hodnota napětí potenciometru se aktualizuje přibližně každých 20 ms. Příkaz \texttt{delay(20)} však neurčuje periodu řídicích pulzů, protože jejich generování zajišťuje časovač nezávisle na hlavní smyčce.
+
+\section{Kalibrace a omezení pohybu}
+
+Rozsah 500--2500~\si{\micro\second} představuje jen návrhové hodnoty, jak bylo psáno výše, polohy serva mohou být odlišné, proto je potřeba provést kalibrace.
+
+Zároveň, program pouze zadává požadovanou polohu a neověřuje její skutečné dosažení. Pokud bychom chtěli mít přesnější kontrolu, by bylo nutné doplnit další snímač polohy nebo použít např. serva s komunikací po nějaké sběrnici (např. CAN), které reportují i stav.

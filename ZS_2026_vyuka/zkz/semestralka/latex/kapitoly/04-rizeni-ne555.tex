@@ -1,0 +1,36 @@
+\chapter{Řízení servomotoru pomocí NE555}
+\label{chap:ne555}
+
+\section{Princip řízení}
+
+Pro ruční ovládání servomotoru použijeme časovač NE555P napájený 5 V. V astabilním zapojení vytváří pravidelné pulzy, jejichž délku nastavujeme potenciometrem. K řízení tak není potřeba mikrokontrolér ani program.~\cite{servo555prakticky,ne555}
+
+Princip spočívá v opakovaném nabíjení a vybíjení kondenzátoru \textbf{C1} (viz schéma \ref{fig:ne555}) mezi přibližně třetinou a dvěma třetinami napájecího napětí. Při nabíjení přes \textbf{R1}, \textbf{P1} a diodu \textbf{D1} je výstup v logické jedničce. Po dosažení horního prahu se přepne do nuly a kondenzátor se vybíjí přes \textbf{R2} a vývod 7. Dioda odděluje obě cesty, čímž umožňuje vytvořit krátký kladný pulz a~dlouhou mezeru.~\cite{ne555}
+
+\section{Výpočet časování a volba součástek}
+
+Požadujeme pulzy o délce 0,5--2,5 ms s periodou přibližně 20 ms. Délku kladného pulzu $t_H$ určují \textbf{R1}, potenciometr \textbf{P1} a \textbf{C1}, zatímco délku mezery $t_L$ určuje především \textbf{R2} a \textbf{C1}. Při uvažovaném úbytku napětí na diodě $U_D$ platí
+\begin{align}
+ t_H&\approx(R_1+R_P)C_1
+ \ln\!\left(\frac{2U_{CC}/3-U_D}{U_{CC}/3-U_D}\right),\\
+ t_L&\approx\ln(2)R_2C_1,\\
+ T&=t_H+t_L,\qquad f=\frac{1}{T}.
+\end{align}
+
+Volíme \textbf{R1} = 3,3~k\si{\ohm}, \textbf{P1} = 25~k\si{\ohm}, \textbf{R2} = 221~k\si{\ohm}, \textbf{C1} = 120 nF a \textbf{D1} = 1N4148. Při napájení 5~V a úbytku na diodě 0,6 V vychází rozsah pulzů přibližně 0,37--3,20 ms a délka mezery 18,38~ms.
+
+Při omezení pulzů na požadovaných 0,5--2,5 ms se perioda mění mezi 18,88 a 20,88 ms, tedy přibližně 48--53 Hz. Perioda proto není zcela konstantní, což ale v případě serva nevadí. Skutečné časování ovlivňují také tolerance součástek, a proto pokud je potřeba přesné řízení, je vhodné provést doladění s osciloskopem.
+
+\section{Schéma zapojení}
+
+Navržené zapojení časovače NE555 je znázorněno na obrázku~\ref{fig:ne555}.
+
+\noindent\begin{minipage}{\textwidth}\centering
+\input{obrazky/ne555-servo}
+\captionsetup{hypcap=false}\captionof{figure}{Generátor řídicích pulzů s~NE555.}
+\label{fig:ne555}
+\end{minipage}\medskip
+
+Vývody 2 (TRIG) a 6 (THRES) sledují napětí na \textbf{C1}. Dioda \textbf{D1} má anodu na vývodu 7~(DISCH) a katodu u \textbf{C1}. Jezdec potenciometru \textbf{P1} je spojen s jeho koncem B, čímž se omezuje riziko úplného přerušení odporové dráhy při ztrátě kontaktu.
+
+Vývod 4 (RESET) je připojen na napájení +5 V, vývod 5 (CONT) filtruje \textbf{C7} = 10 nF. Napájení blokují \textbf{C5} = 100 nF a \textbf{C6} = 10~\si{\micro\farad}. Výstup 3 (OUT) vede přes \textbf{R6} = 330~\si{\ohm} na signál serva, zatímco \textbf{R7} = 100~k\si{\ohm} zajišťuje nízkou úroveň při odpojeném generátoru. ~\cite{ne555}

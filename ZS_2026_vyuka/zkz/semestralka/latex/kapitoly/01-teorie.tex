@@ -1,39 +1,45 @@
+\chapter*{Abstrakt}
+Práce se zabývá principem fungování servomotorů, jejich konstrukcí a možnostmi řízení. Nejprve vysvětluje význam zpětné vazby, jednotlivé způsoby snímání polohy a základní druhy servopohonů. Na modelovém příkladu otočného držáku jsou následně stanoveny požadavky na pohon a vybrán vhodný servomotor MG996R. Dále je popsán princip řízení pomocí PWM signálu a navrženy dvě varianty řídicího obvodu, jedna s časovačem NE555 a druhá s pomocí mikrokontroléru. Součástí práce jsou také zásady návrhu napájení, vedení zemních spojů a omezení elektromagnetického rušení.
+
+
 \chapter{Teoretická část -- princip servomotoru}
+\section{Co je to servo}
+Servo je pohon, který umožňuje přesně řídit polohu, rychlost nebo moment osy. Na rozdíl od běžného motoru, který se po přivedení napětí začne otáčet, servo využívá řídicí elektroniku a~zpětnou vazbu. Nejde tedy o konkrétní druh elektromotoru, ale o celý regulační systém.
+
 \section{Zpětná vazba a polohová regulace}
-Servopohon porovnává požadovanou polohu, rychlost nebo moment se skutečným stavem a podle odchylky upravuje buzení motoru. Označení servo tedy neznamená jediný typ motoru: používají se komutátorové i bezkartáčové motory, rotační i lineární pohony. Rozsah obecně není omezen na 180°; tento úhel použijeme až při návrhu našeho držáku.~\cite{omron}
+Princip fungování spočívá v~porovnávání požadovaného a skutečného stavu. Servo obsahuje snímač. který průběžně sleduje například natočení hřídele a předává tuto informaci regulátoru. Ten vyhodnotí rozdíl oproti požadované poloze a podle potřeby motor roztočí, zpomalí nebo zastaví. Pokud na hřídel působí vnější síla, regulátor může motor dále napájet, aby požadovanou polohu udržel. Přesnost ovlivňuje kvalita snímače, nastavení regulace i mechanické vůle.
 
-Při polohové regulaci je odchylka $e(t)=\varphi_\text{ž}(t)-\varphi(t)$. Regulátor podle jejího znaménka a velikosti pohon rozbíhá, zpomaluje a drží v~cíli. Proud proto může téct i při nulové rychlosti. Příliš agresivní regulace způsobuje překmity; výslednou přesnost omezují také vůle převodu a tuhost mechanismu.
+U~modelářských polohových RC serv jsou motor, snímač i řídicí elektronika umístěny v~jednom pouzdře a nadřazený systém pouze zadává požadovanou polohu, což výrazně zjednodušuje celý projekt. Průmyslové servopohony naopak obvykle používají samostatný servozesilovač, který řídí polohu, rychlost a proud motoru. Pro snímání polohy se zde často využívají enkodéry nebo resolvery.~\cite{omron}
 
-U~RC serva je regulace uvnitř pouzdra a Arduino pouze posílá požadavek. Průmyslový pohon obvykle používá samostatný servozesilovač s~kaskádou smyček polohy, rychlosti a proudu. Proud se měří v~zesilovači, polohu snímá enkodér či resolver.~\cite{omron}
+\vspace{5mm}
 
 \noindent\begin{minipage}{\textwidth}\centering
 \resizebox{.95\textwidth}{!}{\input{obrazky/prumyslova-regulace}}
 \captionsetup{hypcap=false}\captionof{figure}{Kaskádní regulace průmyslového servopohonu.}
 \end{minipage}
 
-\noindent\begin{minipage}{.54\textwidth}
-Snímač bývá na zadním konci hřídele. Jeho otočná část sleduje rotor, pevná část předává údaj zesilovači. Vůli převodovky za motorem takové měření přímo nezachytí. Přesnější osy mohou mít další snímač na výstupu nebo lineární pravítko.~\cite{heidenRobot}
-\end{minipage}\hfill
-\begin{minipage}{.42\textwidth}\centering
-\includegraphics[width=\linewidth,height=35mm,keepaspectratio]{obrazky/foto/motor-odmerovani.png}
-\captionsetup{hypcap=false}\captionof{figure}{Snímač v~motoru.~\cite{fotoMotorOdmerovani}}
-\end{minipage}
-
 \section{Snímače zpětné vazby}
-Inkrementální snímač poskytuje přírůstky polohy; po ztrátě údaje obvykle potřebuje referování. Absolutní snímač určí polohu v~daném rozsahu již po zapnutí. Toto rozdělení je nezávislé na fyzikálním principu snímání.~\cite{heidenEncoders}
+Pro zpětnou vazbu je potřeba znát aktuální stav natočení hřídele, případně stav lineárního pohonu. K tomu se používají různé druhy snímaču. V zásadě se dělí na: 
+\begin{itemize}
+    \item \textbf{Inkrementální}: snímač poskytuje přírůstky polohy; po ztrátě údaje obvykle potřebuje referování. 
+    \item \textbf{Absolutní}: snímač určí polohu v~daném rozsahu již po zapnutí.~\cite{heidenEncoders}
+\end{itemize}
+V praxi se pak používají konkrétní typy senzorů popsané v dalších sekcích. 
 
 \subsection{Potenciometr}
-Jezdec spojený s~výstupním hřídelem dělí napětí na odporové dráze. Elektronika RC serva, například SG90 či MG996R, porovnává toto napětí s~povelem. Výhodou je nízká cena a jednoduché absolutní měření v~omezeném rozsahu. Nevýhodou je opotřebení kontaktu, šum jezdce a omezený počet otáček.
+Jezdec spojený s otočnou hřídelí dělí napětí na odporové drážce. Elektronika RC serva, například SG90 či MG996R, porovnává toto napětí se setpointem. Výhodou je nízká cena a jednoduché absolutní měření v~omezeném rozsahu. Nevýhodou je opotřebení kontaktu, šum jezdce a omezený počet otáček.
 
 \subsection{Optický enkodér}
-LED svítí přes dělení kotouče na fotodetektor a komparátor převádí odezvu na logické úrovně. Optické snímání se používá v~přesných průmyslových osách i lineárních pravítkách. Nabízí vysoké rozlišení a bezkontaktní čtení, vyžaduje však čistou optickou cestu a přesné uložení.~\cite{microchipSensors}
+LED svítí přes periodicky s opakující průsvitná okénka v kotouči na fotodetektor a komparátor převádí odezvu na logické úrovně. Optické snímání se používá v~přesných průmyslových odměřováních i lineárních pravítkách. Nabízí vysoké rozlišení a bezkontaktní čtení, vyžaduje však čistou optickou cestu a přesné uložení.~\cite{microchipSensors}
 
 \noindent\begin{minipage}{\textwidth}\centering
 \includegraphics[width=.48\textwidth]{obrazky/foto/opticky-princip.png}
 \captionsetup{hypcap=false}\captionof{figure}{LED, dělený kotouč a fotodetektor.~\cite{fotoKotouc}}
 \end{minipage}
 
-Kvadraturní výstup tvoří signály A/B posunuté o~čtvrtinu periody, tedy 90° elektrických, nikoli mechanických. Pořadí hran určuje směr. Při vyhodnocení všech hran ($\times4$) získáme z~$N$ period na otáčku $4N$ kroků. Index Z označuje jedno místo v~otáčce, sám však neurčuje počet celých otáček.~\cite{microchipQEI}
+Často se používají dva výstupní signály A a B, které jsou vzájemně posunuté o čtvrtinu periody. Z jejich pořadí lze určit směr otáčení a počítáním změn signálů zjistit natočení hřídele. Při vyhodnocení všech hran získáme čtyřikrát více kroků než při počítání celých period. Doplňkový signál Z označuje jednu referenční polohu během otáčky.~\cite{microchipQEI}
+
+\vspace{5mm}
 
 \noindent\begin{minipage}{\textwidth}\centering
 \resizebox{.95\textwidth}{!}{\input{obrazky/kvadratura}}
@@ -41,10 +47,16 @@ Kvadraturní výstup tvoří signály A/B posunuté o~čtvrtinu periody, tedy 90
 \end{minipage}
 
 \subsection{Magnetický snímač}
-Hallovy nebo magnetorezistivní prvky snímají pole magnetu na hřídeli. Absolutní čip AS5048 vyhodnocuje úhel magnetu, vícepólový kotouč může poskytovat inkrementální výstup. Uplatnění je v~robotice a kompaktních pohonech. Výhodou je odolnost vůči nečistotám; omezením jsou nároky na vystředění, vzduchovou mezeru a okolní magnetické pole.~\cite{as5048}
+
+Magnetický snímač určuje polohu hřídele podle magnetického pole. Na hřídeli je umístěn magnet, jehož natočení snímá například Hallův senzor, např. dvouosý AS5048. Magnetické snímače se používají především v~robotice a menších pohonech. Jejich výhodou je bezkontaktní měření a~odolnost vůči nečistotám. Nevýhodou je citlivost na přesné umístění magnetu a okolní magnetická pole.~\cite{as5048}
+
 
 \subsection{Resolver}
-Resolver pracuje jako rotační transformátor. Střídavé buzení vytváří dva signály s~amplitudami závislými na $\sin\varphi$ a $\cos\varphi$; převodník z~nich určuje úhel. U~klasického provedení se budí rotor, u~reluktančního jsou vinutí na statoru a vazbu mění železný rotor. Používá se v~průmyslových a trakčních pohonech. Je robustní a odolný vůči teplotám, ale potřebuje buzení a složitější vyhodnocení.~\cite{resolverADI}
+
+Resolver je snímač polohy pracující na principu elektromagnetické indukce, podobně jako transformátor. Střídavý proud v~budicím vinutí vytváří magnetické pole, které indukuje napětí ve dvou snímacích vinutích. Velikost těchto napětí závisí na natočení rotoru, díky čemuž lze určit polohu hřídele. U~klasického resolveru je budicí vinutí na rotoru, zatímco u~reluktančního provedení jsou všechna vinutí na statoru. 
+
+Resolver se používá především v~průmyslových a trakčních pohonech. Jeho výhodou je vysoká mechanická a tepelná odolnost, nevýhodou je potřeba střídavého buzení a složitější vyhodnocovací elektroniky.~\cite{resolverADI}
+
 
 \noindent\begin{minipage}{\textwidth}\centering
 \includegraphics[width=.68\textwidth]{obrazky/foto/resolver-princip.jpg}
@@ -52,24 +64,26 @@ Resolver pracuje jako rotační transformátor. Střídavé buzení vytváří d
 \end{minipage}
 
 \subsection{Indukční enkodér}
-Budicí cívka vytváří pole a vířivé proudy ve vodivém terči. Jeho natočení mění vazbu snímacích cívek, často vytvořených na plošném spoji. Elektronika odezvu demoduluje a vypočítá polohu. Používá se v~servomotorech a robotických osách; je bezkontaktní, bez optiky a permanentního magnetu, ale vyžaduje předepsanou geometrii a mezeru.~\cite{tiInductive}
+
+Indukční enkodér, jak již název napovídá, pracuje také na principu elektromagnetické indukce. Střídavý proud v~budicí cívce vytváří magnetické pole, které vyvolává vířivé proudy ve vodivém terči spojeném s~hřídelí. Natočení terče ovlivňuje magnetické pole a tím i napětí indukované ve snímacích cívkách. Z~těchto změn elektronika určuje polohu hřídele. Cívky bývají často vytvořeny přímo na plošném spoji, díky čemuž může být snímač menší a levnější než klasický resolver. Výhodou je bezkontaktní měření a odolnost vůči nečistotám, nevýhodou jsou nároky na přesné umístění terče vůči cívkám a potřeba vyhodnocovací elektroniky.~\cite{tiInductive}
+
 
 \noindent\begin{minipage}{\textwidth}\centering
 \includegraphics[width=.88\textwidth]{obrazky/foto/indukcni-princip.png}
 \captionsetup{hypcap=false}\captionof{figure}{Vodivý terč, plošné cívky a vyhodnocení.~\cite{fotoIndukcni}}
 \end{minipage}
 
-Oproti resolveru s~vinutím a železným magnetickým obvodem může být plošný indukční snímač kompaktnější a levnější. Oba potřebují buzení a vyhodnocení; přesnost i odolnost závisejí na konkrétní konstrukci, nikoli jen na principu.
-
 \Needspace{75mm}
 \section{Druhy servomotorů a jejich konstrukce}
-Přehled rozlišuje použití, pohyb výstupu a mechanické provedení. Tyto vlastnosti se překrývají: jedno servo může být modelářské, polohové a současně převodované. Rozsah 0--180° není společnou vlastností všech serv.
+Servomotory se liší konstrukcí, způsobem řízení i oblastí použití. Mezi běžné skupiny patří průmyslové servopohony, lineární servopohony a modelářská serva. V této práci se budeme dále zabývat hlavně těmi.
 
-\Needspace{52mm}
-\subsection{Modelářská polohová serva}
+\Needspace{55mm}
+\subsection{Modelářská serva}
 \noindent\begin{minipage}{\textwidth}
 \begin{minipage}[t]{.61\textwidth}\vspace{0pt}
-Motor, převody, snímač a regulace jsou v~jednom pouzdře. Tři vodiče přivádějí napájení, GND a řídicí pulzy. Servo drží zadaný úhel, ale běžně jej neposílá zpět řadiči. SG90, MG90S nebo MG996R se hodí pro kormidla, klapky a lehké držáky. Omezením jsou vůle a rozsah konkrétního provedení.
+Modelářská RC serva obsahují malý elektromotor, převodovku a řídicí elektroniku v~jednom pouzdře. Převodovka snižuje otáčky a zvyšuje výstupní moment, zároveň však přináší mechanické vůle. Běžná polohová serva, například SG90 nebo MG996R, mají navíc snímač polohy a nastavují a udržují požadovaný úhel, často v~rozsahu přibližně 180°. 
+
+Kontinuální serva, například FS90R, umožňují nepřetržité otáčení, přičemž řídicí pulzy PWM určují směr a přibližnou rychlost místo polohy. Používají se v~modelářství, robotice a~jednoduchých mechanismech.
 \end{minipage}\hfill
 \begin{minipage}[t]{.35\textwidth}\vspace{0pt}\centering
 \includegraphics[width=\linewidth,height=30mm,keepaspectratio]{obrazky/foto/rozebrane-servo.jpg}
@@ -77,11 +91,11 @@ Motor, převody, snímač a regulace jsou v~jednom pouzdře. Tři vodiče přiv�
 \end{minipage}
 \end{minipage}\par
 
-\Needspace{52mm}
+\Needspace{55mm}
 \subsection{Průmyslové servopohony}
 \noindent\begin{minipage}{\textwidth}
 \begin{minipage}[t]{.61\textwidth}\vspace{0pt}
-Motor s~enkodérem či resolverem spolupracuje se servozesilovačem. Povel přijímá například sběrnicí nebo rozhraním krok/směr. Používá se v~robotech a obráběcích strojích pro přesné řízení polohy, rychlosti či momentu. Obvykle umožňuje více otáček a podrobnou diagnostiku; motor, snímač a zesilovač musí být kompatibilní.~\cite{omron}
+Průmyslové servopohony se používají tam, kde je potřeba vysoká přesnost, výkon a spolehlivost. Často využívají bezkartáčové synchronní motory s~permanentními magnety, případně asynchronní motory se zpětnovazebním řízením. Polohu snímá enkodér nebo resolver a chod motoru řídí servozesilovač. Umožňují přesné řízení polohy, rychlosti i~momentu a používají se například v~průmyslových robotech, CNC strojích a automatizovaných výrobních linkách.~\cite{omron}
 \end{minipage}\hfill
 \begin{minipage}[t]{.35\textwidth}\vspace{0pt}\centering
 \includegraphics[width=\linewidth,height=30mm,keepaspectratio]{obrazky/foto/prumyslove-pohony.jpg}
@@ -89,37 +103,25 @@ Motor s~enkodérem či resolverem spolupracuje se servozesilovačem. Povel přij
 \end{minipage}
 \end{minipage}\par
 
-\Needspace{52mm}
-\subsection{Kontinuální RC serva}
-\noindent\begin{minipage}{\textwidth}
-\begin{minipage}[t]{.61\textwidth}\vspace{0pt}
-Například FS90R se otáčí trvale. Pulz určuje směr a míru buzení, nikoli cílový úhel; v~okolí neutrálu motor stojí. Hodí se pro kola robotů a podavače. Bez dalšího snímače nelze spolehlivě určit polohu z~doby otáčení. Nápis „360°“ proto sám nezaručuje polohové řízení.
+\vspace{5mm}
+\noindent\begin{minipage}{.54\textwidth}
+Snímač v tomto servu bývá umístěn na zadním konci hřídele. Jeho otočná část sleduje rotor, pevná část předává údaj zesilovači. Vůli převodovky za motorem takové měření přímo nezachytí. Přesnější osy mohou mít další snímač na výstupu nebo lineární pravítko, kterým se sleduje až výsledný efekt posunu na ose.~\cite{heidenRobot}
+
 \end{minipage}\hfill
-\begin{minipage}[t]{.35\textwidth}\vspace{0pt}\centering
-\includegraphics[width=\linewidth,height=30mm,keepaspectratio]{obrazky/foto/fs90r.jpg}
-\captionsetup{hypcap=false,justification=raggedright,singlelinecheck=false}\captionof{figure}{Kontinuální FS90R.~\cite{fotoFS90RPololu}}
+\begin{minipage}{.42\textwidth}\centering
+\includegraphics[width=\linewidth,height=35mm,keepaspectratio]{obrazky/foto/motor-odmerovani.png}
+\captionsetup{hypcap=false}\captionof{figure}{Snímač v~motoru.~\cite{fotoMotorOdmerovani}}
 \end{minipage}
-\end{minipage}\par
 
-\Needspace{52mm}
-\subsection{Serva s~převodovkou}
-\noindent\begin{minipage}{\textwidth}
-\begin{minipage}[t]{.61\textwidth}\vspace{0pt}
-Převod zvyšuje moment a snižuje otáčky: přibližně $M_\text{výst}=\eta iM_\text{motor}$. Umožní použít menší motor pro větší zátěž, přidává však tření a vůli při změně směru. Převody najdeme v~RC servech i průmyslových osách; nejde tedy o~samostatný způsob řízení.
-\end{minipage}\hfill
-\begin{minipage}[t]{.35\textwidth}\vspace{0pt}\centering
-\includegraphics[width=\linewidth,height=30mm,keepaspectratio]{obrazky/foto/prevody-detail.jpg}
-\captionsetup{hypcap=false,justification=raggedright,singlelinecheck=false}\captionof{figure}{Převody RC serva.~\cite{fotoPrevodDetail}}
-\end{minipage}
-\end{minipage}\par
-
-\subsection{Přímé servopohony}
-Zátěž je spojena přímo s~motorem bez redukční převodovky. Odpadá vůle ozubení a zvyšuje se tuhost, motor však musí vyvinout celý potřebný moment. Momentové motory se používají například pro přesné otočné stoly. Přímý pohon také potřebuje snímač a regulaci; neznamená provoz bez zpětné vazby.
-
+\Needspace{55mm}
 \subsection{Lineární servopohony}
-Řídí posuv místo natočení. Pohyb může vytvářet přímo lineární motor, nebo rotační servomotor přes kuličkový šroub či řemen. Uplatní se v~posuvových osách strojů a manipulátorech. Vybírají se podle zdvihu, síly a rychlosti; převodované provedení navíc omezuje vůle a tuhost mechanismu.
-
-\section{Význam PWM signálu}
-U~RC serva nese povel délka vysoké úrovně $t_H$, nikoli samotná střída. Běžná perioda je $T=20$ ms, tedy 50 Hz, a střední poloze často odpovídá 1,5 ms. Krajní časy závisejí na konkrétním servu. Jde o~řídicí pulzy; výkonové PWM pro vinutí vytváří až vnitřní elektronika.~\cite{pololu}
-
-Střída $D=t_H/T$ je při 1,5 ms a 20 ms rovna 7,5\,\%. Při jiné periodě může stejná střída znamenat jiný úhel. Opakovací frekvence určuje četnost povelů, nelze ji však libovolně zvyšovat. Chování po ztrátě pulzů závisí na servu, takže vypnutí signálu není zaručené odpojení pohonu. Rozlišení generátoru také nezaručuje mechanickou přesnost: tu omezují převody, snímač a zatížení.
+\noindent\begin{minipage}{\textwidth}
+\begin{minipage}[t]{.61\textwidth}\vspace{0pt}
+Lineární servopohony slouží k~přesnému řízení přímočarého pohybu namísto otáčení. Mohou využívat přímo lineární elektromotor nebo běžný rotační servomotor, jehož pohyb se převádí například kuličkovým šroubem či řemenem na posuv. Zpětná vazba umožňuje přesně řídit polohu a rychlost pohybu, případně i sílu. Uplatňují se především v~automatizaci, polohovacích systémech a posuvových osách obráběcích strojů.
+\end{minipage}\hfill
+\begin{minipage}[t]{.35\textwidth}\vspace{0pt}\centering
+% Dočasný obrázek; nahradit fotografií lineárního servopohonu.
+\includegraphics[width=\linewidth,height=30mm,keepaspectratio]{obrazky/foto/linear_servo.jpeg}
+\captionsetup{hypcap=false,justification=raggedright,singlelinecheck=false}\captionof{figure}{Lineární servo od Yaskawa.~\cite{fotoLinear}}
+\end{minipage}
+\end{minipage}\par

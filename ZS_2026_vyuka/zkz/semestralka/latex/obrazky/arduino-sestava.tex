@@ -2,7 +2,7 @@
 % Společná regulovaná větev 5 V, samostatné přívody k zátěžím.
 \node[anchor=west,font=\footnotesize] at (0,8.8) {Externí zdroj 5 V / alespoň 4 A};
 \draw[thick] (0,7.5) node[left]{+5 V}
- to[fuse,l={F1 T 3{,}15 A}] (3,7.5)
+ to[fuse,l={F1 T 3{,}75 A}] (3,7.5)
  --(6,7.5)--(14,7.5);
 \draw[thick,fill=light] (14,1.3) rectangle (16,8.1);
 \node[align=center] at (15,5.4) {Servo\\MG996R};
@@ -48,6 +48,4 @@
 \node[below] at (7.6,0) {G0};
 \foreach \x/\y in {4/1,4/3.4,6.05/1,10/0,10/3.4,10/7.5,12.5/7.5}
  {\fill (\x,\y) circle(1.5pt);}
-\node[below,align=center,font=\footnotesize] at (3,-.55) {P2 a C11: zem u Arduina,\\samostatný přívod do G0.};
-\node[below,align=center,font=\footnotesize] at (12,-.55) {C9 a C10 u serva, zem do silového návratu.\\Silný vodič: návrat proudu serva ke zdroji.};
 \end{circuitikz}

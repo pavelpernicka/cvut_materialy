@@ -1,0 +1,38 @@
+
+\chapter{Napájení, layout a omezení rušení}
+\label{chap:layout}
+
+\section{Napájení a připojení serva}
+
+Servo MG996R i řídicí elektroniku napájíme stabilizovaným zdrojem 5 V s proudovou zatížitelností alespoň 4 A. Napájení rozdělujeme na samostatnou silovou větev serva a větev řízení, aby proud motoru neprocházel přes Arduino ani NE555. Obě větve mají společnou zem v bodě G0 u zdroje.
+
+U konektoru serva umístíme blokovací kondenzátory, které pomáhají omezovat krátkodobé poklesy napětí a rušení. Při rozběhu nebo zatížení může totiž servo odebírat proud několika ampérů. Nedostatečný zdroj nebo příliš dlouhé a tenké vodiče pak mohou způsobovat cukání serva, ztrátu polohy či restart mikrokontroléru. Proto volíme dostatečně dimenzované napájení a~krátké přívody. Pojistka chrání především vodiče před nadproudem, nikoli motor při zablokování.
+
+\section{Layout a vedení zemních spojů}
+
+Při návrhu plošného spoje oddělujeme silové vedení servomotoru od citlivých signálů. Blokovací kondenzátory umisťujeme blízko napájecích vývodů, napájecí vodiče vedeme blízko sebe a signály pokud možno nad souvislou zemní plochou.~\cite{tiemi,mt031}
+
+Problém nastává, pokud proud motoru prochází stejným zemním vodičem jako proud řídicí elektroniky. Kvůli odporu a indukčnosti vodiče vznikají změny zemního potenciálu, které mohou ovlivňovat měření a řízení. V našem zapojení se to může projevit kolísáním hodnoty potenciometru, chvěním serva nebo nestabilním chováním mikrokontroléru.
+
+\noindent\begin{minipage}{\textwidth}\centering
+\resizebox{.90\textwidth}{!}{\input{obrazky/zeme}}
+\captionsetup{hypcap=false}\captionof{figure}{Nevhodné a správné vedení zemních návratových proudů.}
+\label{fig:zeme}
+\end{minipage}\medskip
+
+Těmto problémům předcházíme oddělením silových a signálových návratových proudů. Zem serva vedeme samostatně ke zdroji, zatímco citlivé obvody mají vlastní zemní cestu. Obě větve se propojují ve společném bodě G0, aby proud motoru neovlivňoval referenční napětí řízení.
+
+\section{Zemní smyčky}
+
+Zemní smyčka vzniká při propojení zařízení více vodivými cestami, které vytvářejí uzavřený okruh. Příkladem může být Arduino připojené přes USB k počítači a současně k laboratornímu zdroji, pokud jsou jejich země propojeny také přes ochranný vodič PE.~\cite{osak}
+
+Takovým okruhem mohou protékat nežádoucí vyrovnávací nebo indukované proudy. Ty mohou způsobovat rušení měření, chyby v komunikaci nebo nepravidelný pohyb serva. Samotná existence smyčky však nemusí nutně znamenat problém.
+
+\vspace{5mm}
+
+\noindent\begin{minipage}{\textwidth}\centering
+\resizebox{.90\textwidth}{!}{\input{obrazky/smycka}}
+\captionsetup{hypcap=false}\captionof{figure}{Možný vznik zemní smyčky přes USB a ochranný vodič PE.}
+\end{minipage}\medskip
+
+Zemním smyčkám předcházíme vhodným uspořádáním propojení a omezením zbytečných paralelních zemních cest. Při samostatném provozu lze odpojit USB, případně použít galvanicky oddělené datové rozhraní.

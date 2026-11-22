@@ -1,10 +1,48 @@
 \begin{tikzpicture}[x=1.75cm,y=.85cm]
-\foreach \y/\w/\label in {4/0.5/{0,5 ms: nominálně 0°},2/1.5/{1,5 ms: nominálně 90°},0/2.5/{2,5 ms: nominálně 180°}}{
-\draw[gray!40] (0,\y)--(7,\y);
-\draw[accent,thick] (0,\y)--(.25,\y)--(.25,\y+0.8)--(.25+\w,\y+0.8)--(.25+\w,\y)--(4.1,\y);
-\draw[accent,thick] (4.6,\y)--(6,\y)--(6,\y+.8)--(6.35,\y+.8);
-\node[anchor=west] at (3,\y+.65) {\label};
-\draw (4.18,\y-.15)--(4.30,\y+.15) (4.36,\y-.15)--(4.48,\y+.15);
+
+\foreach \y/\w/\angle/\label in {
+  4/0.5/0/{0,5 ms},
+  2/1.5/90/{1,5 ms},
+  0/2.5/180/{2,5 ms}
+}{
+  % Popisek úhlu vlevo
+  \node[anchor=east,font=\bfseries] at (-.15,\y+.4) {$\angle^\circ$};
+
+  % Základní úroveň
+  \draw[gray!40] (0,\y)--(7,\y);
+
+  % Řídicí impulz
+  \draw[accent,thick]
+    (0,\y)--(.25,\y)
+    --(.25,\y+.8)
+    --(.25+\w,\y+.8)
+    --(.25+\w,\y)
+    --(4.1,\y);
+
+  % Pokračování průběhu
+  \draw[accent,thick]
+    (4.6,\y)--(6,\y)
+    --(6,\y+.8)
+    --(6.35,\y+.8);
+
+  % Popisek délky pulzu těsně vpravo od pulzu
+  \node[anchor=west] at (.25+\w+0.18,\y+.42) {\label};
+
+  % Přerušení časové osy
+  \draw
+    (4.18,\y-.15)--(4.30,\y+.15)
+    (4.36,\y-.15)--(4.48,\y+.15);
 }
-\draw[<->] (.25,-.65)--(6,-.65) node[midway,fill=white] {$T=20\,\mathrm{ms}$};
+
+% t_H a t_L
+\draw[<->] (.25,-.55)--(2.75,-.55)
+  node[midway,fill=white,inner sep=2pt] {$t_H$};
+
+\draw[<->] (2.75,-.55)--(6,-.55)
+  node[midway,fill=white,inner sep=2pt] {$t_L$};
+
+% Perioda
+\draw[<->] (.25,-1.15)--(6,-1.15)
+  node[midway,fill=white,inner sep=3pt] {$T=20\,\mathrm{ms}$};
+
 \end{tikzpicture}

@@ -1,26 +1,40 @@
+
 \chapter{Výběr konkrétního servomotoru}
+
 \section{Požadavky na pohon}
+
+Pro výběr vhodného servomotoru si stanovíme modelovou úlohu. Navrhujeme jednoduchý otočný držák, který bude přemisťovat menší předmět mezi různými polohami. Držák je tvořen ramenem upevněným na otočné hřídeli a pohybuje se ve svislé rovině. Servomotor má zajistit jeho plynulé natočení do požadovaného úhlu a následné udržení polohy i při zatížení.
+
+Uvažujeme rozsah pohybu 0--180°, který umožňuje přemístit předmět z jedné krajní polohy přes horní polohu na opačnou stranu. Předmět má hmotnost \SI{0.2}{kg} a jeho těžiště se nachází ve vzdálenosti \SI{0.1}{m} od osy otáčení. Pro jednoduchost předpokládáme, že je předmět pevně spojen s ramenem a jeho těžiště se během pohybu vůči ose nemění. Situace je znázorněna na obrázku níže.
+
+\vspace{5mm}
+
 \noindent\begin{minipage}{\textwidth}\centering
 \resizebox{!}{48mm}{\input{obrazky/drzak}}
-\captionsetup{hypcap=false}\captionof{figure}{Model držáku a jeho zatížení.}
+\captionsetup{hypcap=false}\captionof{figure}{Model otočného držáku a jeho zatížení.}
 \label{fig:drzak}
 \end{minipage}
 
-Držák se pohybuje ve svislé rovině; na obrázku je pohled ve směru hřídele. Vzdálenost $r$ vede k~těžišti zátěže. Ve vodorovné poloze je moment tíhy největší ($mgr$), nad osou nulový. Úhly je při montáži nutné sladit s~povelem serva.
+Na držák působí především tíhová síla předmětu, která vytváří moment kolem osy otáčení. Jeho velikost závisí na poloze ramene. Největší je ve vodorovné poloze, kdy je rameno tíhové síly maximální. Ve svislé poloze, kdy se těžiště nachází přímo nad nebo pod osou otáčení, je moment tíhy nulový. Servo tak musí během pohybu překonávat různě velké zatížení a v některých polohách působit proti tíze i při zastaveném motoru.
 
-Navrhujeme lehký polohovací držák s~rozsahem 0--180°. Příklad zatížení tvoří předmět o~hmotnosti \SI{0.2}{kg} ve vzdálenosti \SI{0.05}{m} od osy. V~nejméně příznivé vodorovné poloze vychází statický moment
+Pro určení potřebného momentu vyjdeme z nejméně příznivé vodorovné polohy. Moment tíhové síly vypočítáme učebnicově jako:
 \begin{equation}
- M=mgr=0{,}2\cdot9{,}81\cdot0{,}05\doteq\SI{0.098}{N.m}.
+ M=mgr=0{,}2\cdot9{,}81\cdot0{,}1
+ \doteq\SI{0.196}{N.m}.
 \end{equation}
-Výpočet vychází z~modelové zátěže. Při realizaci přičteme hmotnost páky, tření a dynamický moment $J\alpha$. Změna mechanismu proto vyžaduje nový výpočet zatížení.
 
-Moment se uvádí v~kgf\,cm, kde $1\,\mathrm{kgf\,cm}=\SI{0.0980665}{N.m}$. Katalogový moment při zablokování není dovolené trvalé zatížení; to bez tepelné charakteristiky nelze spolehlivě odvodit.
+Jde o maximální zjednodušení, jelikož vypočtený moment představuje pouze statické zatížení od přemisťovaného předmětu. Ve skutečném mechanismu se navíc uplatní hmotnost samotného ramene, tření v uložení, při pohybu a moment potřebný k rozběhu a zastavení otáčení. Proto je vhodné zvolit servomotor s dostatečnou momentovou rezervou.
+
+Kromě momentu požadujeme také spolehlivé polohové řízení v rozsahu 180°, přiměřenou rychlost pohybu a schopnost udržet zadanou polohu. Důležité jsou rovněž rozměry, jednoduchost ovládání a dostupnost napájení. Pro tento typ mechanismu se proto nabízí běžná modelářská polohová serva.
+
+Moment servomotorů se v katalogových listech často uvádí v jednotkách kgf\,cm, přičemž $1\,\mathrm{kgf\,cm}=\SI{0.0980665}{N.m}$. Je však důležité rozlišovat moment při zablokování od momentu, kterým může servo působit dlouhodobě. Katalogový moment při zablokování nelze považovat za dovolené trvalé zatížení.
 
 \section{Běžné modelářské servomotory}
-Pro malé přípravky se často používají mikroserva SG90 a MG90S nebo větší MG996R. Liší se hlavně rozměry, převody a momentem. Tabulka porovnává katalogové údaje konkrétních provedení při stejném napětí 4,8 V; nejde o~dovolené trvalé zatížení.~\cite{sg90,mg90s,mg180}
+
+Pro menší mechanismy se často používají mikroserva SG90 a MG90S nebo větší servo MG996R. Jednotlivé modely se liší především rozměry, hmotností, materiálem převodů a dostupným momentem. V tabulce porovnáváme katalogové parametry těchto serv při napájecím napětí 4,8~V.~\cite{sg90,mg90s,mg180}
 
 \begin{table}[htbp]\centering\small
-\caption{Srovnání běžných polohových RC serv při 4,8 V.}
+\caption{Srovnání běžných polohových RC serv.}
 \begin{tabularx}{\textwidth}{@{}lYYY@{}}\toprule
 \textbf{Vlastnost} & \textbf{SG90 Digital} & \textbf{MG90S} & \textbf{MG996R 180°}\\\midrule
 Hmotnost & 9 g & 13,4 g & 55 g\\\addlinespace
@@ -33,17 +47,25 @@ Typické použití & Lehká klapka, model & Malý mechanismus s~odolnějšími p
 
 \FloatBarrier
 \section{Zvolený model MG996R}
-Pro držák volíme \textbf{MG996R s~kovovými převody v~polohovém provedení 180°}. Oproti mikroservům poskytuje větší momentovou rezervu. Parametry v~tabulce odpovídají zdokumentované 180° variantě; označení MG996R samo o~sobě nezaručuje stejné parametry všech prodávaných kusů.~\cite{mg180}
 
-Moment 9 kgf\,cm odpovídá přibližně 0,88 N\,m, což je výrazně více než modelový požadavek 0,098 N\,m. Jde ale o~moment při zablokování, ze kterého nelze určit dovolené trvalé zatížení. Držák má být lehký a větší boční síly musí přenášet vlastní uložení. Přesnost omezují také vůle převodů.
+Pro navržený držák volíme MG996R s kovovými převody v polohovém provedení 180°. Oproti menším servům poskytuje výrazně vyšší moment a tím i větší rezervu pro zatížení ramene, jeho rozběh a případné mechanické ztráty.
+
+Při napájení 4,8 V dosahuje katalogový moment při zablokování hodnoty 9 kgf\,cm, což odpovídá přibližně 0,88 N\,m. Ve srovnání s vypočteným statickým momentem 0,196 N\,m jde přibližně o~čtyřnásobnou hodnotu. Musíme ale brát v potaz, že hodnoty srovnáváme v ideálních podmínkách. V realitě musíme počítat s dlouhodobým zatížením a také potenciální životností serva. Proto je tato rezerva vhodná, ačkoliv může na první pohled vypadat jako obrovská.
+
+Výhodou MG996R jsou také kovové převody, které jsou mechanicky odolnější než plastové. Je však nutné počítat s určitou vůlí převodovky, která může ovlivnit přesnost polohování. Další výhodou je robustnost provedení, kdy je převodovka narozdíl od MG90S umístěna v pevnějším rámu. 
+
+Všechny datasheetové parametry jsou v tabulce níže. Je nutné podotknouti, že pro stejný model serva se údaje od různých výrobců mírně liší. Při reálném použítí je tedy potřeba se řídit přímo oficiálními dokumenty výrobce. ~\cite{mg180}
 
 \noindent\begin{minipage}{.67\textwidth}\small
 \captionsetup{hypcap=false}\captionof{table}{Parametry MG996R 180°.~\cite{mg180}}
-\begin{tabularx}{\linewidth}{@{}p{28mm}Y@{}}\toprule
+\begin{tabularx}{\linewidth}{@{}p{40mm}Y@{}}\toprule
 \textbf{Parametr} & \textbf{Hodnota}\\\midrule
 Napájení & 4,8--6 V\\
+Proud za chodu & 500--900 mA\\
+Proud při zablokování & 2 500 mA\\
 Moment při zablokování & 9 kgf\,cm (4,8 V); 11 kgf\,cm (6 V)\\
 Rychlost bez zatížení & 0,19 s/60° (4,8 V); 0,18 s/60° (6 V)\\
+Pásmo necitlivosti & 5 $\mu\text{s}$\\
 Rozsah & 180°, polohové provedení\\
 Rozměry & $40{,}7\times19{,}7\times42{,}9$ mm\\
 Hmotnost & 55 g\\
@@ -56,6 +78,7 @@ Převody & Kovové\\\bottomrule
 \end{minipage}\medskip
 
 \section{Napájení a ověření rozsahu}
-Samostatný katalogový list MG996R uvádí proud při zablokování 2,5 A~při 6 V, ale také jiné provedení s~rozsahem přibližně 120°. Proud proto použijeme jako předběžný návrhový odhad; údaje o~rozsahu nepřenášíme mezi variantami. Pro společné napájení serva a řízení volíme stabilizovaný zdroj 5 V / alespoň 4 A~a při realizaci ověříme skutečný odběr i napětí na konektoru.~\cite{mgpdf}
 
-Pulzy 0,5--2,5 ms jsou návrhové meze generátoru, nikoli univerzální specifikace MG996R. Koncové polohy ověříme na konkrétním 180° kusu bez zatížení a bez tlačení do dorazů.
+Při návrhu napájení je nutné počítat s tím, že proud servomotoru závisí na mechanickém zatížení a může krátkodobě výrazně vzrůst. Katalogový list MG996R uvádí proud při zablokování až 2,5~A při 6 V. Pro napájení serva a řídicí elektroniky proto předběžně volíme stabilizovaný zdroj 5~V s~proudovou zatížitelností alespoň 4 A. Při realizaci bude nutné ověřit skutečný odběr a~pokles napětí např. i na napájecích vodičích při delším vedení.~\cite{mgpdf}
+
+Důležité je také ověřit skutečný rozsah natočení. Některé varianty MG996R mají rozsah menší než 180°, a proto nelze vycházet pouze z označení výrobku. Před montáží držáku je proto velmi vhodné nejprve vyzkoušet pohyb nezatíženého servomotoru a určit bezpečné krajní polohy tak, aby nedocházelo k nárazu do mechanických dorazů, čímž by mohlo dojít ke zkrácení životnosti.

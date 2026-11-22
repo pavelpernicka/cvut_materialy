@@ -1,40 +1,69 @@
-\begin{circuitikz}[scale=.78,transform shape]
-% U1: všech osm vývodů, číslování DIP-8.
-\draw[thick] (6,2) rectangle (9,6.3);
-\node[font=\bfseries] at (7.5,4.7) {U1 NE555P};
-\draw (6,5.7)--(2,5.7);\node[anchor=west] at (6,5.7) {7 DISCH};
-\draw (6,4)--(5.2,4)--(5.2,3);
-\node[anchor=west] at (6,4) {6 THRES};
-\draw (6,3)--(2,3);\node[anchor=west] at (6,3) {2 TRIG};
-\draw (9,4)--(11,4) node[right,align=left]{3 OUT\\k R6 a signálu serva};
-\draw (6.7,6.3)--(6.7,9)--(8.3,9)--(8.3,6.3);
-\node[anchor=north] at (6.7,6.3) {8};\node[anchor=north] at (8.3,6.3) {4};
-\node[above] at (7.5,9) {+5 V (VCC a RESET)};
-\draw (6.7,2)--(6.7,1) node[ground]{};\node[above] at (6.7,2) {1 GND};
-\draw (8.3,2) to[C,l=C7 10 nF] (8.3,0) node[ground]{};
-\node[above] at (8.3,2) {5 CONT};
-% R1 + třívývodový potenciometr; W je fyzicky připojen na B.
-\draw (2,10) node[above]{+5 V} to[R,l_=R1 3{,}3 k$\Omega$] (2,8.4)--(2,8);
-\draw (1.8,8) rectangle (2.2,6.8);
-\node[left,align=right] at (1.6,7.4) {P1\\25 k$\Omega$ lin.};
-\node[left] at (2,8.15) {A};\node[left] at (2,6.55) {B};
-\draw (2,6.8)--(2,5.7);
-\draw[-{Latex[length=2mm]}] (3.3,7.4)--(2.2,7.4);
-\node[right] at (3.3,7.4) {W};
-\draw (3.3,7.4)--(3.3,6.4)--(2,6.4);
-\fill (2,6.4) circle(2pt);
-% Paralelní větve R2 a D1, katoda D1 u C1.
-\draw (2,5.7) to[R,l_=R2 221 k$\Omega$] (2,3);
-\draw (4,5.7) to[D] (4,3);
-\node[font=\scriptsize,right] at (4.1,5.15) {A};
-\node[font=\scriptsize,align=right,anchor=east] at (3.6,4.35) {D1\\1N4148};
-\node[font=\scriptsize,right] at (4.1,3.55) {K};
-\draw (2,3) to[C,l_=C1 120 nF] (2,.7) node[ground]{};
-\foreach \x/\y in {2/5.7,4/5.7,2/3,4/3,5.2/3} {\fill (\x,\y) circle(2pt);}
-% Lokální blokování napájení.
-\draw (10.5,8.9) node[above]{+5 V} to[C,l_=C5 100 nF] (10.5,6.6) node[ground]{};
-\draw (13,8.9) node[above]{+5 V} to[C,l=C6 10 $\mu$F] (13,6.6) node[ground]{};
-\node at (12.65,8.15) {$+$};
-\node[font=\scriptsize,align=center] at (11.7,5.5) {C5 těsně u vývodů 8 a 1};
-\node[align=left,font=\small] at (12,1.6) {Všechny GND společné.\\Zem řídicí části vede do G0.};
-\end{circuitikz}
+\begin{tikzpicture}[transform shape]
+	% Paths, nodes and wires:
+	\draw[line width=1.2pt,fill=light] (7, 2.5) -- (11.25, 2.5) -| (11.25, 7) -- (7, 7) -| (7, 2.5);
+	\node[shape=rectangle, minimum width=0.965cm, minimum height=0.365cm] at (9.75, 5.05){} node[anchor=center, align=center, text width=0.929cm, inner sep=1pt] at (9.75, 5.05){\small U1};
+	\node[shape=rectangle, minimum width=1.765cm, minimum height=0.465cm] at (9.85, 4.5){} node[anchor=center, align=center, text width=1.729cm, inner sep=1pt] at (9.85, 4.5){\small NE555P};
+	\draw (7, 6.3) -- (3, 6.3);
+	\draw (7, 4.5) -- (6.2, 4.5) -| (6.2, 3.4);
+	\draw (7, 3.4) -- (3, 3.4);
+	\node[shape=rectangle, minimum width=1.465cm, minimum height=0.315cm] at (7.9, 6.3){} node[anchor=west, align=left, text width=1.429cm, inner sep=1pt] at (7.15, 6.3){\scriptsize 7 DISCH};
+	\node[shape=rectangle, minimum width=1.465cm, minimum height=0.315cm] at (7.9, 4.5){} node[anchor=west, align=left, text width=1.429cm, inner sep=1pt] at (7.15, 4.5){\scriptsize 6 THRES};
+	\node[shape=rectangle, minimum width=1.465cm, minimum height=0.315cm] at (7.9, 3.4){} node[anchor=west, align=left, text width=1.429cm, inner sep=1pt] at (7.15, 3.4){\scriptsize 2 TRIG};
+	\draw (11.25, 4.75) |- (12.3, 4.8);
+	\node[shape=rectangle, minimum width=2.465cm, minimum height=0.815cm] at (13.7, 4.8){} node[anchor=west, align=left, text width=2.429cm, inner sep=1pt] at (12.45, 4.8){\small 3 OUT\\signál pro servo};
+	\draw (8, 7) |- (7.75, 11) -| (9.5, 7.5) -| (9.5, 7);
+	\node[shape=rectangle, minimum width=0.965cm, minimum height=0.265cm] at (8, 6.75){} node[anchor=center, align=center, text width=0.929cm, inner sep=1pt] at (8, 6.75){\scriptsize 8 VCC};
+	\node[shape=rectangle, minimum width=1.865cm, minimum height=0.115cm] at (9.8, 6.675){} node[anchor=center, align=center, text width=1.829cm, inner sep=1pt] at (9.8, 6.675){\scriptsize 4 RESET};
+	\draw (8, 2.5) -| (8, 1.5);
+	\node[ground] at (8, 0.5){};
+	\node[shape=rectangle, minimum width=1.165cm, minimum height=0.315cm] at (8, 2.75){} node[anchor=center, align=center, text width=1.129cm, inner sep=1pt] at (8, 2.75){\scriptsize 1 GND};
+	\draw (9.5, 2.5) to[capacitor] (9.5, 0.6);
+	\node[ground] at (9.5, 0.5){};
+	\node[shape=rectangle, minimum width=1.265cm, minimum height=0.315cm] at (9.5, 2.75){} node[anchor=center, align=center, text width=1.229cm, inner sep=1pt] at (9.5, 2.75){\scriptsize 5 CONT};
+	\node[shape=rectangle, minimum width=1.965cm, minimum height=0.465cm] at (11, 1.55){} node[anchor=center, align=center, text width=1.929cm, inner sep=1pt] at (11, 1.55){\small C7 10 nF};
+	\node[shape=rectangle, minimum width=1.465cm, minimum height=0.465cm] at (3, 11.789){} node[anchor=center, align=center, text width=1.429cm, inner sep=1pt] at (3, 11.789){\small +5 V};
+	\draw (3, 11) to[european resistor] (3, 9.2);
+	\draw (3, 9.2) -| (3, 8.8);
+	\node[shape=rectangle, minimum width=2.465cm, minimum height=0.465cm] at (1.35, 10.1){} node[anchor=center, align=center, text width=2.429cm, inner sep=1pt] at (1.35, 10.1){\small R1 3,3 kΩ};
+	\draw (2.75, 8.8) -- (3.25, 8.8) -| (3.25, 7.3) -- (2.75, 7.3) -| (2.75, 8.8);
+	\node[shape=rectangle, minimum width=2.265cm, minimum height=0.815cm] at (1.3, 8.05){} node[anchor=center, align=center, text width=2.229cm, inner sep=1pt] at (1.3, 8.05){\small P1\\25 kΩ lin.};
+	\node[shape=rectangle, minimum width=0.365cm, minimum height=0.265cm] at (2.65, 9){} node[anchor=center, align=center, text width=0.329cm, inner sep=1pt] at (2.65, 9){\scriptsize A};
+	\node[shape=rectangle, minimum width=0.365cm, minimum height=0.265cm] at (2.65, 7.05){} node[anchor=center, align=center, text width=0.329cm, inner sep=1pt] at (2.65, 7.05){\scriptsize B};
+	\draw[-latex] (4.5, 8.05) -- (3.25, 8.05);
+	\node[shape=rectangle, minimum width=0.415cm, minimum height=0.315cm] at (4.85, 8.05){} node[anchor=center, align=center, text width=0.379cm, inner sep=1pt] at (4.85, 8.05){\scriptsize W};
+	\draw (4.5, 8.05) -| (4.5, 7) -- (3, 7);
+	\draw (3, 7.3) -| (3, 6.3);
+	\draw (3, 6.3) to[european resistor] (3, 3.4);
+	\node[shape=rectangle, minimum width=2.565cm, minimum height=0.465cm] at (1.3, 4.85){} node[anchor=center, align=center, text width=2.529cm, inner sep=1pt] at (1.3, 4.85){\small R2 221 kΩ};
+	\draw (5.1, 6.3) to[empty diode] (5.1, 3.4);
+	\node[shape=rectangle, minimum width=1.165cm, minimum height=0.615cm] at (5.9, 5.551){} node[anchor=center, align=center, text width=1.129cm, inner sep=1pt] at (5.9, 5.551){\scriptsize D1\\1N4148};
+	\node[shape=rectangle, minimum width=0.365cm, minimum height=0.265cm] at (4.7, 5.8){} node[anchor=center, align=center, text width=0.329cm, inner sep=1pt] at (4.7, 5.8){\scriptsize A};
+	\node[shape=rectangle, minimum width=0.365cm, minimum height=0.265cm] at (4.7, 4){} node[anchor=center, align=center, text width=0.329cm, inner sep=1pt] at (4.7, 4){\scriptsize K};
+	\draw (3, 3.4) to[capacitor] (3, 1.2);
+	\node[ground] at (3, 0.5){};
+	\node[shape=rectangle, minimum width=2.565cm, minimum height=0.465cm] at (1.3, 2.3){} node[anchor=center, align=center, text width=2.529cm, inner sep=1pt] at (1.3, 2.3){\small C1 120 nF};
+	\node[circ] at (3, 7){};
+	\node[circ] at (3, 6.3){};
+	\node[circ] at (5.1, 6.3){};
+	\node[circ] at (3, 3.4){};
+	\node[circ] at (5.1, 3.4){};
+	\node[circ] at (6.2, 3.4){};
+	\draw (10.75, 10.95) to[capacitor] (10.75, 8.75);
+	\node[ground] at (10.75, 8.75){};
+	\draw (13.45, 10.95) to[capacitor] (13.45, 8.75);
+	\node[ground] at (13.45, 8.75){};
+	\node[shape=rectangle, minimum width=2.165cm, minimum height=0.465cm] at (11.65, 9.25){} node[anchor=center, align=center, text width=2.129cm, inner sep=1pt] at (11.65, 9.25){\small C5 100 nF};
+	\node[shape=rectangle, minimum width=2.165cm, minimum height=0.465cm] at (14.4, 9.25){} node[anchor=center, align=center, text width=2.129cm, inner sep=1pt] at (14.4, 9.25){\small C6 10 µF};
+	\node[shape=rectangle, minimum width=0.365cm, minimum height=0.365cm] at (13, 10.2){} node[anchor=center, align=center, text width=0.329cm, inner sep=1pt] at (13, 10.2){\small +};
+	\node[shape=rectangle, minimum width=4.365cm, minimum height=0.765cm] at (12.056, 7.519){} node[anchor=center, align=center, text width=4.329cm, inner sep=1pt] at (12.056, 7.519){\scriptsize C5 umístit co nejblíže\\napájecím vývodům NE555};
+	\draw (8, 1.5) -| (8, 0.5);
+	\draw (9.5, 0.6) -| (9.5, 0.5);
+	\draw (3, 1.2) -- (3, 0.5);
+	\draw (3, 11) -| (13.45, 10.95);
+	\draw (10.75, 10.95) -| (10.75, 11);
+	\node[vcc] at (3, 11){};
+	\node[circ] at (8, 11){};
+	\node[circ] at (9.5, 11){};
+	\node[circ] at (10.75, 11){};
+	\node[circ] at (3, 11){};
+\end{tikzpicture}

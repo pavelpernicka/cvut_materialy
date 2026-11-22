@@ -1,0 +1,47 @@
+\chapter{Princip a možnosti řízení servomotoru}
+\label{chap:rizeni}
+
+\section{Řídicí signál modelářského serva}
+
+Zvolený servomotor MG996R má regulační elektroniku i výkonový stupeň uvnitř pouzdra. Vnější řídicí obvod proto nemusí spínat proud elektromotoru; jeho úkolem je pouze dávat servu požadovanou polohu. Napájení serva a řídicí signál jsou dvě oddělené věci.
+
+Poloha se zadává pravidelně opakovanými kladnými pulzy. Rozhodující je délka pulzu $t_H$, zatímco doba do dalšího pulzu tvoří mezeru $t_L$. Běžně se používá perioda $T=t_H+t_L$ přibližně 20 ms, tedy frekvence 50 Hz. Střední poloze často odpovídá délka pulzu 1,5 ms; kratší a delší pulzy nastavují polohu na opačných stranách středu.~\cite{pololu}
+
+Tento způsob řízení bývá označován jako PWM, ale na rozdíl od výkonového PWM není určující samotná střída $D=t_H/T$. Například pulz 1,5 ms při periodě 20 ms znamená střídu 7,5\,\%. Zachováme-li stejnou střídu při jiné periodě, změní se délka pulzu i požadovaná poloha.
+
+\section{Požadovaný rozsah pro navržený držák}
+
+Modelový držák potřebuje polohování v rozsahu 0--180°. Pro návrh generátorů uvažujeme délku pulzu 0,5--2,5 ms při periodě blízké 20 ms. Jde o výchozí návrhové meze, nikoliv o zaručenou specifikaci každého MG996R. Skutečné krajní polohy ověříme na konkrétním kusu bez mechanického zatížení.
+
+\begin{figure}[htbp]\centering
+\input{obrazky/pulzy}
+\caption{Modelové přiřazení řídicích pulzů k polohám 0°, 90° a 180°.}
+\label{fig:pulzy}
+\end{figure}
+
+Při přibližně lineárním přiřazení úhlu $\varphi$ k délce pulzu platí
+\begin{equation}\label{eq:map}
+ t_H(\varphi)=t_\mathrm{min}+\frac{\varphi}{180^\circ}(t_\mathrm{max}-t_\mathrm{min}).
+\end{equation}
+Pro ukázkové meze 500--2500~\si{\micro\second} odpovídá úhlu 45° pulz 1000~\si{\micro\second}. V praxi závislost nemusí být dokonale lineární a na koncích rozsahu hrozí náraz do mechanického dorazu. Vypnutí pulzů navíc nemusí servo bezpečně odpojit; jeho reakce závisí na vnitřní elektronice.
+
+\section{Možnosti generování pulzů}
+
+Pro jeden polohovací držák připadají v úvahu tři běžné možnosti: analogový časovač, mikrokontrolér nebo samostatný vícekanálový generátor PWM řízený mikrokontrolérem.
+
+\begin{table}[htbp]\centering\small
+\caption{Porovnání způsobů řízení serva.}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{27mm}YYY@{}}\toprule
+\textbf{Řešení} & \textbf{Zadání polohy} & \textbf{Přednost} & \textbf{Omezení}\\\midrule
+\textbf{NE555} & Potenciometr & Jednoduché ruční ovládání bez programu & Nutnost kalibrace, proměnná perioda\\\addlinespace[5pt]\midrule
+\textbf{Mikrokontrolér} & Program & Nastavitelné meze a~možnost automatického pohybu & Limitovaný počet PWM kanálů\\\addlinespace[5pt]\midrule
+\textbf{PWM expandér} & Příkazy z mikrokontroléru & Větší počet samostatných výstupů & Další obvod a nadřazený driver\\\bottomrule
+\end{tabularx}
+\end{table}
+
+Časovač NE555 dokáže s potenciometrem a několika pasivními součástkami vytvářet pulzy pro ruční řízení. Mikrokontrolér naopak umožní měnit jejich délku programově, nastavit bezpečné meze a doplnit automatizaci. Expandér, např. PCA9685 nabízí 16 kanálů s 12bitovým rozlišením a společnou frekvencí. Sám však servomotor neuřídí, nastavení se mu musí předávat mikrokontrolérem~\cite{pca}
+
+\section{Zvolené varianty}
+
+V následujících kapitolách představíme ty nejjednodušší dvě varianty řízení servomotoru MG996R: analogové řízení pomocí časovače NE555 a digitální řízení pomocí mikrokontroléru -- konkrétně Arduina. U zapojení s NE555 se zaměříme na návrh časovacího obvodu s nastavením délky pulzů pomocí potenciometru, u~Arduina popíšeme zapojení, programové řízení a nastavení krajních poloh.
